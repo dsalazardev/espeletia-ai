@@ -6,6 +6,7 @@ Se genera desde `docs/cambios/` (un archivo por cambio). Para agregar uno, copia
 
 ## 2026-11-25
 
+- **R3** · agregado: 31 fichas borrador para Fray (9 corrigen fichas existentes), sacadas del anexo de reglamentación de dic-2023, el plan de manejo, las condiciones PNN-UTON de 2022 y el informe de glaciares del IDEAM, cada una con fuente, página y cita, más una tabla de discrepancias con chat.json. No cambia chat.json: lo valida R1.
 - **R3** · agregado (r3/llm-nativo): Protocolo para medir un LLM nativo en el teléfono con apps abiertas (PocketPal, AI Edge Gallery) y decisión propuesta de APK Android que envuelve la PWA con un LLM nativo.
 
 ## 2026-11-24
