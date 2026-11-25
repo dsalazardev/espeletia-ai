@@ -6,6 +6,7 @@ Se genera desde `docs/cambios/` (un archivo por cambio). Para agregar uno, copia
 
 ## 2026-11-25
 
+- **R3** · agregado: Spec de la app Android nativa (Flutter + llamadart + la PWA en un WebView) con el puente `window.FrayNativo`, tabla de velocidades de LLMs en teléfonos publicadas por terceros y comparación de plataformas nativas.
 - **R3** · agregado (r3/llm-nativo): Protocolo para medir un LLM nativo en el teléfono con apps abiertas (PocketPal, AI Edge Gallery) y decisión propuesta de APK Android que envuelve la PWA con un LLM nativo.
 
 ## 2026-11-24
