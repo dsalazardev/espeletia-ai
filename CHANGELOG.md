@@ -6,6 +6,7 @@ Se genera desde `docs/cambios/` (un archivo por cambio). Para agregar uno, copia
 
 ## 2026-11-25
 
+- **R1** · agregado: Banco adversarial ciego del carril crítico (`pruebas/preguntas_seguridad.json`, 67 preguntas: emergencia, mal de altura, comer o tóxico y volcán, con jerga, faltas de ortografía e inglés). Medido una sola vez: la puerta de seguridad baja a 55/73 y deja ver qué formas reales de preguntar no llegan a la ficha crítica.
 - **R3** · agregado (r3/llm-nativo): Protocolo para medir un LLM nativo en el teléfono con apps abiertas (PocketPal, AI Edge Gallery) y decisión propuesta de APK Android que envuelve la PWA con un LLM nativo.
 
 ## 2026-11-24
