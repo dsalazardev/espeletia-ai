@@ -1,0 +1,768 @@
+{
+  "version": "borrador-2026-11-25",
+  "estado": {
+    "es": "Borrador de R3 para validar por R1 y por PNN Los Nevados. No usar con público sin validar.",
+    "en": "R3 draft to be validated by R1 and PNN Los Nevados. Do not use with the public until validated."
+  },
+  "corrige": [
+    "edades",
+    "salud",
+    "seguro",
+    "pico_placa",
+    "tumbas",
+    "lluvias",
+    "cierres",
+    "volcan_estado",
+    "armero"
+  ],
+  "fuentes": {
+    "pnn_anexo2023": {
+      "titulo": "Anexo · Reglamentación transitoria de la actividad ecoturística para la reapertura del PNN Los Nevados (PNN Los Nevados, diciembre de 2023; consultado 25/11/2026)",
+      "url": "https://parquesnacionales.gov.co/wp-content/uploads/2023/12/ANEXO-PNN-NEVADOS.pdf"
+    },
+    "pnn_plan2017": {
+      "titulo": "Plan de manejo 2017–2022 del PNN Los Nevados (Parques Nacionales, Dirección Territorial Andes Occidentales, abril de 2017; adoptado por la Resolución 393 de 2017; consultado 25/11/2026)",
+      "url": "https://www.parquesnacionales.gov.co/wp-content/uploads/2020/10/plan-de-manejo-pnn-los-nevados.pdf"
+    },
+    "pnn_uton2022": {
+      "titulo": "Condiciones generales de los servicios ecoturísticos en el PNN Los Nevados (PNN Los Nevados y UTON, 13 de octubre de 2022; publicado por UTON; consultado 25/11/2026)",
+      "url": "https://www.visitnevados.co/_files/ugd/a64fbd_ccb90f1558c64929bcd9bfefb1bc7065.pdf"
+    },
+    "ideam_glaciares2024": {
+      "titulo": "Informe del estado de los glaciares colombianos 2024 (IDEAM, diciembre de 2025; consultado 25/11/2026)",
+      "url": "https://ideam.gov.co/file-download/download/public/17092"
+    },
+    "sgc_boletines": {
+      "titulo": "Boletines Volcán Nevado del Ruiz (Servicio Geológico Colombiano; consultado 25/11/2026)",
+      "url": "https://www2.sgc.gov.co/sgc/volcanes/VolcanNevadoRuiz/Paginas/boletines-volcan-nevado-del-ruiz.aspx"
+    }
+  },
+  "fichas": [
+    {
+      "id": "edades",
+      "tema": "acceso",
+      "fuente": "pnn_anexo2023",
+      "q": [
+        "cuál es la edad mínima",
+        "pueden ir niños",
+        "mi abuelo tiene 75 años puede entrar",
+        "hay límite de edad",
+        "puede entrar un bebé",
+        "desde qué edad pueden entrar los niños",
+        "un niño de 3 años puede ir",
+        "hasta qué edad se puede entrar",
+        "pueden subir personas de 70 años",
+        "mi bebé puede ir",
+        "pueden ir adultos mayores",
+        "cuál es la edad máxima",
+        "puede entrar alguien de 70 años"
+      ],
+      "qen": [
+        "is there an age limit",
+        "can children go",
+        "can my 4 year old come",
+        "can elderly people go",
+        "minimum age",
+        "what is the maximum age"
+      ],
+      "es": "La reglamentación del parque de diciembre de 2023 permite entrar a personas de 6 a 70 años; la página web del parque hoy indica 69 años como edad máxima, así que confírmalo con tu operador antes de ir. Los menores deben ir acompañados de adultos que los cuiden.",
+      "en": "The park's December 2023 regulation allows people aged 6 to 70; the park's website currently gives 69 as the maximum age, so confirm with your operator before going. Minors must go with adults who look after them.",
+      "estado": "borrador"
+    },
+    {
+      "id": "salud",
+      "tema": "seguridad",
+      "fuente": "pnn_uton2022",
+      "q": [
+        "puedo ir si soy hipertenso",
+        "tengo problemas del corazón, puedo subir",
+        "puede ir una mujer embarazada",
+        "tengo asma puedo ir",
+        "quién no debe subir",
+        "restricciones de salud",
+        "tengo la presión alta",
+        "sufro del corazón",
+        "soy diabético puedo ir",
+        "tuve un derrame, puedo subir",
+        "tengo anemia",
+        "puedo ir con marcapasos",
+        "contraindicaciones médicas",
+        "estoy en embarazo",
+        "me operaron hace poco puedo ir",
+        "tengo problemas de coagulación"
+      ],
+      "qen": [
+        "can I go if I have heart problems",
+        "can pregnant women go",
+        "I have high blood pressure, can I go",
+        "is it safe with asthma",
+        "medical restrictions",
+        "I had surgery recently, can I go"
+      ],
+      "es": "No visites el parque si tienes alguna de estas condiciones: angina de pecho inestable, hipertensión arterial severa no controlada, hipertensión pulmonar, insuficiencia cardíaca descompensada, arritmias severas, antecedentes de trombosis o derrame cerebral, antecedentes psiquiátricos importantes, insuficiencia respiratoria crónica, enfermedad arterial de miembros inferiores, anemia severa, falla renal, problemas graves de coagulación, antecedentes de edema pulmonar o cerebral de alta montaña o cirugías recientes. Las mujeres embarazadas no pueden entrar.",
+      "en": "Do not visit the park if you have any of these conditions: unstable angina, severe uncontrolled high blood pressure, pulmonary hypertension, decompensated heart failure, severe arrhythmias, a history of thrombosis or stroke, significant psychiatric history, chronic respiratory failure, arterial disease of the legs, severe anemia, kidney failure, serious clotting problems, a history of high-altitude pulmonary or cerebral edema, or recent surgery. Pregnant women may not enter.",
+      "estado": "borrador"
+    },
+    {
+      "id": "seguro",
+      "tema": "acceso",
+      "fuente": "pnn_anexo2023",
+      "q": [
+        "necesito seguro",
+        "el seguro es obligatorio",
+        "dónde pago el seguro de accidentes",
+        "toca pagar seguro",
+        "qué seguro piden",
+        "el seguro cubre rescate",
+        "cuánto cuesta el seguro",
+        "qué aseguradoras sirven",
+        "el guía también necesita seguro"
+      ],
+      "qen": [
+        "do I need insurance",
+        "what insurance do I need",
+        "where do I buy the insurance",
+        "which insurers are accepted"
+      ],
+      "es": "Sí. Visitantes, guías y arrieros deben tener un seguro de accidentes y rescate (Resolución 092 de 2018). En diciembre de 2023 las aseguradoras avaladas por Parques Nacionales eran Colasistencia, Magenta y Seguros Médicos Internacionales. En Brisas se paga a través de la UTON.",
+      "en": "Yes. Visitors, guides and muleteers must have accident and rescue insurance (Resolution 092 of 2018). In December 2023 the insurers approved by Parques Nacionales were Colasistencia, Magenta and Seguros Médicos Internacionales. In Brisas it is paid through UTON.",
+      "estado": "borrador"
+    },
+    {
+      "id": "pico_placa",
+      "tema": "acceso",
+      "fuente": "pnn_web",
+      "q": [
+        "hay pico y placa",
+        "puedo subir con mi carro cualquier día",
+        "qué placas pueden entrar",
+        "qué carros pueden subir hoy",
+        "hay restricción de placas",
+        "aplica pico y placa el domingo",
+        "mi placa puede entrar",
+        "quién puso el pico y placa"
+      ],
+      "qen": [
+        "are there vehicle restrictions",
+        "can my car go up on Sunday",
+        "license plate restrictions"
+      ],
+      "es": "Sí. En el acceso Brisas–Valle de las Tumbas aplica el pico y placa ambiental de la Secretaría de Tránsito y Transporte del Tolima (Resolución No. 1815) en noviembre, fines de semana y puentes festivos, de 5:00 a. m. a 4:00 p. m. Revisa las placas autorizadas al hacer tu reserva.",
+      "en": "Yes. On the Brisas–Valle de las Tumbas access road the environmental license-plate restriction of the Tolima Transit and Transport Office (Resolution No. 1815) applies in November, on weekends and long holiday weekends, from 5:00 a.m. to 4:00 p.m. Check the allowed plates when you book.",
+      "estado": "borrador"
+    },
+    {
+      "id": "tumbas",
+      "tema": "acceso",
+      "fuente": "pnn_plan2017",
+      "q": [
+        "por qué se llama valle del silencio",
+        "hasta dónde llega el recorrido",
+        "por qué se llama de las tumbas",
+        "cuál es el punto más alto del recorrido",
+        "el valle del silencio dónde queda",
+        "a qué altura está el valle de las tumbas"
+      ],
+      "qen": [
+        "what is Valle de las Tumbas",
+        "where does the tour end",
+        "how high is Valle de las Tumbas",
+        "what is the highest point of the tour"
+      ],
+      "es": "El Valle de las Tumbas, o del Silencio, está a unos 4.386 m de altura y a unos 5,7 km del centro de inducción de Brisas, por el carreteable que atraviesa el superpáramo. Es el punto más alto del recorrido autorizado en ese sector.",
+      "en": "Valle de las Tumbas, also called Valle del Silencio, is at about 4,386 m and about 5.7 km from the Brisas induction center, along the dirt road through the super-páramo. It is the highest point of the authorized route in that sector.",
+      "estado": "borrador"
+    },
+    {
+      "id": "lluvias",
+      "tema": "clima",
+      "fuente": "pnn_plan2017",
+      "q": [
+        "cuándo llueve en el parque",
+        "cuál es la mejor época para ir",
+        "cuándo es temporada seca",
+        "cuándo es mejor ir",
+        "cuándo hace mejor clima",
+        "temporada de lluvias",
+        "en qué meses llueve más",
+        "cuáles son los meses secos"
+      ],
+      "qen": [
+        "when does it rain",
+        "what is the best time to visit",
+        "rainy season",
+        "which months are dry"
+      ],
+      "es": "El clima del parque es bimodal: llueve más en abril-mayo y en octubre-noviembre, y los periodos más secos son diciembre-febrero y julio-agosto. Aun así, el tiempo cambia rápido: lleva siempre ropa impermeable.",
+      "en": "The park's climate is bimodal: it rains most in April-May and October-November, and the driest periods are December-February and July-August. Even so, the weather changes fast: always bring waterproof clothes.",
+      "estado": "borrador"
+    },
+    {
+      "id": "cierres",
+      "tema": "acceso",
+      "fuente": "pnn_anexo2023",
+      "q": [
+        "cuándo cierra el parque",
+        "el parque tiene cierres",
+        "por qué cierran el parque",
+        "está abierto esta semana",
+        "está cerrado el parque",
+        "qué días cierran",
+        "por qué cierran en noviembre",
+        "está abierto en semana santa",
+        "el parque cierra esta semana",
+        "cierran Brisas en noviembre",
+        "hay cierre en mayo"
+      ],
+      "qen": [
+        "when is the park closed",
+        "is the park closed this week",
+        "closing dates",
+        "is Brisas open during closures"
+      ],
+      "es": "Según la reglamentación de diciembre de 2023, el parque cierra cinco días, de lunes a viernes, cuatro veces al año: la semana siguiente a Semana Santa y desde el tercer lunes de mayo, el cuarto lunes de septiembre y el cuarto lunes de noviembre. Esos cierres no incluyen el carreteable Brisas – Valle de las Tumbas. La página web del parque hoy habla de tres cierres: confirma en los canales oficiales.",
+      "en": "According to the December 2023 regulation, the park closes for five days, Monday to Friday, four times a year: the week after Holy Week and from the third Monday of May, the fourth Monday of September and the fourth Monday of November. These closures do not include the Brisas – Valle de las Tumbas road. The park's website currently mentions three closures: check official channels.",
+      "estado": "borrador"
+    },
+    {
+      "id": "volcan_estado",
+      "tema": "seguridad",
+      "fuente": "sgc_boletines",
+      "q": [
+        "está activo el volcán",
+        "hay peligro de erupción",
+        "cuál es el nivel de alerta del volcán",
+        "es seguro ir al Ruiz",
+        "el volcán está botando ceniza",
+        "el volcán va a explotar",
+        "hay erupción ahora",
+        "en qué alerta está el Ruiz",
+        "es peligroso el volcán hoy",
+        "el Ruiz está en alerta naranja",
+        "puede hacer erupción mientras estoy",
+        "está tranquilo el volcán",
+        "qué tan activo está el volcán"
+      ],
+      "qen": [
+        "is the volcano active",
+        "is it safe to visit",
+        "will the volcano erupt",
+        "what is the alert level",
+        "is there ash today"
+      ],
+      "es": "El Nevado del Ruiz es un volcán activo que vigila el Servicio Geológico Colombiano (SGC). Su estado puede cambiar: antes de subir, consulta la página «Boletines Volcán Nevado del Ruiz» del SGC (www2.sgc.gov.co), que publica boletines semanales, mensuales y extraordinarios, y sigue siempre las indicaciones de tu guía y de los guardaparques. Esta app no conoce el estado de hoy.",
+      "en": "Nevado del Ruiz is an active volcano monitored by the Colombian Geological Service (SGC). Its status can change: before going up, check the SGC page \"Boletines Volcán Nevado del Ruiz\" (www2.sgc.gov.co), which publishes weekly, monthly and extraordinary bulletins, and always follow your guide and the park rangers. This app does not know today's status.",
+      "estado": "borrador"
+    },
+    {
+      "id": "armero",
+      "tema": "historia",
+      "fuente": "pnn_plan2017",
+      "q": [
+        "qué pasó en 1985",
+        "qué pasó con Armero",
+        "cuándo hizo erupción el Ruiz",
+        "la tragedia de Armero",
+        "cuándo fue la erupción del Ruiz",
+        "qué destruyó el volcán",
+        "cuántas personas murieron en Armero"
+      ],
+      "qen": [
+        "what happened in 1985",
+        "what happened to Armero",
+        "when did the Ruiz erupt",
+        "how many people died in Armero"
+      ],
+      "es": "El 13 de noviembre de 1985 la erupción del Nevado del Ruiz derritió parte de sus glaciares. El lodo bajó por los ríos Azufrado y Lagunillas y sepultó el valle de Armero, unas 3.000 hectáreas, con la muerte de unas 23.000 personas.",
+      "en": "On 13 November 1985 the eruption of Nevado del Ruiz melted part of its glaciers. Mudflows ran down the Azufrado and Lagunillas rivers and buried the Armero valley, about 3,000 hectares, killing about 23,000 people.",
+      "estado": "borrador"
+    },
+    {
+      "id": "hora_salida",
+      "tema": "acceso",
+      "fuente": "pnn_uton2022",
+      "q": [
+        "a qué hora hay que salir",
+        "hasta qué hora me puedo quedar",
+        "a qué hora es la evacuación",
+        "a qué hora debo bajar",
+        "hora de salida del parque",
+        "cuánto tiempo me puedo quedar",
+        "a qué hora termina la visita",
+        "a qué hora sacan a la gente"
+      ],
+      "qen": [
+        "what time do I have to leave",
+        "how late can I stay",
+        "what time is the evacuation"
+      ],
+      "es": "En Brisas la atención y el ingreso van de 8:00 a. m. a 2:00 p. m., y la evacuación del sector es a las 3:30 p. m. Ten en cuenta la hora para regresar con tu grupo.",
+      "en": "In Brisas, service and entry run from 8:00 a.m. to 2:00 p.m., and the sector is evacuated at 3:30 p.m. Keep the time in mind so you return with your group.",
+      "estado": "borrador"
+    },
+    {
+      "id": "capacidad_carga",
+      "tema": "normas",
+      "fuente": "pnn_anexo2023",
+      "q": [
+        "cuántas personas pueden entrar al día",
+        "hay cupo limitado",
+        "cuál es la capacidad de carga",
+        "cuántos visitantes caben",
+        "se puede llenar el parque",
+        "por qué hay cupos",
+        "cuánta gente entra al nevado",
+        "límite de visitantes por día"
+      ],
+      "qen": [
+        "how many visitors per day",
+        "is there a daily limit",
+        "carrying capacity"
+      ],
+      "es": "El sector norte (Brisas – Valle de las Tumbas) admite hasta 2.073 personas al día, según la Resolución 252 de 2008. Esa capacidad depende de la actividad del volcán y puede reducirse a la mitad, 1.036 personas al día. Por eso los cupos diarios son limitados.",
+      "en": "The northern sector (Brisas – Valle de las Tumbas) admits up to 2,073 people a day, under Resolution 252 of 2008. That capacity depends on the volcano's activity and can be cut in half, to 1,036 people a day. That is why daily places are limited.",
+      "estado": "borrador"
+    },
+    {
+      "id": "visitantes_por_guia",
+      "tema": "normas",
+      "fuente": "pnn_anexo2023",
+      "q": [
+        "cuántas personas por guía",
+        "cuántos visitantes lleva un guía",
+        "somos 12 necesitamos dos guías",
+        "tamaño máximo del grupo",
+        "cuántos caben en un grupo",
+        "un guía para cuántas personas",
+        "límite de personas por grupo"
+      ],
+      "qen": [
+        "how many people per guide",
+        "maximum group size",
+        "we are 12, do we need two guides"
+      ],
+      "es": "Cada guía o intérprete puede llevar como máximo 8 visitantes en senderismo; en ascensos a cumbres nevadas, el máximo es 5 por guía de alta montaña. El guía debe mantener contacto con el grupo y evitar que se separe.",
+      "en": "Each guide or interpreter can take at most 8 visitors when hiking; on climbs to snowy summits, the maximum is 5 per high-mountain guide. The guide must keep in contact with the group and prevent it from splitting up.",
+      "estado": "borrador"
+    },
+    {
+      "id": "ruido",
+      "tema": "normas",
+      "fuente": "pnn_anexo2023",
+      "q": [
+        "puedo poner música",
+        "puedo llevar parlante",
+        "se puede hacer ruido",
+        "puedo gritar",
+        "puedo poner música en el carro",
+        "está prohibido el ruido",
+        "puedo usar bafle",
+        "puedo cantar"
+      ],
+      "qen": [
+        "can I play music",
+        "can I bring a speaker",
+        "is noise allowed"
+      ],
+      "es": "Está prohibido producir ruidos o usar equipos que perturben el ambiente natural o incomoden a otros visitantes. Guarda silencio y disfruta los sonidos del páramo: el ruido perturba la fauna.",
+      "en": "It is forbidden to make noise or use equipment that disturbs the natural environment or bothers other visitors. Keep quiet and enjoy the sounds of the páramo: noise disturbs wildlife.",
+      "estado": "borrador"
+    },
+    {
+      "id": "colores_ropa",
+      "tema": "equipo",
+      "fuente": "pnn_anexo2023",
+      "q": [
+        "de qué color me visto",
+        "qué colores de ropa llevar",
+        "puedo ir con ropa de colores",
+        "ropa para ver aves",
+        "importa el color de la ropa",
+        "cómo me visto para ver animales",
+        "por qué colores tierra"
+      ],
+      "qen": [
+        "what colors should I wear",
+        "clothing for birdwatching",
+        "does clothing color matter"
+      ],
+      "es": "Para observar fauna, viste colores tierra y evita los colores muy vivos, para no perturbar a los animales. Usa ropa adecuada para caminar en alta montaña.",
+      "en": "To watch wildlife, wear earth tones and avoid very bright colors so you do not disturb the animals. Wear clothing suitable for walking in high mountains.",
+      "estado": "borrador"
+    },
+    {
+      "id": "recorrido_brisas",
+      "tema": "acceso",
+      "fuente": "pnn_anexo2023",
+      "q": [
+        "cuál es el recorrido",
+        "por dónde va el recorrido",
+        "qué sendero se hace en Brisas",
+        "qué lugares visitamos",
+        "cuál es la ruta autorizada",
+        "qué hay entre Brisas y el valle de las tumbas",
+        "qué es Aguacerales",
+        "qué es Arenales"
+      ],
+      "qen": [
+        "what is the route",
+        "which trail do we take",
+        "what places do we visit"
+      ],
+      "es": "En el sector norte el sendero autorizado es Centro de Interpretación Brisas – Aguacerales – Arenales – Valle de las Tumbas: va desde el centro de inducción de Brisas hasta el Valle de las Tumbas por un carreteable. Solo se pueden usar los senderos autorizados.",
+      "en": "In the northern sector the authorized trail is Brisas Interpretation Center – Aguacerales – Arenales – Valle de las Tumbas: it runs from the Brisas induction center to Valle de las Tumbas along a dirt road. Only authorized trails may be used.",
+      "estado": "borrador"
+    },
+    {
+      "id": "paradas",
+      "tema": "acceso",
+      "fuente": "pnn_plan2017",
+      "q": [
+        "dónde paramos",
+        "cuáles son las paradas",
+        "dónde nos bajamos del carro",
+        "dónde se puede bajar",
+        "en qué puntos se detiene el recorrido",
+        "qué son los valles lunares",
+        "cuántas paradas tiene",
+        "dónde nos aclimatamos"
+      ],
+      "qen": [
+        "where do we stop",
+        "what are the stops",
+        "where can we get out of the car"
+      ],
+      "es": "El plan de manejo del parque nombra como puntos para bajarse del vehículo, aclimatarse y hacer interpretación ambiental: Brisas, Aguacerales, Arenales, Valles Lunares y Valle de las Tumbas. Sigue siempre las indicaciones de tu guía.",
+      "en": "The park's management plan lists these points to get out of the vehicle, acclimatize and do environmental interpretation: Brisas, Aguacerales, Arenales, Valles Lunares and Valle de las Tumbas. Always follow your guide's instructions.",
+      "estado": "borrador"
+    },
+    {
+      "id": "distancias",
+      "tema": "acceso",
+      "fuente": "pnn_plan2017",
+      "q": [
+        "qué distancia hay hasta el valle de las tumbas",
+        "cuántos kilómetros tiene el recorrido",
+        "a qué altura queda Arenales",
+        "qué tan lejos está Aguacerales",
+        "cuánto mide el recorrido",
+        "a qué altura está Aguacerales",
+        "distancia de Brisas a Arenales",
+        "cuánto se sube en el recorrido"
+      ],
+      "qen": [
+        "how far is Valle de las Tumbas",
+        "how long is the route",
+        "how high is Arenales"
+      ],
+      "es": "Según el plan de manejo de 2017, desde el centro de inducción de Brisas (4.169 m) se recorren por el carreteable unos 3,3 km hasta Aguacerales (4.180 m), 4,6 km hasta Arenales (4.287 m) y 5,7 km hasta el Valle de las Tumbas (4.386 m).",
+      "en": "According to the 2017 management plan, from the Brisas induction center (4,169 m) the dirt road runs about 3.3 km to Aguacerales (4,180 m), 4.6 km to Arenales (4,287 m) and 5.7 km to Valle de las Tumbas (4,386 m).",
+      "estado": "borrador"
+    },
+    {
+      "id": "velocidad_vehiculos",
+      "tema": "normas",
+      "fuente": "pnn_plan2017",
+      "q": [
+        "a qué velocidad se puede ir",
+        "velocidad máxima en el parque",
+        "hay límite de velocidad",
+        "debo prender las luces",
+        "qué velocidad con neblina",
+        "cómo se maneja dentro del parque"
+      ],
+      "qen": [
+        "what is the speed limit",
+        "do I need headlights on",
+        "how fast can I drive in the park"
+      ],
+      "es": "Dentro del parque la velocidad máxima es de 20 km/h, y de 10 km/h si hay neblina. Los vehículos deben ir con las luces encendidas y parquear solo en las zonas demarcadas, en posición de salida.",
+      "en": "Inside the park the speed limit is 20 km/h, and 10 km/h in fog. Vehicles must keep their lights on and park only in marked areas, facing the exit.",
+      "estado": "borrador"
+    },
+    {
+      "id": "clima_brisas",
+      "tema": "clima",
+      "fuente": "pnn_plan2017",
+      "q": [
+        "qué temperatura hace en Brisas",
+        "hace mucho frío en Brisas",
+        "cuál es la temperatura promedio arriba",
+        "cómo es el clima en Brisas",
+        "hace viento en el páramo",
+        "hay neblina",
+        "hay sol en el páramo"
+      ],
+      "qen": [
+        "how cold is it at Brisas",
+        "what is the weather like at Brisas",
+        "is it windy"
+      ],
+      "es": "En la estación Brisas, a 4.110 m, la temperatura media anual es de unos 2,2 °C, con pocas horas de sol, humedad alta, niebla frecuente, vientos fuertes y lluvias de poca intensidad. Abrígate bien.",
+      "en": "At the Brisas station, at 4,110 m, the average annual temperature is about 2.2 °C, with few hours of sun, high humidity, frequent fog, strong winds and light rain. Dress warmly.",
+      "estado": "borrador"
+    },
+    {
+      "id": "clima_cambiante",
+      "tema": "clima",
+      "fuente": "pnn_plan2017",
+      "q": [
+        "el clima cambia mucho",
+        "puede cambiar el tiempo de repente",
+        "por qué cambia tanto el clima",
+        "si está soleado igual llevo impermeable",
+        "es estable el clima arriba",
+        "puede llover aunque haga sol"
+      ],
+      "qen": [
+        "does the weather change quickly",
+        "should I bring a raincoat if it is sunny",
+        "is the weather stable"
+      ],
+      "es": "Entre 4.000 y 4.600 m, el clima que domina en el parque, son muy frecuentes los vientos fuertes, y los días fríos con niebla se alternan con días despejados y cálidos. Ni en los meses secos se puede esperar un tiempo estable.",
+      "en": "Between 4,000 and 4,600 m, the climate that dominates the park, strong winds are very common, and cold foggy days alternate with clear, warm ones. Even in the dry months you cannot expect stable weather.",
+      "estado": "borrador"
+    },
+    {
+      "id": "zonificacion",
+      "tema": "parque",
+      "fuente": "pnn_plan2017",
+      "q": [
+        "qué es la zonificación del parque",
+        "qué parte del parque se puede visitar",
+        "por qué no se puede ir a todas partes",
+        "qué es una zona intangible",
+        "cuánto del parque es para turistas",
+        "por qué hay zonas prohibidas",
+        "qué zonas tiene el parque"
+      ],
+      "qen": [
+        "how much of the park can visitors use",
+        "what is an intangible zone",
+        "why can't I go everywhere"
+      ],
+      "es": "El parque está dividido en zonas de manejo: cerca del 55 % es zona intangible, el 33 % de recuperación natural y el 12 % primitiva. Las zonas para visitantes, de recreación general exterior y de alta densidad de uso, suman apenas cerca del 0,1 % del parque.",
+      "en": "The park is divided into management zones: about 55% is intangible zone, 33% natural recovery and 12% primitive. The visitor zones, general outdoor recreation and high-density use, add up to only about 0.1% of the park.",
+      "estado": "borrador"
+    },
+    {
+      "id": "valores_conservacion",
+      "tema": "naturaleza",
+      "fuente": "pnn_plan2017",
+      "q": [
+        "qué protege el parque",
+        "cuáles son los valores objeto de conservación",
+        "para qué existe el parque",
+        "qué cuida el parque",
+        "qué especies protege el parque",
+        "objetivos de conservación del parque",
+        "por qué es importante el parque"
+      ],
+      "qen": [
+        "what does the park protect",
+        "conservation targets of the park",
+        "why is the park important"
+      ],
+      "es": "El parque protege, como valores objeto de conservación, el páramo, los humedales altoandinos y el bosque altoandino; el siete cueros, el periquito de los nevados, el pato andino y la palma de cera; las cuencas altas de los ríos Chinchiná, Otún, Quindío y Combeima, y los volcanes nevados del Ruiz, Santa Isabel y Tolima.",
+      "en": "As its conservation targets, the park protects the páramo, high-Andean wetlands and high-Andean forest; the siete cueros tree, the rufous-fronted parakeet, the Andean duck and the wax palm; the upper basins of the Chinchiná, Otún, Quindío and Combeima rivers; and the Ruiz, Santa Isabel and Tolima snow volcanoes.",
+      "estado": "borrador"
+    },
+    {
+      "id": "especies_amenazadas",
+      "tema": "naturaleza",
+      "fuente": "pnn_plan2017",
+      "q": [
+        "qué especies están en peligro",
+        "qué animales están amenazados",
+        "el cóndor está en peligro de extinción",
+        "la danta está en peligro",
+        "especies en vía de extinción",
+        "qué animales son vulnerables",
+        "el pato andino está amenazado",
+        "qué categoría de amenaza tiene el cóndor"
+      ],
+      "qen": [
+        "which species are endangered",
+        "is the condor endangered",
+        "threatened animals in the park"
+      ],
+      "es": "Según el plan de manejo, en Colombia están en peligro el cóndor andino, la danta de páramo, el pato andino y la palma de cera, y son vulnerables el periquito de los nevados y el perico paramuno. Obsérvalos de lejos y sin perseguirlos.",
+      "en": "According to the management plan, in Colombia the Andean condor, the mountain tapir, the Andean duck and the wax palm are endangered, and the rufous-fronted parakeet and the golden-plumed parakeet are vulnerable. Watch them from afar and never chase them.",
+      "estado": "borrador"
+    },
+    {
+      "id": "historia_parque",
+      "tema": "historia",
+      "fuente": "pnn_plan2017",
+      "q": [
+        "quién creó el parque",
+        "qué es el INDERENA",
+        "con qué norma se creó el parque",
+        "historia del parque",
+        "cuántas hectáreas tenía el parque al crearse",
+        "qué resolución creó el parque"
+      ],
+      "qen": [
+        "who created the park",
+        "how was the park created",
+        "history of the park"
+      ],
+      "es": "El INDERENA reservó el área del parque con el Acuerdo 15 del 28 de marzo de 1973, y la Resolución Ejecutiva 148 del 30 de abril de 1974 lo ratificó. Una revisión cartográfica de 1985 calculó su superficie en 58.300 hectáreas.",
+      "en": "INDERENA set aside the park area with Agreement 15 of 28 March 1973, and Executive Resolution 148 of 30 April 1974 ratified it. A 1985 map review put its area at 58,300 hectares.",
+      "estado": "borrador"
+    },
+    {
+      "id": "altitud_parque",
+      "tema": "parque",
+      "fuente": "pnn_plan2017",
+      "q": [
+        "qué altura tiene el Nevado del Ruiz",
+        "cuánto mide el Ruiz",
+        "cuál es el punto más alto del parque",
+        "a qué altura está la cumbre del Ruiz",
+        "qué tan alto es el volcán",
+        "cuál es la altura mínima del parque",
+        "cuántos metros tiene el nevado"
+      ],
+      "qen": [
+        "how high is Nevado del Ruiz",
+        "what is the highest point of the park",
+        "how tall is the volcano"
+      ],
+      "es": "El parque va desde los 2.600 hasta los 5.321 m de altura. El punto más alto es la cumbre del volcán Nevado del Ruiz, a 5.321 m.",
+      "en": "The park ranges from 2,600 to 5,321 m above sea level. The highest point is the summit of Nevado del Ruiz volcano, at 5,321 m.",
+      "estado": "borrador"
+    },
+    {
+      "id": "controles",
+      "tema": "normas",
+      "fuente": "pnn_anexo2023",
+      "q": [
+        "revisan las maletas",
+        "hay requisa",
+        "puedo llevar navaja",
+        "puedo llevar cuchillo",
+        "puedo pescar",
+        "qué objetos están prohibidos",
+        "me van a revisar el morral",
+        "puedo llevar caña de pescar"
+      ],
+      "qen": [
+        "do they check bags",
+        "can I bring a knife",
+        "what items are not allowed"
+      ],
+      "es": "Al entrar y al salir hay controles del parque. No se pueden ingresar sustancias psicoactivas, bebidas embriagantes, armas de fuego, objetos cortopunzantes ni equipos de pesca; si los encuentran, se aplican las medidas del caso.",
+      "en": "There are park checks on the way in and out. You may not bring psychoactive substances, alcoholic drinks, firearms, sharp objects or fishing gear; if any are found, the corresponding measures are applied.",
+      "estado": "borrador"
+    },
+    {
+      "id": "caballos",
+      "tema": "normas",
+      "fuente": "pnn_anexo2023",
+      "q": [
+        "puedo subir a caballo",
+        "hay cabalgatas",
+        "se puede montar a caballo",
+        "alquilan mulas",
+        "puedo ir en mula",
+        "hay caballos para subir",
+        "cabalgata en el nevado"
+      ],
+      "qen": [
+        "can I ride a horse",
+        "are there horseback tours",
+        "can I rent a mule"
+      ],
+      "es": "No. Están prohibidas las cabalgatas y el ingreso de caballos o mulas con fines turísticos. Solo se permiten para campesinos que viven en el parque, carga autorizada, emergencias o personas con movilidad limitada, con autorización del parque.",
+      "en": "No. Horseback tours and bringing horses or mules for tourism are forbidden. They are only allowed for farmers living in the park, authorized cargo, emergencies or people with limited mobility, with park authorization.",
+      "estado": "borrador"
+    },
+    {
+      "id": "oficina_parque",
+      "tema": "acceso",
+      "fuente": "pnn_anexo2023",
+      "q": [
+        "dónde queda la oficina del parque",
+        "dirección del parque en Manizales",
+        "teléfono fijo del parque en Manizales",
+        "correo del parque",
+        "horario de la oficina del parque",
+        "oficina de Parques en Manizales"
+      ],
+      "qen": [
+        "where is the park office",
+        "park office in Manizales",
+        "park email address"
+      ],
+      "es": "La oficina del PNN Los Nevados en Manizales queda en la Calle 69 A No. 24-69, barrio La Camelia, sector Palermo. Teléfonos (606) 887 16 11 y 887 22 73; correo nevados@parquesnacionales.gov.co. Atiende de lunes a viernes, de 8:00 a. m. a 12:00 m. y de 2:00 p. m. a 5:00 p. m.",
+      "en": "The PNN Los Nevados office in Manizales is at Calle 69 A No. 24-69, La Camelia neighborhood, Palermo sector. Phones (606) 887 16 11 and 887 22 73; email nevados@parquesnacionales.gov.co. Open Monday to Friday, 8:00 a.m. to 12:00 noon and 2:00 to 5:00 p.m.",
+      "estado": "borrador"
+    },
+    {
+      "id": "temporada_alta",
+      "tema": "acceso",
+      "fuente": "pnn_anexo2023",
+      "q": [
+        "cuándo es temporada alta",
+        "cuándo hay más gente",
+        "cuándo hay menos gente",
+        "hay mucha gente en diciembre",
+        "es temporada alta en semana santa",
+        "qué es la guianza por estaciones",
+        "temporadas del parque"
+      ],
+      "qen": [
+        "when is high season",
+        "when is it most crowded",
+        "busy season"
+      ],
+      "es": "La temporada alta incluye los puentes festivos (desde el jueves anterior), del 15 de diciembre al 30 de enero, del 15 de junio al 15 de julio, Semana Santa y la semana de receso escolar de octubre. En temporadas de mucha afluencia, en Brisas la guianza puede hacerse por estaciones en el carreteable.",
+      "en": "High season includes long holiday weekends (from the Thursday before), 15 December to 30 January, 15 June to 15 July, Holy Week and the October school break week. When visitors are many, guiding in Brisas may be done at stations along the dirt road.",
+      "estado": "borrador"
+    },
+    {
+      "id": "glaciar_ruiz",
+      "tema": "parque",
+      "fuente": "ideam_glaciares2024",
+      "q": [
+        "cuánto hielo le queda al Ruiz",
+        "el glaciar del Ruiz se está derritiendo",
+        "qué tamaño tiene el glaciar del Ruiz",
+        "por qué el nevado se ve gris",
+        "por qué el glaciar tiene ceniza",
+        "cuánto se ha reducido el glaciar del Ruiz",
+        "se va a acabar el nevado del Ruiz"
+      ],
+      "qen": [
+        "how big is the Ruiz glacier",
+        "is the Ruiz glacier melting",
+        "why is the glacier grey"
+      ],
+      "es": "Según el IDEAM, en febrero de 2024 el glaciar del Nevado del Ruiz medía unos 7,17 km², un 85 % menos que a mediados del siglo XIX. Ese año, cerca del 88 % de su superficie estaba cubierta de ceniza volcánica, que lo aísla y frena el derretimiento. La erupción de 1985 fundió cerca del 10 % del glaciar.",
+      "en": "According to IDEAM, in February 2024 the Nevado del Ruiz glacier covered about 7.17 km², 85% less than in the mid-19th century. That year about 88% of its surface was covered by volcanic ash, which insulates it and slows melting. The 1985 eruption melted about 10% of the glacier.",
+      "estado": "borrador"
+    },
+    {
+      "id": "glaciar_santa_isabel",
+      "tema": "parque",
+      "fuente": "ideam_glaciares2024",
+      "q": [
+        "cuánto le queda al glaciar del Santa Isabel",
+        "va a desaparecer el Santa Isabel",
+        "cuándo se acaba el glaciar del Santa Isabel",
+        "qué glaciar está más amenazado",
+        "el Santa Isabel se está derritiendo",
+        "cuál es el glaciar más pequeño"
+      ],
+      "qen": [
+        "will the Santa Isabel glacier disappear",
+        "how much ice is left on Santa Isabel",
+        "which glacier is most threatened"
+      ],
+      "es": "Según el IDEAM, en febrero de 2024 el glaciar del Nevado Santa Isabel medía apenas 0,16 km², un 99 % menos que a mediados del siglo XIX. En su informe de diciembre de 2025 estimó que desaparecerá en tres a cinco años, plazo que puede cambiar con El Niño o La Niña.",
+      "en": "According to IDEAM, in February 2024 the Nevado Santa Isabel glacier covered only 0.16 km², 99% less than in the mid-19th century. In its December 2025 report it estimated the glacier will disappear within three to five years, a timeline that may change with El Niño or La Niña.",
+      "estado": "borrador"
+    }
+  ]
+}
