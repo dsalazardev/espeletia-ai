@@ -41,7 +41,7 @@ export async function cromoEl(id, { tapado = false, mini = false } = {}) {
             <h3>${esc(tx.nombre)}</h3>
             <p class="dorso-et">${t('det.datoOficial')}</p>
             <p class="dorso-dato">${esc(tx.dato)}</p>
-            ${fuente ? `<p class="dorso-fuente">${esc(t('det.fuente', { f: fuente.titulo }))}</p>` : ''}
+            ${fuente ? `<p class="dorso-fuente">${esc(t('det.fuente', { f: fuente.titulo }))}${insigniaPaquete()}</p>` : ''}
             <p class="dorso-meta">${esc([est?.nombre, r ? fecha(r.fecha) : null, E.nombre ? t('de', { nombre: E.nombre }) : null].filter(Boolean).join(' — '))}</p>
           </div>
         </div>
@@ -61,3 +61,12 @@ export function activarBrillo(el) {
   addEventListener('deviceorientation', onOri);
   return () => { el.removeEventListener('pointermove', onPtr); removeEventListener('deviceorientation', onOri); };
 }
+
+// Insignia de estado del dato del cromo: por cromo si R1 lo marca; si no, el del paquete (hoy, borrador)
+function insigniaPaquete() {
+  const nota = E.paquete?.estado?.[E.lang] || E.paquete?.estado?.es || '';
+  const estado = /^(Borrador|Draft)/i.test(nota) ? 'borrador' : nota ? 'validado' : null;
+  if (!estado) return '';
+  return ` <span class="insignia insignia-${estado}" title="${esc(nota)}"><span aria-hidden="true">${esc(t(`estado.${estado}`))}</span><span class="sr-only">${esc(t(`estado.${estado}Largo`))}</span></span>`;
+}
+

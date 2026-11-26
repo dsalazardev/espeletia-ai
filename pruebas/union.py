@@ -17,7 +17,7 @@ def nueva(b, video):
     pg.on('console', lambda m: logs.append(f'[{m.type}] {m.text}') if m.type == 'error' else None)
     pg.on('pageerror', lambda e: logs.append(f'[pageerror] {e}'))
     pg.goto(URL); pg.wait_for_selector('#capa-portada:not([hidden]) .tapa', timeout=15000)
-    pg.fill('#tapa-nombre', 'Prueba'); pg.click('.tapa-dueno button'); pg.wait_for_selector('#capa-portada', state='hidden')
+    pg.fill('#tapa-nombre', 'Prueba'); pg.click('.tapa-dueno button'); pg.click('#instalar-saltar', timeout=8000); pg.wait_for_selector('#capa-portada', state='hidden')
     return br, pg
 
 def preguntar(pg, texto):

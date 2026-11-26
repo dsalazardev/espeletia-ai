@@ -10,7 +10,7 @@ FAKE = """
 with sync_playwright() as p:
     b=p.chromium.launch(headless=True); ctx=b.new_context(locale='es-CO', permissions=['geolocation']); pg=ctx.new_page()
     pg.add_init_script(FAKE)
-    pg.goto('http://localhost:8765/'); pg.wait_for_selector('#capa-portada:not([hidden]) .tapa'); pg.fill('#tapa-nombre','A'); pg.click('.tapa-dueno button'); pg.wait_for_timeout(800)
+    pg.goto('http://localhost:8765/'); pg.wait_for_selector('#capa-portada:not([hidden]) .tapa'); pg.fill('#tapa-nombre','A'); pg.click('.tapa-dueno button'); pg.click('#instalar-saltar', timeout=8000); pg.wait_for_timeout(800)
     pg.click('.muelle [data-vista="mapa"]'); pg.wait_for_timeout(1200)
     print('tras el error:', pg.inner_text('#gps-chip'))
     pg.wait_for_function("document.querySelector('#gps-chip').textContent.includes('±')", timeout=15000)

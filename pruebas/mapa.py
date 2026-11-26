@@ -26,7 +26,7 @@ def nueva(b, permiso=True):
     pg.on('pageerror', lambda e: logs.append(f'[pageerror] {e}'))
     pg.on('dialog', lambda d: d.accept())
     pg.goto(URL); pg.wait_for_selector('#capa-portada:not([hidden]) .tapa', timeout=15000)
-    pg.fill('#tapa-nombre', 'Prueba'); pg.click('.tapa-dueno button'); pg.wait_for_selector('#capa-portada', state='hidden')
+    pg.fill('#tapa-nombre', 'Prueba'); pg.click('.tapa-dueno button'); pg.click('#instalar-saltar', timeout=8000); pg.wait_for_selector('#capa-portada', state='hidden')
     return ctx, pg
 
 def caminata(conAltura=True):
@@ -72,7 +72,7 @@ with sync_playwright() as pw:
     ok(f"caminata de {len(pts)} puntos: 4 estaciones -> 4 sobres; bitácora: máxima {r['altMax']} m, subida {r['subida']} m, {r['distancia']} m, {round(r['duracion']/60000)} min; perfil y rastro dibujados")
 
     # ===== 3) Hoja de una estación visitada → Preguntar a Fray =====
-    pg.click('#estaciones li[data-est="e1"]'); pg.wait_for_selector('#capa-estacion:not([hidden]) .hoja-estacion', timeout=5000)
+    pg.click('#estaciones [data-est="e1"]'); pg.wait_for_selector('#capa-estacion:not([hidden]) .hoja-estacion', timeout=5000)
     hoja = pg.inner_text('.hoja-estacion'); assert 'Brisas' in hoja and 'Visitada a las' in hoja, hoja
     pg.screenshot(path=f'{S}/3_hoja_estacion.png')
     pg.click('.hoja-estacion .btn-linea:has-text("Preguntar")'); pg.wait_for_selector('#v-chat:not([hidden]) #chat-tema:not([hidden])', timeout=15000)
@@ -114,7 +114,7 @@ with sync_playwright() as pw:
     # ===== 8) Permiso de GPS negado: ayuda con botón =====
     ctx, pg = nueva(b, permiso=False)
     pg.click('.muelle [data-vista="mapa"]'); pg.wait_for_selector('#gps-ayuda:not([hidden])', timeout=8000)
-    assert pg.locator('#gps-ayuda button').count() == 1
+    assert pg.locator('#gps-ayuda [data-r]').count() == 1 and pg.locator('#gps-ayuda [data-m]').count() == 1
     pg.screenshot(path=f'{S}/4_sin_permiso.png')
     ok(f'permiso negado -> «{pg.inner_text("#gps-ayuda p")[:60]}…» con «Intentar de nuevo»')
     ctx.close()

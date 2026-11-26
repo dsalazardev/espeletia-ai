@@ -116,9 +116,27 @@ export async function clearSamples(clase) {
 //  3) qué tan parecida es la imagen al ejemplo más cercano (piso de similitud).
 // El punto 3 evita que, con una sola clase entrenada, todo parezca esa clase.
 // Calibración con fotos reales: escenas distintas ≈ 0,34–0,56; misma escena ≈ 0,76–0,95.
-export async function classify(source, { simMin = 0.5, simOk = 0.68 } = {}) {
+// Con la cámara en vivo (`seguido`), la huella es el promedio de los últimos cuadros: un cuadro movido
+// o con un reflejo no cambia la respuesta, y la confianza sube cuando el visitante sostiene el teléfono.
+// Medido con 128 fotos de Commons fuera del modelo base (docs/cambios/2026-11-25-r2-lente-vision.md).
+const CUADROS = 3;
+let recientes = [];
+export function olvidarCuadros() { recientes = []; }
+function promedio(q) {
+  // Si la escena cambió mucho (otra cosa en el visor), se empieza de nuevo en vez de mezclar
+  const ult = recientes[recientes.length - 1];
+  if (ult) { let d = 0; for (let i = 0; i < q.length; i++) d += q[i] * ult[i]; if (d < 0.75) recientes = []; }
+  recientes.push(q); if (recientes.length > CUADROS) recientes.shift();
+  const m = new Float32Array(q.length);
+  for (const r of recientes) for (let i = 0; i < q.length; i++) m[i] += r[i];
+  let n = 0; for (let i = 0; i < m.length; i++) n += m[i] * m[i];
+  n = Math.sqrt(n) || 1; for (let i = 0; i < m.length; i++) m[i] /= n;
+  return m;
+}
+
+export async function classify(source, { simMin = 0.5, simOk = 0.68, seguido = false } = {}) {
   if (!samples.length) return null;
-  const q = await embed(source);
+  const q = seguido ? promedio(await embed(source)) : await embed(source);
   const scored = samples.map((s) => {
     let d = 0;
     for (let i = 0; i < q.length; i++) d += q[i] * s.v[i];

@@ -1,7 +1,7 @@
 // Abrir sobres: el sobre se rasga, el cromo sale, se voltea y vuela a su espacio en el álbum.
 import { E, cromo as getCromo, texto, pendientes, abrir } from './estado.js';
 import { t } from './i18n.js';
-import { $, h, esc, animar, esperar, vibrar, hablar, reducido, atraparFoco } from './util.js';
+import { $, h, esc, animar, esperar, vibrar, hablar, reducido, atraparFoco, escuchar } from './util.js';
 import { cromoEl, activarBrillo } from './cromo.js';
 import { irPagina, paginaDe, ranuraDe, esperarPintado } from './album.js';
 import { chispas } from './celebrar.js';
@@ -102,12 +102,12 @@ async function revelar(id, quedan) {
   titulo.textContent = c.brillante ? t('sobre.brillante') : t('sobre.nuevo');
   titulo.classList.add('grande');
   if (c.brillante) chispas(card);
-  hablar(`${tx.nombre}. ${tx.dato}`, E.lang);
+  escuchar({ texto: `${tx.nombre}. ${tx.dato}`, textoAudio: tx.dato, lang: E.lang, tipo: 'cromo', id: c.id, silencioso: true });
   const acc = $('.sobre-acciones', escena);
   acc.hidden = false;
   animar(acc, [{ opacity: 0, transform: 'translateY(12px)' }, { opacity: 1, transform: 'none' }], { duration: 260 });
   card.onclick = () => card.classList.toggle('volteado');
-  acc.querySelector('[data-a="escuchar"]').onclick = () => hablar(`${tx.nombre}. ${tx.dato}`, E.lang);
+  acc.querySelector('[data-a="escuchar"]').onclick = () => escuchar({ texto: `${tx.nombre}. ${tx.dato}`, textoAudio: tx.dato, lang: E.lang, tipo: 'cromo', id: c.id });
   acc.querySelector('[data-a="pegar"]').focus({ preventScroll: true });
 
   const eleccion = await new Promise((ok) => {

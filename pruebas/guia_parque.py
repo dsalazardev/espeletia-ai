@@ -26,7 +26,7 @@ def nueva(b, video=None, geo=None):
     pg.on('dialog', lambda d: d.accept())
     pg.goto(URL); pg.wait_for_function('window.__paramo && window.__paramo.E.paquete', timeout=20000)
     pg.wait_for_selector('#capa-portada:not([hidden]) .tapa', timeout=10000)
-    pg.fill('#tapa-nombre', 'Prueba'); pg.click('.tapa-dueno button'); pg.wait_for_selector('#capa-portada', state='hidden', timeout=8000)
+    pg.fill('#tapa-nombre', 'Prueba'); pg.click('.tapa-dueno button'); pg.click('#instalar-saltar', timeout=8000); pg.wait_for_selector('#capa-portada', state='hidden', timeout=8000)
     return br, pg
 
 def abrir_todo(pg):
@@ -106,10 +106,12 @@ with sync_playwright() as b:
     # ===== D. Galería + paquete del parque =====
     br, pg = nueva(b, '/tmp/vid/frailejon.y4m')
     pin(pg, '#aj-equipo', '2611'); pg.wait_for_selector('#v-equipo:not([hidden]) #clases .clase', timeout=30000)
+    base = len((json.load(open(f'{APP}/models/parque.json')).get('lente') or {}).get('clases', []))  # lo ya publicado
+    nuevas = 0
     for c in ['frailejon', 'otro', 'pajonal']:
-        fs = sorted(glob.glob(f'/tmp/galeria/fotos/{c}/*.jpg'))
+        fs = sorted(glob.glob(f'/tmp/galeria/fotos/{c}/*.jpg')); nuevas += len(fs)
         pg.locator(f'#clases .clase:has([data-c="{c}"]) input[type=file]').set_input_files(fs)
-        pg.wait_for_function(f"(window.__paramo.ml.counts()['{c}'] || 0) >= {len(fs)}", timeout=60000)
+        pg.wait_for_function(f"(window.__paramo.ml.counts()['{c}'] || 0) >= {len(fs)} + (window.__paramo.ml.counts({{ soloBase: true }})['{c}'] || 0)", timeout=60000)
     pg.wait_for_timeout(600)
     print('  muestras desde la galería:', pg.evaluate('window.__paramo.ml.counts()'))
     print('  estado:', pg.inner_text('#eq-pub-estado'))
@@ -118,8 +120,9 @@ with sync_playwright() as b:
     d.value.save_as('/tmp/parque_ui.json')
     br.close()
     pq = json.load(open('/tmp/parque_ui.json'))
-    assert pq['tipo'] == 'paramo-parque' and len(pq['lente']['clases']) == 24, (pq['tipo'], len(pq['lente']['clases']))
-    ok(f'D. 24 fotos cargadas desde la galería; parque.json descargado ({os.path.getsize("/tmp/parque_ui.json") // 1000} KB)')
+    # Lo publicado suma lo que ya traía el paquete (modelo base) y las fotos nuevas
+    assert pq['tipo'] == 'paramo-parque' and len(pq['lente']['clases']) == base + nuevas, (pq['tipo'], len(pq['lente']['clases']), base, nuevas)
+    ok(f'D. {nuevas} fotos cargadas desde la galería (+{base} del modelo base); parque.json descargado ({os.path.getsize("/tmp/parque_ui.json") // 1000} KB)')
 
     vacio = open(f'{APP}/models/parque.json').read()
     shutil.copy('/tmp/parque_ui.json', f'{APP}/models/parque.json')

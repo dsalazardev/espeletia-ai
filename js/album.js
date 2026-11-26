@@ -1,7 +1,7 @@
 // El álbum: páginas por capítulo, espacios para pegar, índice al borde y detalle de cada cromo.
 import { E, bus, cromo as getCromo, cromosDe, capitulos, texto, abierto, tiene, pegados, total, pendientes, bloqueo, estacion, estaciones, nombreClase, capituloCompleto, ganar } from './estado.js';
 import { t, traducir } from './i18n.js';
-import { $, $$, h, esc, animar, reducido, aviso, hablar, distancia, fmtDist, atraparFoco, vibrar } from './util.js';
+import { $, $$, h, esc, animar, reducido, aviso, hablar, distancia, fmtDist, atraparFoco, vibrar, escuchar } from './util.js';
 import { ilustracion } from './art.js';
 import { cromoEl, activarBrillo, num } from './cromo.js';
 import { cromoPNG, descargar } from './exportar.js';
@@ -107,7 +107,6 @@ async function ranura(c) {
   if (abierto(c.id)) {
     b.classList.add('llena');
     b.appendChild(await cromoEl(c.id, { mini: true }));
-    b.setAttribute('aria-label', `${num(c.n)}. ${tx.nombre}`);
   } else {
     const bl = bloqueo(c);
     const enSobre = tiene(c.id);
@@ -116,7 +115,6 @@ async function ranura(c) {
       <span class="ranura-como">${esc(enSobre ? t('sobre.titulo') : t(`tipo.${c.tipo}`))}</span>`;
     if (enSobre) b.classList.add('en-sobre');
     if (bl) b.classList.add('bloqueada');
-    b.setAttribute('aria-label', `${num(c.n)}. ${enSobre ? t('sobre.titulo') : t(`tipo.${c.tipo}`)}`);
   }
   b.onclick = () => (tiene(c.id) && !abierto(c.id) ? accionesExtra.abrirSobres() : abrirDetalle(c.id));
   return b;
@@ -198,12 +196,12 @@ export async function abrirDetalle(id) {
       <button class="btn btn-linea" data-a="compartir">${esc(t('det.compartir'))}</button>
       <button class="btn btn-linea" data-a="escuchar">${esc(t('det.escuchar'))}</button>
       ${c.ficha ? `<button class="btn btn-linea" data-a="preguntar">${esc(t('det.preguntar'))}</button>` : ''}
-      ${['gps', 'qr', 'guia', 'contemplacion', 'camara'].includes(c.tipo) ? `<button class="btn btn-linea" data-a="foto">${esc(t('det.foto'))}</button>` : ''}
+      ${['gps', 'qr', 'guia', 'contemplacion', 'aclimatacion', 'camara'].includes(c.tipo) ? `<button class="btn btn-linea" data-a="foto">${esc(t('det.foto'))}</button>` : ''}
     </div>`);
     caja.appendChild(acc);
     acc.querySelector('[data-a="guardar"]').onclick = async () => { descargar(await cromoPNG(id), `cromo-${num(c.n)}-${id}.png`); aviso(t('det.guardado')); };
     acc.querySelector('[data-a="compartir"]').onclick = () => compartir(id);
-    acc.querySelector('[data-a="escuchar"]').onclick = () => hablar(`${tx.nombre}. ${tx.dato}`, E.lang);
+    acc.querySelector('[data-a="escuchar"]').onclick = () => escuchar({ texto: `${tx.nombre}. ${tx.dato}`, textoAudio: tx.dato, lang: E.lang, tipo: 'cromo', id: c.id });
     const pr = acc.querySelector('[data-a="preguntar"]');
     if (pr) pr.onclick = () => { cerrarDetalle(); accionesExtra.preguntar(id); };
     const bf = acc.querySelector('[data-a="foto"]');
@@ -286,13 +284,16 @@ async function comoConseguir(c) {
       break;
     case 'grupo':
     case 'contemplacion':
+    case 'aclimatacion':
       if (bl?.tipo === 'requiere') { txt.textContent = t('como.grupoFalta', { n: bl.faltan }); break; }
+      if (bl?.tipo === 'estacion') { txt.textContent = t('como.aclimEstacion', { est: estaciones().find((e) => e.id === bl.estacion)?.nombre || '' }); acc.appendChild(formCodigo('aqui', alGuia)); break; }
       if (bl?.tipo === 'lugar') {
         txt.textContent = t('como.lugar');
         acc.appendChild(formCodigo('aqui', alGuia));
         break;
       }
       if (c.tipo === 'grupo') { txt.textContent = t('como.grupo'); boton('accion.grupo', () => { cerrarDetalle(); accionesExtra.pedirFoto(c.id, t('lente.fotoGrupo')); }); }
+      else if (c.tipo === 'aclimatacion') { txt.textContent = t('como.aclimatacion', { min: Math.max(1, Math.round(c.segundos / 60)) }); boton('accion.aclimatar', () => { cerrarDetalle(); accionesExtra.pausa(c); }); }
       else { txt.textContent = t('como.contemplacion', { min: Math.round(c.segundos / 60) }); boton('accion.pausa', () => { cerrarDetalle(); accionesExtra.pausa(c); }); }
       break;
   }

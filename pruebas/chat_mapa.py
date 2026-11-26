@@ -23,7 +23,7 @@ with sync_playwright() as p:
     pg.on('pageerror', lambda e: errores.append(str(e)))
     pg.on('console', lambda m: errores.append(m.text) if m.type == 'error' and 'geoloc' not in m.text.lower() else None)
     pg.goto('http://localhost:8765/'); pg.wait_for_selector('#tapa-nombre')
-    pg.fill('#tapa-nombre', 'Prueba'); pg.click('.tapa-dueno button'); pg.wait_for_timeout(1200)
+    pg.fill('#tapa-nombre', 'Prueba'); pg.click('.tapa-dueno button'); pg.click('#instalar-saltar', timeout=8000); pg.wait_for_timeout(1200)
     pg.click('.muelle [data-vista="chat"]'); pg.wait_for_selector('#chat-sug .chip', timeout=40000)
 
     # 1. Sin GPS: lo dice y ofrece el mapa

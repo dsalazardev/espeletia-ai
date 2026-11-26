@@ -5,7 +5,7 @@
     "es": "Borrador: textos y coordenadas por validar con PNN Los Nevados y UTON",
     "en": "Draft: texts and coordinates pending validation with PNN Los Nevados and UTON"
   },
-  "camara": { "umbral": 0.7, "simMin": 0.5, "simOk": 0.68, "minPorClase": 5 },
+  "camara": { "umbral": 0.5, "simMin": 0.5, "simOk": 0.68, "minPorClase": 5 },
   "guia": { "pin": "4100", "franjaMin": 5, "clave": "b19f6b6d26ce41c3c5a6e5edbd04b01a",
     "nota": { "es": "Prueba de concepto: la clave está en este archivo público. En producción, cada guía recibe su propia clave al registrarse.", "en": "Proof of concept: the key is in this public file. In production each guide gets their own key when registering." } },
   "fuentes": {
@@ -115,5 +115,12 @@
     { "n": 24, "id": "sombrilla", "ficha": "oso", "tema": { "es": "las especies sombrilla", "en": "umbrella species" }, "capitulo": "historias", "tipo": "guia", "personaje": "condor", "fuente": "pnn2019",
       "es": { "nombre": "Especies sombrilla", "dato": "Danta, oso, puma y venados son especies sombrilla: protegerlas ayuda a muchas más." },
       "en": { "nombre": "Umbrella species", "dato": "Tapir, bear, puma and deer are umbrella species: protecting them helps many more." } }
-  ]
+  ],
+  "paradas": [
+    { "id": "brisas_agua", "estacion": "e1", "fuente": "pnn2019", "estado": "borrador", "cromo": "agua",
+      "titulo": { "es": "Brisas: el páramo, fábrica de agua", "en": "Brisas: the páramo, a water factory" },
+      "texto": { "es": "El parque se creó en 1974 en el Macizo del Ruiz, con los volcanes Ruiz, Santa Isabel y Tolima. El parque protege las cuencas altas de los ríos Chinchiná, Otún, Quindío y Combeima.",
+                "en": "The park was created in 1974 in the Ruiz massif, home to the Ruiz, Santa Isabel and Tolima volcanoes. The park protects the upper basins of the Chinchiná, Otún, Quindío and Combeima rivers." } }
+  ],
+  "horario": { "cierre": "14:00", "fuente": "pnn_web", "nota": "Sector Brisas-Kumanday: abre de 8:00 a. m. a 2:00 p. m. (ficha horario)." }
 }

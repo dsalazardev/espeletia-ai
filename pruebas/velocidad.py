@@ -13,7 +13,7 @@ with sync_playwright() as p:
     pg = ctx.new_page()
     pg.goto(URL)
     pg.wait_for_selector('#capa-portada:not([hidden]) .tapa', timeout=20000)
-    pg.fill('#tapa-nombre', 'X'); pg.click('.tapa-dueno button')
+    pg.fill('#tapa-nombre', 'X'); pg.click('.tapa-dueno button'); pg.click('#instalar-saltar', timeout=8000)
     # instalar el service worker (primera visita, sin freno)
     pg.wait_for_function("navigator.serviceWorker.controller !== null", timeout=180000)
     pg.wait_for_function("caches.keys().then(async (k) => { for (const n of k) { const c = await caches.open(n); if ((await c.keys()).length > 20) return true; } return false; })", timeout=180000)
