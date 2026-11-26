@@ -20,7 +20,7 @@
   --mezcla: multiply;
   --sombra-hoja: 0 1px 0 var(--papel-3), 0 2px 0 var(--papel-2), 0 3px 0 var(--papel-3), 0 4px 0 var(--papel-2), 0 12px 28px rgba(29, 43, 56, .16);
   --muelle-alto: 86px;
-  --cap-sendero: var(--amarillo); --cap-flora: var(--verde); --cap-fauna: var(--laguna); --cap-historias: var(--sello);
+  --cap-sendero: var(--amarillo); --cap-flora: var(--verde); --cap-fauna: var(--laguna); --cap-historias: #b73b20; /* 5,7:1 con texto blanco (el rojo del sello daba 4,3:1) */
   --display: 'Bricolage Grotesque', 'Arial Narrow', system-ui, sans-serif;
   --texto: 'Atkinson Hyperlegible', system-ui, sans-serif;
   color-scheme: light;
@@ -37,7 +37,7 @@
 html { -webkit-text-size-adjust: 100%; }
 body {
   margin: 0; min-height: 100dvh; background: var(--papel); color: var(--tinta);
-  font: 17px/1.45 var(--texto); -webkit-tap-highlight-color: transparent;
+  font: 1.0625rem/1.45 var(--texto); -webkit-tap-highlight-color: transparent;
   padding: env(safe-area-inset-top) 0 calc(var(--muelle-alto) + env(safe-area-inset-bottom));
   overscroll-behavior-y: none;
 }
@@ -469,6 +469,39 @@ button { font: inherit; color: inherit; cursor: pointer; }
 .tapa-offline.listo .punto { background: #8fe0b0; box-shadow: 0 0 0 3px rgba(143, 224, 176, .3); }
 .tapa-permisos { margin: 0; font-size: .82rem; opacity: .75; }
 
+/* Paso obligatorio «Instala tu álbum» (spec arreglos-iphone) */
+.tapa-instalar { gap: 14px; background-position: 0 0, 0 0, 0 0; background-size: auto; }
+/* El sol de la portada, más chico y arriba, para que no quede detrás del título */
+.tapa-instalar {
+  background:
+    radial-gradient(circle at 86% 7%, rgba(244, 196, 49, .9) 0 34px, transparent 35px),
+    linear-gradient(180deg, #2f6b4f, #285c44);
+}
+.ins-pasos.ins-uno li span::before { content: none; }
+.tapa-arte-chica { height: 110px; margin-top: 0; }
+.ins-titulo { margin: 0; font: 800 clamp(1.9rem, 8.5vw, 2.6rem)/1 var(--display); font-stretch: 80%; color: var(--amarillo); text-shadow: 2px 2px 0 #1d2b38; outline: none; }
+.ins-sub { margin: 0; max-width: 34ch; opacity: .92; }
+.ins-cuerpo { display: grid; gap: 12px; }
+.ins-cuerpo > p { margin: 0; }
+.ins-pasos { list-style: none; margin: 0; padding: 0; display: grid; gap: 10px; counter-reset: paso; }
+.ins-pasos li { counter-increment: paso; display: grid; grid-template-columns: 44px 1fr; gap: 12px; align-items: center; background: #f5f7f4; color: #1d2b38; border-radius: 14px; padding: 10px 12px; box-shadow: 3px 3px 0 var(--amarillo); }
+.ins-pasos li span::before { content: counter(paso) ". "; font-weight: 800; color: #2f6b4f; }
+.ins-pasos li b { color: #2f6b4f; }
+.ins-ico { width: 44px; height: 44px; padding: 9px; border-radius: 12px; background: #2f6b4f; fill: none; stroke: #fff; stroke-width: 2; stroke-linecap: round; stroke-linejoin: round; box-sizing: border-box; }
+.ins-pasos li:has(circle) .ins-ico { fill: #fff; stroke: none; }
+.ins-ico-app { padding: 0; background: none; border-radius: 10px; }
+.ins-nota { font-size: .86rem; opacity: .85; }
+.ins-hecho { font-weight: 800; font-size: 1.1rem; }
+.ins-qr { margin: 0; background: var(--amarillo); color: #1d2b38; border-radius: 12px; padding: 10px 12px; font-weight: 700; }
+.tapa-instalar .btn-grande { width: 100%; text-align: center; text-decoration: none; }
+.ins-claro { color: #fff; border-color: rgba(255, 255, 255, .7); }
+.ins-sin { margin-top: auto; display: grid; gap: 6px; }
+.ins-sin .btn { width: 100%; }
+.ins-sin .ins-nota { margin: 0; text-align: center; }
+
+/* Vibrar en iPhone: un marco que se enciende (Safari no vibra) */
+.destello { position: fixed; inset: 0; z-index: 90; pointer-events: none; opacity: 0; box-shadow: inset 0 0 0 6px var(--amarillo), inset 0 0 28px 6px color-mix(in srgb, var(--amarillo) 55%, transparent); }
+
 /* ---------- Aviso y confeti ---------- */
 .aviso { position: fixed; z-index: 70; left: 50%; bottom: calc(var(--muelle-alto) + 14px + env(safe-area-inset-bottom)); transform: translate(-50%, 16px); opacity: 0; pointer-events: none; background: var(--niebla); color: #1d2b38; padding: 11px 16px; border-radius: 14px; font-weight: 700; max-width: min(90vw, 420px); box-shadow: 3px 3px 0 var(--amarillo), 0 10px 30px rgba(0, 0, 0, .25); transition: opacity .25s, transform .25s; }
 .aviso.ver { opacity: 1; transform: translate(-50%, 0); }
@@ -509,6 +542,7 @@ button { font: inherit; color: inherit; cursor: pointer; }
 .guia-ops button { min-height: 44px; padding: 8px 14px; border-radius: 999px; border: 1.5px solid var(--campo-3); background: transparent; color: var(--niebla); font: 600 .95rem var(--texto); }
 .guia-ops button[aria-pressed="true"] { background: var(--amarillo); border-color: var(--amarillo); color: #1d2b38; }
 .guia-nota { margin-top: 18px; }
+.guia-despierta { margin: 0 0 10px; padding: 8px 12px; border-left: 4px solid var(--amarillo); background: var(--campo-2); color: var(--niebla); font-size: .9rem; }
 
 /* Plan B con el guía dentro del detalle de un cromo */
 .plan-b { width: 100%; margin-top: 6px; }
@@ -604,3 +638,110 @@ button { font: inherit; color: inherit; cursor: pointer; }
 .ficha-dato { font-size: .8rem; opacity: .75; margin-top: 4px; }
 .ficha-ubic { margin-top: 8px; padding: 8px 10px; border-radius: 10px; background: color-mix(in srgb, var(--amarillo) 18%, transparent); font-size: .9rem; }
 .ficha-ubic b { display: block; font-variant-numeric: tabular-nums; }
+
+/* Escalera de degradación (spec escalera-degradacion-ui) */
+.aviso-modo p { font-size: .92rem; }
+.menu-temas .chips { display: flex; flex-wrap: wrap; gap: 6px; margin-top: 8px; }
+.lente-planb { margin-top: 10px; text-align: left; }
+.lente-planb select { width: 100%; min-height: 44px; margin: 6px 0 8px; font: inherit; border-radius: 10px; padding: 0 10px; }
+.lente-planb-et { font-weight: 700; font-size: .9rem; }
+.aj-archivos ul { list-style: none; margin: 8px 0; padding: 0; display: grid; gap: 4px; font-size: .9rem; }
+.aj-archivos li { display: flex; gap: 8px; align-items: center; }
+#gps-ayuda .acciones { display: flex; flex-wrap: wrap; gap: 8px; }
+
+/* ---------- Accesibilidad, rol visible, insignia y ahorro (issue #22) ---------- */
+.sr-only { position: absolute; width: 1px; height: 1px; padding: 0; margin: -1px; overflow: hidden; clip: rect(0 0 0 0); white-space: nowrap; border: 0; }
+.saltar { position: absolute; left: 8px; top: -60px; z-index: 100; background: var(--amarillo); color: #1d2b38; padding: 10px 14px; border-radius: 10px; font-weight: 700; }
+.saltar:focus { top: calc(8px + env(safe-area-inset-top)); }
+main:focus { outline: none; }
+/* Pestañas en noche: el verde claro no da contraste con letra blanca */
+:root[data-tema="noche"] .pestana.cap-flora, :root[data-tema="noche"] .cap-flora .pagina-num { color: #10201a; }
+/* Chip del GPS en las vistas oscuras (la regla de los chips del chat lo dejaba verde sobre oscuro: 2,6:1) */
+#gps-chip { color: #c3d0cb; border: 1.5px solid #4b5f6d; background: transparent; min-height: 0; padding: 4px 10px; font-size: .82rem; }
+#gps-chip.ok { color: #8fe0b0; border-color: #8fe0b0; }
+/* Lista de estaciones: un botón por estación (antes el <li> hacía de botón) */
+.estaciones li { display: block; padding: 0; }
+.est-btn { all: unset; box-sizing: border-box; width: 100%; display: grid; grid-template-columns: auto 1fr auto; align-items: center; gap: 12px; padding: 12px 14px; border-radius: 14px; cursor: pointer; color: inherit; }
+.est-btn:focus-visible { outline: 3px solid var(--amarillo); outline-offset: 2px; }
+/* Tamaño del texto (Ajustes) */
+:root[data-texto="g"] { font-size: 112.5%; }
+:root[data-texto="mg"] { font-size: 125%; }
+/* Alto contraste (Ajustes): texto más oscuro o más claro, bordes gruesos y foco muy visible */
+:root.contraste { --gris: var(--tinta); --campo-3: #8aa0ad; }
+:root.contraste:not([data-tema="noche"]) { --tinta: #000; --papel: #fff; --papel-2: #f4f4f4; }
+:root.contraste[data-tema="noche"] { --tinta: #fff; --papel: #000; --papel-2: #111; }
+:root.contraste .chip, :root.contraste .btn-linea { border-width: 3px; }
+:root.contraste a, :root.contraste .link { text-decoration-thickness: 2px; }
+:root.contraste :focus-visible { outline: 4px solid var(--amarillo) !important; outline-offset: 3px; box-shadow: 0 0 0 7px #000; }
+:root.contraste .chip, :root.contraste .estaciones-nota, :root.contraste .sub, :root.contraste small { opacity: 1; }
+/* Ahorro de energía: sin animaciones ni transiciones */
+:root.ahorro *, :root.ahorro *::before, :root.ahorro *::after { animation-duration: .001ms !important; animation-iteration-count: 1 !important; transition-duration: .001ms !important; }
+/* Rol visible: banda arriba en Modo guía y Modo equipo */
+.rol-banda { display: none; position: sticky; top: 0; z-index: 45; margin: 0; padding: calc(6px + env(safe-area-inset-top)) 14px 6px; font-weight: 800; font-size: .9rem; text-align: center; }
+.rol-banda > span { display: none; }
+body[data-vista="guia"] .rol-banda { display: block; background: var(--amarillo); color: #1d2b38; }
+body[data-vista="guia"] .rol-guia { display: inline; }
+body[data-vista="equipo"] .rol-banda { display: block; background: #1d2b38; color: #fff; border-bottom: 3px solid var(--amarillo); }
+body[data-vista="equipo"] .rol-equipo { display: inline; }
+.aj-rol { margin: 4px 0 10px; font-size: .9rem; }
+.insignia-rol { display: inline-block; padding: 2px 10px; border-radius: 999px; background: var(--verde); color: #fff; font-weight: 800; font-size: .8rem; }
+:root[data-tema="noche"] .insignia-rol { color: #10201a; }
+.aj-nota { display: block; margin-top: 6px; font-size: .8rem; color: var(--gris); }
+/* Insignia de estado del contenido: siempre con texto, no solo color */
+.insignia { display: inline-block; margin-left: 6px; padding: 1px 8px; border-radius: 999px; font: 700 .72rem/1.5 var(--texto); vertical-align: 1px; white-space: nowrap; }
+.insignia-borrador { border: 1.5px dashed currentColor; }
+.insignia-validado { background: var(--verde); color: #fff; }
+/* Créditos */
+.creditos { list-style: none; margin: 10px 0; padding: 0; display: grid; gap: 10px; }
+.creditos li { display: grid; gap: 2px; font-size: .9rem; }
+.creditos li span { color: var(--gris); overflow-wrap: anywhere; }
+.mapa-fuente .link { font-size: .75rem; color: #9fb1aa; text-align: left; }
+:root[data-tema="noche"] .segmentos button[aria-pressed="true"] { color: #10201a; } /* verde claro de noche + blanco daba 2,3:1 */
+/* Con texto grande, el encabezado del mapa baja a otra línea en vez de cortar el chip del GPS */
+.campo-cab { flex-wrap: wrap; }
+.campo-cab > * { min-width: 0; }
+#gps-chip { white-space: normal; }
+
+/* Parada narrada (issue #17) */
+.detalle.parada { text-align: left; max-width: 34rem; }
+.parada-est { margin: 0; font-weight: 700; color: var(--gris); font-size: .9rem; }
+.parada h2 { margin: 2px 0 10px; color: var(--verde); }
+.parada-texto { font-size: 1.1rem; line-height: 1.55; }
+.parada-nota { margin: 0 0 8px; padding: 6px 10px; border-left: 4px solid var(--amarillo); background: color-mix(in srgb, var(--amarillo) 16%, transparent); font-size: .9rem; }
+.parada-cromo { font-weight: 800; color: var(--verde); }
+
+/* Capa de tono (issue #21) */
+.ficha-empatia { margin: 0 0 6px; font-weight: 700; }
+.segmentos { flex-wrap: wrap; }
+
+/* Hora de regreso en el Modo guía (issue #34) */
+.guia-regreso { align-items: center; }
+.guia-regreso input[type=time] { min-height: 44px; font: inherit; border-radius: 10px; padding: 0 10px; border: 2px solid var(--borde, #9aa); }
+
+/* Compañeros 2D en la cámara (issue #16) */
+.companero { position: absolute; right: 6%; bottom: 8%; width: 34%; aspect-ratio: 1; padding: 0; border: 0; background: none; cursor: pointer; filter: drop-shadow(0 8px 10px rgba(0,0,0,.35)); transition: translate .15s linear; z-index: 3; }
+.companero svg { width: 100%; height: 100%; }
+.companero:focus-visible { outline: 3px solid var(--amarillo); outline-offset: 4px; border-radius: 20px; }
+
+/* Dictado (issue #38) */
+.chat-enviar { min-width: 6.2em; touch-action: manipulation; user-select: none; -webkit-user-select: none; -webkit-touch-callout: none; }
+.chat-enviar.grabando { background: #b73b20; border-color: #b73b20; color: #fff; box-shadow: 0 0 0 0 rgba(183, 59, 32, .5); animation: escucho 1.2s ease-out infinite; }
+@keyframes escucho { to { box-shadow: 0 0 0 12px rgba(183, 59, 32, 0); } }
+.aj-dictado-estado p { margin: 4px 0; display: flex; gap: 8px; align-items: center; }
+
+/* Ajustes tras revisar las capturas */
+.guia-guion .btn { white-space: normal; height: auto; min-height: 48px; line-height: 1.25; padding: 10px 14px; margin-top: 10px; }
+.detalle.parada, .detalle.aclim-fin { justify-items: stretch; background: var(--papel); color: var(--tinta); border-radius: 22px; padding: 22px 20px 18px; box-shadow: 0 18px 40px rgba(0, 0, 0, .35); max-height: 86dvh; overflow-y: auto; }
+.detalle.parada .acciones, .detalle.aclim-fin .acciones { display: flex; flex-wrap: wrap; gap: 8px; justify-content: flex-end; }
+.detalle.aclim-fin h2 { margin: 0; color: var(--verde); }
+#v-lente { padding-bottom: calc(var(--muelle-alto) + env(safe-area-inset-bottom) + 24px); }
+.lente-guia .globo { min-width: 0; flex: 1; }
+.lente-planb, .lente-planb * { box-sizing: border-box; max-width: 100%; }
+.lente-planb .codigo { flex-wrap: wrap; }
+.lente-planb .codigo-fila { flex-wrap: wrap; }
+.lente-planb .codigo-fila input { flex: 1 1 100%; letter-spacing: .3em; }
+.lente-planb .codigo-fila .btn { flex: 1 1 100%; }
+/* El input tiene un ancho intrínseco grande (size=20 con letra de 1,8rem): que la grilla no lo deje desbordar */
+.codigo { grid-template-columns: minmax(0, 1fr); }
+.codigo input { width: 100%; }
+#chat-in.dictado { border-color: #b73b20; box-shadow: 0 0 0 4px rgba(183, 59, 32, .25); transition: border-color .2s, box-shadow .2s; }

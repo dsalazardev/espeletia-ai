@@ -18,6 +18,10 @@
   <link rel="stylesheet" href="styles.css">
 </head>
 <body>
+  <a class="saltar" href="#principal" data-t="a11y.saltar">Ir al contenido</a>
+  <p id="rol-banda" class="rol-banda" role="status"><span class="rol-guia" data-t="rol.guiaBanda">Modo guía: este teléfono muestra los códigos del guía</span><span class="rol-equipo" data-t="rol.equipoBanda">Modo equipo: ajustes del parque</span></p>
+  <main id="principal" tabindex="-1">
+  <h1 class="sr-only" data-t="titulo">Álbum del Páramo</h1>
   <!-- ÁLBUM -->
   <section id="v-album" class="vista vista-papel" aria-labelledby="album-titulo">
     <header class="cabezote">
@@ -112,18 +116,21 @@
     <div id="chat-sug" class="chat-sug"></div>
     <form id="chat-form" class="chat-form" autocomplete="off">
       <div id="chat-tema" class="chat-tema" hidden><span class="chat-tema-txt"></span><button type="button" id="chat-tema-x" class="chat-tema-x" data-t="chat.quitarTema" data-t-attr="aria-label" aria-label="Quitar tema">×</button></div>
-      <label class="chat-foto btn-cuadro btn-linea" data-t="chat.foto" data-t-attr="aria-label" aria-label="¿Qué es esto? Toma una foto">
+      <button type="button" id="chat-foto" class="chat-foto btn-cuadro btn-linea" data-t="chat.foto" data-t-attr="aria-label" aria-label="¿Qué es esto? Toma una foto">
         <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M4 8h3l2-3h6l2 3h3v11H4z"/><circle cx="12" cy="13" r="3.6"/></svg>
-        <input id="chat-foto-in" type="file" accept="image/*" capture="environment" hidden>
-      </label>
+      </button>
+      <input id="chat-foto-in" type="file" accept="image/*" capture="environment" hidden>
       <input id="chat-in" enterkeyhint="send" maxlength="200" data-t="chat.placeholder" data-t-attr="placeholder" aria-labelledby="chat-titulo">
-      <button class="btn btn-flor" data-t="chat.enviar">Enviar</button>
+      <button id="chat-enviar" class="btn btn-flor chat-enviar" aria-describedby="chat-enviar-ayuda" data-t="chat.enviar">Enviar</button>
+      <span id="chat-enviar-ayuda" class="sr-only" data-t="dic.ayuda">Mantén presionado para hablarle a Fray</span>
     </form>
   </section>
 
   <!-- EQUIPO -->
   <section id="v-equipo" class="vista vista-campo" aria-labelledby="eq-titulo" hidden></section>
   <section id="v-guia" class="vista vista-campo" aria-labelledby="guia-titulo" hidden></section>
+
+  </main>
 
   <!-- MUELLE DE NAVEGACIÓN -->
   <nav class="muelle" aria-label="Secciones">
@@ -137,17 +144,17 @@
   <!-- CAPAS -->
   <div id="capa-detalle" class="capa" hidden role="dialog" aria-modal="true"></div>
   <div id="capa-sobre" class="capa capa-sobre" hidden role="dialog" aria-modal="true"></div>
-  <div id="capa-ajustes" class="capa capa-hoja" hidden role="dialog" aria-modal="true"></div>
-  <div id="capa-estacion" class="capa capa-hoja" hidden role="dialog" aria-modal="true"></div>
-  <div id="capa-pausa" class="capa capa-pausa" hidden role="dialog" aria-modal="true">
-    <p class="pausa-tit" data-t="pausa.titulo"></p>
+  <div id="capa-ajustes" class="capa capa-hoja" hidden role="dialog" aria-modal="true" aria-labelledby="aj-titulo"></div>
+  <div id="capa-estacion" class="capa capa-hoja" hidden role="dialog" aria-modal="true" aria-labelledby="est-titulo"></div>
+  <div id="capa-pausa" class="capa capa-pausa" hidden role="dialog" aria-modal="true" aria-labelledby="pausa-tit">
+    <p class="pausa-tit" id="pausa-tit" data-t="pausa.titulo"></p>
     <svg viewBox="0 0 120 120" class="anillo" aria-hidden="true"><circle cx="60" cy="60" r="52" class="pista-anillo"/><circle cx="60" cy="60" r="52" class="avance" id="pausa-avance"/></svg>
     <p id="pausa-tiempo" class="pausa-tiempo">2:00</p>
     <p class="pausa-txt" data-t="pausa.txt"></p>
     <p id="pausa-estado" class="pausa-estado" data-t="pausa.regla"></p>
     <button id="pausa-salir" class="btn btn-linea" data-t="pausa.salir">Salir</button>
   </div>
-  <div id="capa-portada" class="capa capa-portada" hidden></div>
+  <div id="capa-portada" class="capa capa-portada" hidden role="dialog" aria-modal="true" aria-label="Álbum del Páramo" data-t="titulo" data-t-attr="aria-label"></div>
   <canvas id="confeti" class="confeti" aria-hidden="true"></canvas>
 
   <div id="aviso" class="aviso" role="status" aria-live="polite"></div>

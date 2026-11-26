@@ -12,7 +12,7 @@ export const E = {
   album: {},      // id -> { fecha, estacion, altura, foto, abierto }
   visitadas: {},  // estacionId -> fecha
   fijadas: {},    // estacionId -> { lat, lon, altura } fijadas en campo por el equipo
-  ajustes: { tema: 'auto', voz: true, vibrar: true, demo: false },
+  ajustes: { tema: 'auto', voz: true, vibrar: true, demo: false, texto: 'n', contraste: false, ahorro: 'auto', tono: 'normal' },
   posicion: null, // { lat, lon, precision, altitud }
   parque: {},     // models/parque.json: Lente y estaciones publicadas por el equipo para todos los teléfonos
   aqui: 0,        // última vez que el guía confirmó que el grupo está en el parque
@@ -102,6 +102,12 @@ export function bloqueo(c, { guia = false } = {}) {
   if (c.requiere && Object.keys(E.album).length < c.requiere) return { tipo: 'requiere', faltan: c.requiere - Object.keys(E.album).length };
   if (c.despuesDe && !tiene(c.despuesDe)) return { tipo: 'despuesDe', de: c.despuesDe };
   if (c.lugar && !enParque()) return { tipo: 'lugar' };
+  // Pausa de aclimatación (issue #18): en su estación (visitada o con el GPS dentro) o con el código «estamos en el parque»
+  if (c.tipo === 'aclimatacion' && c.estacion && !E.visitadas[c.estacion] && !enParque()) {
+    const e = estacion(c.estacion);
+    const dentro = e && E.posicion && distancia(E.posicion, e) <= e.radio + Math.min(E.posicion.precision || 0, 30);
+    if (!dentro) return { tipo: 'estacion', estacion: c.estacion };
+  }
   if (c.otraPlanta && !guia && tiene(c.otraPlanta)) {
     // Otra planta, no la misma: a 25 m o más de la primera (con GPS) o, sin GPS, 3 minutos después
     const a = E.album[c.otraPlanta];
@@ -207,5 +213,31 @@ export async function vaciar() {
 
 export function ponerPosicion(p) {
   E.posicion = p;
+  if (p) { recorrido.push({ t: Date.now(), lat: p.lat, lon: p.lon }); while (recorrido.length && Date.now() - recorrido[0].t > 45e3) recorrido.shift(); }
   emitir('posicion', p);
 }
+// ¿El GPS dice que camina? Más de 12 m en los últimos 30 s (los compañeros 2D no aparecen caminando, #16)
+const recorrido = [];
+export function caminando() {
+  const ahora = Date.now(), r = recorrido.filter((x) => ahora - x.t <= 30e3);
+  if (r.length < 2) return false;
+  return r.some((a) => r.some((b) => distancia(a, b) > 12));
+}
+// Estación en la que está ahora (dentro de su radio), o null
+export function estacionActual() {
+  const p = E.posicion;
+  if (!p) return null;
+  return estaciones().find((e) => distancia(p, e) <= e.radio + Math.min(p.precision || 0, 30)) || null;
+}
+
+// Fotos con un personaje (cámara + personaje), para el collage. Van en el mismo almacén que las fotos del álbum.
+export async function guardarFotoPersonaje(blob, { personaje, cromo }) {
+  const id = `pj:${Date.now()}`;
+  await db.put('fotos', id, blob);
+  const lista = (await db.get('kv', 'fotosPj')) || [];
+  lista.push({ id, personaje, cromo, fecha: Date.now() });
+  await db.put('kv', 'fotosPj', lista);
+  emitir('cambio', { id });
+  return id;
+}
+export const fotosPersonaje = async () => (await db.get('kv', 'fotosPj')) || [];

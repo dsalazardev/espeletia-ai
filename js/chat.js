@@ -18,12 +18,31 @@ function decodificar(b64) {
   return out;
 }
 
+// Escalera de degradación (spec escalera-degradacion-ui): modelo → solo palabras clave → menú de temas.
+// Quien quiera saber cuándo cambia el modo (para decírselo al visitante) se suscribe aquí.
+const oyentes = new Set();
+export const alCambiarModo = (fn) => oyentes.add(fn);
+function pasarALexico(motivo) {
+  if (soloLexico) return;
+  soloLexico = true;
+  anotar('Chat (modelo de lenguaje)', motivo);
+  oyentes.forEach((fn) => fn('lexico'));
+}
+
 export function cargar(onEstado = () => {}) {
   if (cargando) return cargando;
   cargando = (async () => {
     onEstado('fichas');
-    const [b, i] = await Promise.all([fetch(RAIZ('../chat.json')).then((r) => r.json()), fetch(RAIZ('../models/chat_indice.json')).then((r) => r.json())]);
-    base = b;
+    base = await fetch(RAIZ('../chat.json')).then((r) => { if (!r.ok) throw new Error(`chat.json (${r.status})`); return r.json(); });
+    let i;
+    try { i = await fetch(RAIZ('../models/chat_indice.json')).then((r) => { if (!r.ok) throw new Error(`índice (${r.status})`); return r.json(); }); }
+    catch (e) {
+      // Sin índice no hay búsqueda: queda el menú de temas con las fichas (último escalón)
+      anotar('Chat (índice)', e);
+      oyentes.forEach((fn) => fn('menu'));
+      onEstado('listo');
+      return;
+    }
     const dim = i.dim, n = i.items.length;
     const q8 = new Int8Array(decodificar(i.vectores).buffer);
     const esc = new Float32Array(decodificar(i.escalas).buffer);
@@ -39,16 +58,18 @@ export function cargar(onEstado = () => {}) {
     try {
       await cargarModelo('texto'); // el tokenizador y el modelo viven en el worker
     } catch (e) {
-      // Sin memoria suficiente o sin WASM: el chat sigue funcionando solo con palabras clave.
-      anotar('Chat (modelo de lenguaje)', e);
-      soloLexico = true;
+      // Sin memoria suficiente, sin WASM o worker colgado: el chat sigue funcionando solo con palabras clave.
+      pasarALexico(e);
     }
     onEstado('listo');
   })();
+  cargando.catch(() => { cargando = null; });
   return cargando;
 }
 
 export const listo = () => !!idx;
+// Hay fichas pero no búsqueda: solo el menú de temas
+export const soloMenu = () => !!base && !idx;
 // Vuelve a intentar cargar el modelo de lenguaje (p. ej. desde Ajustes, si falló por red)
 export async function reintentar() {
   if (cargando) await cargando.catch(() => {});
@@ -58,6 +79,14 @@ export async function reintentar() {
 }
 export const modoLexico = () => soloLexico;
 export const fichas = () => base?.fichas || [];
+// Estado del contenido para la insignia: por ficha si R1 lo marcó (spec paquete-validado); si no, el del archivo
+// (hoy todo chat.json es borrador). Las respuestas de la app (fuente «app») no llevan insignia.
+export function estadoDe(f) {
+  if (!f || f.fuente === 'app' || f.dinamica) return null;
+  return f.estado || (base?.estado ? 'borrador' : null);
+}
+export const empatia = (lang) => base?.empatia?.[lang] || base?.empatia?.es || [];
+export const notaEstado = (lang) => base?.estado?.[lang] || base?.estado?.es || '';
 export const fuentes = () => base?.fuentes || {};
 
 // ---------- Embedding de la pregunta ----------
@@ -93,8 +122,12 @@ async function puntuar(texto) {
   const F = base.fichas, P = idx.P, nF = F.length;
   const sem = new Float64Array(nF).fill(-1);
   let neg = -1;
+  let q = null;
   if (!soloLexico) {
-    const q = await embed(texto);
+    // Si el modelo se cuelga o falla (ya se reintentó una vez en motor.js), se sigue solo con palabras clave
+    try { q = await embed(texto); } catch (e) { pasarALexico(e); }
+  }
+  if (!soloLexico && q) {
     const { vec, dim, items } = idx;
     for (let k = 0; k < items.length; k++) {
       let s = 0; const o = k * dim;
@@ -132,6 +165,13 @@ const DELTA_TEMA = -0.04;
 // Devuelve { tipo: 'respuesta'|'duda'|'nose', ficha, alternativas[], urgente, puntajes, porTema, sugiereTema }
 export async function preguntar(texto, { tema = null } = {}) {
   await cargar();
+  if (!idx) {
+    // Sin búsqueda, las reglas de seguridad siguen mandando (AGENTS.md): emergencia y comer van directo
+    const porId = (id) => base.fichas.find((f) => f.id === id);
+    if (URGENTE.test(texto) && porId('emergencia')) return { tipo: 'respuesta', ficha: porId('emergencia'), alternativas: [], urgente: true, puntajes: {} };
+    if (COMER.test(texto) && porId('comer_plantas')) return { tipo: 'respuesta', ficha: porId('comer_plantas'), alternativas: [], urgente: false, puntajes: {} };
+    return { tipo: 'menu', ficha: null, alternativas: [], urgente: false, puntajes: {} };
+  }
   const F = base.fichas;
   const r0 = await puntuar(texto);
   let el = r0, porTema = false, sugiereTema = null;

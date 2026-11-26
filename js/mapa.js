@@ -1,7 +1,7 @@
 // Mapa del sendero (dibujado como un pliego topográfico), geocercas por GPS y bitácora del recorrido.
-import { E, bus, estaciones, cromos, tiene, ganar, visitar, ponerPosicion, texto } from './estado.js';
+import { E, bus, estaciones, cromos, tiene, ganar, visitar, ponerPosicion, texto, bloqueo } from './estado.js';
 import { t } from './i18n.js';
-import { $, $$, h, esc, distancia, fmtDist, vibrar, aviso, animar, atraparFoco } from './util.js';
+import { $, $$, h, esc, distancia, fmtDist, vibrar, aviso, animar, atraparFoco, ahorro } from './util.js';
 import * as bit from './bitacora.js';
 import { formCodigo } from './guia.js';
 import * as relieve from './relieve.js';
@@ -23,7 +23,6 @@ export function iniciarMapa(c) {
   const abrirDe = (ev) => { const el = ev.target.closest('[data-est]'); if (el) abrirEstacion(el.dataset.est); };
   $('#mapa').addEventListener('click', abrirDe);
   $('#estaciones').addEventListener('click', abrirDe);
-  $('#estaciones').addEventListener('keydown', (ev) => { if ((ev.key === 'Enter' || ev.key === ' ') && ev.target.dataset.est) { ev.preventDefault(); abrirEstacion(ev.target.dataset.est); } });
   // El navegador no entrega posiciones con la app en segundo plano: se pausa el GPS (ahorra batería)
   // y, al volver, se pide la posición de inmediato para revisar si llegaron a una estación.
   document.addEventListener('visibilitychange', () => {
@@ -32,7 +31,7 @@ export function iniciarMapa(c) {
     else { detener(); arrancar(); ahora(); }
   });
   bit.cargar();
-  relieve.cargar().then((d) => { $('#mapa-modo').hidden = !(d && m3d.soportado()); if (!$('#v-mapa').hidden) pintar(); });
+  relieve.cargar().then((d) => { $('#mapa-modo').hidden = !(d && m3d.soportado()) || ahorro(); if (!$('#v-mapa').hidden) pintar(); });
 }
 
 // ---------- GPS ----------
@@ -247,11 +246,23 @@ export function pintar() {
     const [x, y] = xy(E.posicion.lat, E.posicion.lon);
     const halo = Math.min(60, Math.max(8, (E.posicion.precision / M_POR_GRADO) * esc2));
     s += `<g class="yo" transform="translate(${x} ${y})"><circle class="yo-halo" r="${halo.toFixed(1)}"/><circle class="yo-onda" r="9"/><circle class="yo-punto" r="6"/><title>${esc(t('mapa.aqui'))}</title></g>`;
-  } else if (E.posicion) s += `<text class="nota-mapa" x="${(W - 44) / 2}" y="28" text-anchor="middle">${esc(t('mapa.lejos'))}</text>`;
+  } else if (E.posicion) {
+    // En dos líneas si no cabe (en inglés se salía por la izquierda del pliego)
+    const nota = t('mapa.lejos'), x = (W - 44) / 2, corte = nota.indexOf(': ');
+    s += nota.length > 48 && corte > 0
+      ? `<text class="nota-mapa" x="${x}" y="22" text-anchor="middle"><tspan x="${x}">${esc(nota.slice(0, corte + 1))}</tspan><tspan x="${x}" dy="14">${esc(nota.slice(corte + 2))}</tspan></text>`
+      : `<text class="nota-mapa" x="${x}" y="28" text-anchor="middle">${esc(nota)}</text>`;
+  }
   s += escalaBarra(esc2) + norte();
   $('#mapa').innerHTML = s;
 
-  $('#mapa-fuente').textContent = rel ? rel.meta.atribucion : '';
+  // Atribución de Copernicus: corta en el teléfono, completa en Ajustes → Créditos y licencias
+  const mf = $('#mapa-fuente');
+  if (!rel) mf.textContent = '';
+  else if (!mf.querySelector('button')) {
+    mf.innerHTML = `<button type="button" class="link">${esc(t('mapa.atribucionCorta'))}</button>`;
+    mf.querySelector('button').onclick = () => import('./ajustes.js').then((m) => m.abrirCreditos());
+  } else mf.querySelector('button').textContent = t('mapa.atribucionCorta');
   pintarGpsAyuda();
   pintarBitacora();
   pintarLista(ests);
@@ -261,8 +272,17 @@ function pintarGpsAyuda() {
   const box = $('#gps-ayuda');
   box.hidden = !negado;
   if (!negado) return;
-  box.innerHTML = `<p>${esc(t('mapa.permisoAyuda'))}</p><button class="btn btn-linea btn-mini" type="button">${esc(t('mapa.reintentar'))}</button>`;
-  $('button', box).onclick = () => { negado = false; quiere = true; detener(); arrancar(); pintarGpsAyuda(); };
+  // Plan B sin GPS: elegir la estación a mano en la lista; su hoja pide el código del guía (spec escalera-degradacion-ui)
+  box.innerHTML = `<p>${esc(t('mapa.permisoAyuda'))}</p><p>${esc(t('mapa.sinGpsManual'))}</p>
+    <div class="acciones"><button class="btn btn-linea btn-mini" type="button" data-r>${esc(t('mapa.reintentar'))}</button>
+    <button class="btn btn-flor btn-mini" type="button" data-m>${esc(t('mapa.elegirEstacion'))}</button></div>`;
+  $('[data-r]', box).onclick = () => { negado = false; quiere = true; detener(); arrancar(); pintarGpsAyuda(); };
+  $('[data-m]', box).onclick = () => {
+    const ests = estaciones(), sig = ests.find((e) => !E.visitadas[e.id]) || ests[0];
+    const li = $(`#estaciones [data-est="${sig.id}"]`);
+    li?.scrollIntoView({ behavior: 'smooth', block: 'center' });
+    abrirEstacion(sig.id);
+  };
 }
 
 function pintarLista(ests) {
@@ -272,11 +292,11 @@ function pintarLista(ests) {
     const c = cromos().find((k) => k.tipo === 'gps' && k.estacion === e.id);
     const hecha = E.visitadas[e.id] || (c && tiene(c.id));
     const d = E.posicion ? fmtDist(distancia(E.posicion, e), E.lang) : '—';
-    const li = h(`<li class="${hecha ? 'hecha' : ''}" data-est="${e.id}" tabindex="0" role="button" aria-label="${esc(e.nombre)}">
+    const li = h(`<li class="${hecha ? 'hecha' : ''}"><button type="button" class="est-btn" data-est="${e.id}">
         <span class="est-num">${i + 1}</span>
         <span class="est-txt"><b>${esc(e.nombre)}</b>${e.porConfirmar ? `<small>${esc(t('mapa.porConfirmar'))}</small>` : ''}<small>${e.altura ? fmtAlt(e.altura) : ''}${e.finAutorizado ? ` · ${esc(t('mapa.finCorto'))}` : ''}</small></span>
         <span class="est-dist">${hecha ? esc(t('mapa.visitada')) : esc(d)}</span>
-      </li>`);
+      </button></li>`);
     ol.appendChild(li);
   });
   const nota = $('#estaciones-nota');
@@ -332,7 +352,7 @@ export function abrirEstacion(id) {
   const hoja = h(`<div class="hoja hoja-estacion">
       <div class="hoja-asa" aria-hidden="true"></div>
       <p class="est-hoja-num">${esc(t('mapa.estacionN', { n: i + 1 }))}${e.altura ? ` · ${fmtAlt(e.altura)}` : ''}</p>
-      <h2>${esc(e.nombre)}</h2>
+      <h2 id="est-titulo">${esc(e.nombre)}</h2>
       ${e.porConfirmar ? `<p class="sub">${esc(t('mapa.porConfirmar'))}</p>` : ''}
       <p class="est-hoja-estado">${hecha ? esc(hora ? t('mapa.visitadaA', { h: hora }) : t('mapa.visitada')) : esc(d ? t('mapa.aDist', { d }) : t('mapa.sinPosicion'))}</p>
       ${tx ? `<div class="est-hoja-cromo"><p class="est-hoja-et">${esc(hecha ? t('mapa.tuCromo') : t('mapa.cromoAqui'))}</p><p><b>${esc(tx.nombre)}</b>${hecha ? `<br>${esc(tx.dato)}` : ''}</p></div>` : ''}
@@ -344,6 +364,16 @@ export function abrirEstacion(id) {
   if (c?.ficha) {
     const b = h(`<button class="btn btn-linea">${esc(t('det.preguntar'))}</button>`);
     b.onclick = () => { cerrar(); ctx.preguntar(c.id); };
+    acc.appendChild(b);
+  }
+  // Pausa de aclimatación de esta estación (issue #18)
+  const ac = cromos().find((k) => k.tipo === 'aclimatacion' && k.estacion === e.id && !tiene(k.id));
+  if (ac && ctx.pausa) {
+    const b = h(`<button class="btn btn-flor" data-aclim>${esc(t('accion.aclimatarMin', { min: Math.max(1, Math.round(ac.segundos / 60)) }))}</button>`);
+    b.onclick = () => {
+      if (bloqueo(ac)) { aviso(t('como.aclimEstacion', { est: e.nombre }), 4000); return; }
+      cerrar(); ctx.pausa(ac);
+    };
     acc.appendChild(b);
   }
   if (E.ajustes.demo && !hecha) {
@@ -384,6 +414,9 @@ async function ponerModo(m) {
 }
 
 export function entrar() {
+  // El ahorro de energía pudo cambiar en Ajustes: sin 3D mientras esté activo
+  $('#mapa-modo').hidden = !(relieve.listo() && m3d.soportado()) || ahorro();
+  if (ahorro() && modo === '3d') ponerModo('plano');
   iniciarGPS();
   pintar();
   animar($('.pliego'), [
