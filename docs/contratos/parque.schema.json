@@ -21,7 +21,23 @@
             "dim": { "type": "integer", "minimum": 1 },
             "clases": { "type": "array", "items": { "type": "string" } },
             "vectores": { "type": "string", "description": "Int8 en base64, dim × n" },
-            "escalas": { "type": "string", "description": "Float32 en base64, n" }
+            "escalas": { "type": "string", "description": "Float32 en base64, n" },
+            "cabeza": {
+              "description": "Cabeza calibrada (herramientas/lente_base.py): huellas centradas y umbral medido. Sin ella, la app usa camara.umbral/simMin/simOk.",
+              "type": "object",
+              "required": ["tipo", "centro", "umbral"],
+              "properties": {
+                "tipo": { "const": "knn-centrado" },
+                "k": { "type": "integer", "minimum": 1 },
+                "temperatura": { "type": "number", "exclusiveMinimum": 0 },
+                "umbral": { "type": "number", "minimum": 0, "maximum": 1 },
+                "objetivo": { "type": "number", "minimum": 0, "maximum": 1 },
+                "centro": { "type": "string", "description": "Float32 en base64, dim: huella promedio de la base" },
+                "curva": { "type": "array", "description": "[votos, acierto medido]: para mostrar una certeza honesta", "items": { "type": "array", "items": { "type": "number" }, "minItems": 2, "maxItems": 2 } },
+                "medido": { "type": ["object", "null"] }
+              },
+              "additionalProperties": false
+            }
           },
           "additionalProperties": false
         }

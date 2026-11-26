@@ -327,7 +327,7 @@ async function probar() {
   const r = await ml.classify(v, E.paquete.camara);
   if (!r) { $('#eq-prueba').textContent = t('eq.sinFotos'); return; }
   const k = E.paquete.clases.find((c) => c.id === r.clase);
-  $('#eq-prueba').textContent = `${t('eq.prueba', { cosa: k[E.lang], p: Math.round(r.confianza * 100) })} ${r.confianza < E.paquete.camara.umbral ? t('eq.pruebaBaja') : ''}`;
+  $('#eq-prueba').textContent = `${t('eq.prueba', { cosa: k[E.lang], p: Math.round(r.certeza * 100) })} ${r.confianza < (ml.umbral() ?? E.paquete.camara.umbral) ? t('eq.pruebaBaja') : ''}`;
 }
 
 function pintarEstaciones() {

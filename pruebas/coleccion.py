@@ -74,7 +74,8 @@ with sync_playwright() as p:
     equipo(pg); print('  muestras', entrenar(pg, 'otro')); ok('Modo equipo con PIN y entrenamiento de «Otra cosa»')
     # Una sola clase entrenada: la Lente NO debe ofrecer cromos (corrección del falso positivo)
     ir_lente(pg); pg.wait_for_timeout(3000)
-    assert pg.is_hidden('#lente-abrir'); ok('con una sola clase la Lente no inventa cromos')
+    # Sin cromo: a lo sumo ofrece que el guía lo confirme con su código (nunca «Abrir sobre»)
+    assert pg.is_hidden('#lente-abrir') or 'confirme' in pg.inner_text('#lente-abrir'); ok('con una sola clase la Lente no inventa cromos')
     pg.click('.muelle [data-vista="album"]')
 
     # Caminar por el sendero: llegar a cada estación (GPS se activó solo porque el permiso ya estaba)
@@ -148,7 +149,8 @@ with sync_playwright() as p:
 
     # ===== Imagen que no está entrenada: no debe dar cromo =====
     ctx, pg = sesion(p, 'desconocido'); ir_lente(pg); pg.wait_for_timeout(5000)
-    assert pg.is_hidden('#lente-abrir') or pg.is_disabled('#lente-abrir')
+    # Sin cromo: a lo sumo ofrece que el guía lo confirme con su código
+    assert pg.is_hidden('#lente-abrir') or pg.is_disabled('#lente-abrir') or 'confirme' in pg.inner_text('#lente-abrir')
     msg = pg.inner_text('#lente-msg'); pg.screenshot(path=f'{S}/05_lente_duda.png'); ctx.close()
     ok(f'imagen desconocida -> «{msg}»')
 

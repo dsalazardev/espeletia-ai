@@ -18,6 +18,7 @@ Decisión: [licencias-de-modelos](decisiones/2026-11-24-licencias-de-modelos.md)
 | Copernicus DEM GLO-30 | Licencia propia de Copernicus (uso comercial permitido, gratuito) | Sí | Texto de atribución exacto + frase de no responsabilidad (completo en `licencias/README.md`; corto bajo el mapa) | dataspace.copernicus.eu (PDF de licencias COP-DEM) |
 | OpenStreetMap (sendero y estaciones, desde el 25-nov) | ODbL 1.0 | Sí | «© colaboradores de OpenStreetMap» visible junto al mapa y enlace a openstreetmap.org/copyright. Si se publica una base de datos derivada, va con ODbL | openstreetmap.org/copyright |
 | Fotos de Wikimedia Commons (modelo base provisional de la Lente, desde el 25-nov) | CC BY 2.0–4.0, CC BY-SA 2.0–4.0, CC0, dominio público | Sí | Autor y licencia de cada foto: [licencias/lente-provisional-commons.md](../licencias/lente-provisional-commons.md). La app guarda solo la huella (1280 números), no la foto | commons.wikimedia.org |
+| Fotos de iNaturalist (ampliación de la Lente, desde el 26-nov) | CC BY 4.0, CC BY-NC 4.0, CC0 | **Solo uso no comercial** para las BY-NC | Autor y licencia de cada foto: [licencias/lente-ampliacion-2026-11.md](../licencias/lente-ampliacion-2026-11.md). Si el álbum se usara comercialmente, hay que sacar esas huellas y volver a correr `lente_base.py` | inaturalist.org |
 
 ## 2. SLM generativo (para reformular la ficha recuperada; decisión slm-generativo-opcional)
 | Modelo | Licencia | ¿Comercial? | Tamaño listo para navegador | Español | Nota |

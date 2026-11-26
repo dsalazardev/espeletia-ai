@@ -140,6 +140,7 @@ export function ponerModo(m) {
   $('#v-lente').dataset.modo = modo;
   $('#lente-abrir').hidden = true; $('#lente-escuchar').hidden = true; $('#lente-preguntar').hidden = true;
   $('#lente-chip').hidden = true;
+  $('#lente-confirma')?.remove();
   fijar(false);
   ultimoId = null; ultimoQR = null;
   if (modo === 'qr') decir(t('lente.qrApunta'));
@@ -179,29 +180,36 @@ function cartelApagada(texto, boton) {
   $('#lente-apagada').hidden = false;
 }
 
-// Sin cámara (permiso negado o sin cámara): el guía confirma lo que el visitante ve, con su código de 4 dígitos.
-// Las historias y las estaciones ya tienen su código en el álbum y en el mapa (spec escalera-degradacion-ui).
-function planB() {
-  if ($('#lente-planb')) return;
+// Confirmación del guía con su código de 4 dígitos. Dos casos (spec escalera-degradacion-ui):
+// - sin cámara (permiso negado o sin cámara): queda abierta debajo del globo;
+// - la Lente duda («Quizá frailejón»): el visitante la abre con «Que lo confirme mi guía», con esa cosa ya elegida.
+// Las historias y las estaciones ya tienen su código en el álbum y en el mapa.
+function planB({ clase = null, duda = false } = {}) {
+  const id = duda ? 'lente-confirma' : 'lente-planb';
+  let box = $(`#${id}`);
+  if (box) { if (clase) { $('select', box).value = clase; $('select', box).onchange(); } box.open = true; return box; }
   const clases = E.paquete.clases.filter((k) => k.id !== 'otro');
-  const box = h(`<details id="lente-planb" class="plan-b lente-planb" open>
-      <summary>${esc(t('lente.planB'))}</summary>
+  box = h(`<details id="${id}" class="plan-b lente-planb" open>
+      <summary>${esc(t(duda ? 'lente.confirmaTit' : 'lente.planB'))}</summary>
       <p class="sub">${esc(t('lente.planBSub'))}</p>
-      <label class="lente-planb-et" for="planb-clase">${esc(t('lente.planBQue'))}</label>
-      <select id="planb-clase">${clases.map((k) => `<option value="${esc(k.id)}">${esc(k[E.lang] || k.es)}</option>`).join('')}</select>
+      <label class="lente-planb-et" for="${duda ? 'confirma' : 'planb'}-clase">${esc(t('lente.planBQue'))}</label>
+      <select id="${duda ? 'confirma' : 'planb'}-clase">${clases.map((k) => `<option value="${esc(k.id)}">${esc(k[E.lang] || k.es)}</option>`).join('')}</select>
       <div class="lente-planb-cod"></div>
-      <p class="sub">${esc(t('lente.planBOtros'))}</p>
+      <p class="sub">${esc(t(duda ? 'lente.confirmaQR' : 'lente.planBOtros'))}</p>
     </details>`);
-  const poner = () => {
+  const sel = $('select', box);
+  if (clase) sel.value = clase;
+  sel.onchange = () => {
     const cont = $('.lente-planb-cod', box); cont.innerHTML = '';
-    cont.appendChild(guia.formCodigo(`c:${$('#planb-clase', box).value}`, async (r) => {
-      if (r.ganado) { await alGanar(r.ganado); return; }
+    cont.appendChild(guia.formCodigo(`c:${sel.value}`, async (r) => {
+      if (r.ganado) { $('#lente-confirma')?.remove(); await alGanar(r.ganado); return; }
       decir(t(r.msg, r.vars));
     }));
   };
-  $('#planb-clase', box).onchange = poner;
-  poner();
+  sel.onchange();
   $('.globo').appendChild(box);
+  if (duda) box.scrollIntoView({ block: 'nearest', behavior: reducido() ? 'auto' : 'smooth' });
+  return box;
 }
 
 function apagarStream() {
@@ -233,21 +241,30 @@ async function pasoReconocer() {
     const r = await ml.classify(v, { ...cfg, seguido: true });
     if (compaHablo || modo !== 'reconocer') return; // mientras se calculaba, el visitante tocó al personaje o cambió de modo
     const chip = $('#lente-chip');
-    if (!r || r.clase === 'otro' || r.confianza < cfg.umbral) {
+    const umbral = ml.umbral() ?? cfg.umbral; // calibrado en models/parque.json, si lo hay
+    if (!r || r.clase === 'otro' || r.confianza < umbral) {
       fijar(false); personaje('fray');
       decir(t('lente.duda'));
-      if (r && r.clase !== 'otro' && r.confianza > 0.3) { chip.hidden = false; chip.textContent = t('lente.quiza', { cosa: nombreClase(r.clase).toLowerCase() }); }
+      const quiza = r && r.clase !== 'otro' && r.confianza > 0.3 ? r.clase : null;
+      if (quiza) { chip.hidden = false; chip.textContent = t('lente.quiza', { cosa: nombreClase(quiza).toLowerCase() }); }
       else chip.hidden = true;
-      $('#lente-abrir').hidden = true; $('#lente-escuchar').hidden = true; $('#lente-preguntar').hidden = true; ultimoId = null;
+      $('#lente-escuchar').hidden = true; $('#lente-preguntar').hidden = true; ultimoId = null;
+      // La Lente duda: el guía confirma con su código. Así nadie se queda sin el cromo por una foto difícil.
+      const ab = $('#lente-abrir');
+      const falta = E.paquete.cromos.some((c) => c.tipo === 'camara' && !tiene(c.id));
+      if ($('#lente-confirma') || !falta) { ab.hidden = true; return; }
+      ab.hidden = false; ab.disabled = false; ab.textContent = t('lente.confirmar');
+      ab.onclick = () => { ab.hidden = true; planB({ clase: quiza && pendienteDeClase(quiza, { guia: true }) ? quiza : null, duda: true }); };
       return;
     }
     const pendiente = pendienteDeClase(r.clase);
+    if (pendiente) $('#lente-confirma')?.remove(); // la Lente ya está segura: no hace falta el código
     const c = pendiente || cromos().find((k) => k.tipo === 'camara' && k.clase === r.clase);
     const tx = texto(c);
     fijar(true); personaje(c.personaje);
     if (compa?.id !== c.id) companero(c); // la Lente está segura: encuentro
     chip.hidden = false;
-    chip.textContent = `${nombreClase(r.clase)} — ${t('lente.seguridad', { p: Math.round(r.confianza * 100) })}`;
+    chip.textContent = `${nombreClase(r.clase)} — ${t('lente.seguridad', { p: Math.round(r.certeza * 100) })}`;
     decir(tx.dato);
     const esc = $('#lente-escuchar');
     esc.hidden = false; esc.onclick = () => escuchar({ texto: `${tx.nombre}. ${tx.dato}`, textoAudio: tx.dato, lang: E.lang, tipo: 'cromo', id: c.id });

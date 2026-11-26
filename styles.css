@@ -299,6 +299,8 @@ button { font: inherit; color: inherit; cursor: pointer; }
 .globo { flex: 1; position: relative; background: var(--niebla); color: #1d2b38; border-radius: 18px 18px 18px 4px; padding: 12px 14px; min-height: 78px; }
 .globo p { margin: 0; }
 .globo .acciones { margin-top: 10px; flex-wrap: nowrap; }
+/* Con «Foto con…» + otro botón + íconos no cabe en una fila: antes se salía de la pantalla */
+.globo .acciones:has(#lente-foto-pj) { flex-wrap: wrap; }
 .globo .btn-linea { color: #1d2b38; }
 .lente-nunca { color: #8fa29b; font-size: .82rem; margin: 12px 4px 0; }
 

@@ -187,6 +187,9 @@ def revisar_parque(raiz, est, inf):
             n = len(L['clases'])
             if len(base64.b64decode(L['vectores'])) != n * L['dim'] or len(base64.b64decode(L['escalas'])) != 4 * n:
                 inf.error('models/parque.json', 'lente: el tamaño de vectores/escalas no cuadra con dim × clases')
+            cab = L.get('cabeza')
+            if isinstance(cab, dict) and len(base64.b64decode(cab.get('centro', ''))) != 4 * L['dim']:
+                inf.error('models/parque.json', 'lente.cabeza: el centro no tiene dim números')
         except Exception as e:  # base64 inválido
             inf.error('models/parque.json', f'lente: base64 inválido ({e})')
 

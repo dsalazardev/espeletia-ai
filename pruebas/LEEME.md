@@ -21,6 +21,7 @@ Todas escriben `OK` o `FALLA` por paso y terminan con código 0 si todo pasa.
 | `guia_parque.py` | Modo guía (QR y códigos firmados) y Paquete del parque desde la galería | `/tmp/vid/`, `/tmp/galeria/fotos/<clase>/*.jpg` | ~80 s |
 | `guia_visitante.py` | QR del guía abierto por la dirección (iPhone con y sin instalar), selección inicial del guía | — | ~10 s |
 | `lente.py` | El modelo base de la Lente carga y responde; promedio de cuadros | ffmpeg | ~10 s |
+| `lente_duda.py` | Si la Lente duda, «Que lo confirme mi guía» + código del guía entrega el cromo (`FOTO=` para usar una foto real) | ffmpeg | ~15 s |
 | `instalar.py` | Paso de instalación, iPhone, navegadores internos, «Abrir sin instalar» | — | ~25 s |
 | `album_pdf.py` | PDF del álbum (completo e incompleto) y collage | pypdf | ~15 s |
 | `degradacion.py` | Qué hace la app cuando falla la IA, la cámara o el GPS | — | ~20 s |
