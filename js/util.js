@@ -25,6 +25,8 @@ export function aviso(msg, ms = 3000) {
   clearTimeout(toastTimer);
   toastTimer = setTimeout(() => t.classList.remove('ver'), ms);
 }
+// Quita el aviso visible (p. ej. «Tienes N sobres» cuando ya se están abriendo: tapaba «Quedan N sobres»)
+export function quitarAviso() { clearTimeout(toastTimer); $('#aviso')?.classList.remove('ver'); }
 
 let puedeVibrar = false;
 addEventListener('pointerdown', () => { puedeVibrar = true; }, { once: true, capture: true });

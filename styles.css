@@ -350,6 +350,8 @@ button { font: inherit; color: inherit; cursor: pointer; }
 .msg { max-width: 88%; margin: 0; border-radius: 16px; padding: 10px 14px; line-height: 1.4; }
 .msg p { margin: 0; }
 .msg.yo { align-self: flex-end; background: var(--verde); color: #fff; border-radius: 16px 16px 4px 16px; }
+/* En «Noche» el verde es claro (#84b896): el texto blanco daba 2,3:1; con tinta oscura pasa de 7:1 */
+[data-tema="noche"] .msg.yo { color: #16212c; }
 .msg.fray { align-self: flex-start; background: var(--papel-2); color: var(--tinta); border-radius: 16px 16px 16px 4px; box-shadow: 2px 2px 0 var(--papel-3); }
 .msg.ficha { border-left: 6px solid var(--amarillo); }
 .msg.ficha.urgente { border-left-color: var(--sello); box-shadow: 0 0 0 2px var(--sello); }
@@ -731,11 +733,15 @@ body[data-vista="equipo"] .rol-equipo { display: inline; }
 
 /* Ajustes tras revisar las capturas */
 .guia-guion .btn { white-space: normal; height: auto; min-height: 48px; line-height: 1.25; padding: 10px 14px; margin-top: 10px; }
-.detalle.parada, .detalle.aclim-fin { justify-items: stretch; background: var(--papel); color: var(--tinta); border-radius: 22px; padding: 22px 20px 18px; box-shadow: 0 18px 40px rgba(0, 0, 0, .35); max-height: 86dvh; overflow-y: auto; }
-.detalle.parada .acciones, .detalle.aclim-fin .acciones { display: flex; flex-wrap: wrap; gap: 8px; justify-content: flex-end; }
-.detalle.aclim-fin h2 { margin: 0; color: var(--verde); }
+.detalle.parada, .detalle.aclim-fin, .detalle.salir { justify-items: stretch; background: var(--papel); color: var(--tinta); border-radius: 22px; padding: 22px 20px 18px; box-shadow: 0 18px 40px rgba(0, 0, 0, .35); max-height: 86dvh; overflow-y: auto; }
+.detalle.parada .acciones, .detalle.aclim-fin .acciones, .detalle.salir .acciones { display: flex; flex-wrap: wrap; gap: 8px; justify-content: flex-end; }
+.detalle.aclim-fin h2, .detalle.salir h2 { margin: 0; color: var(--verde); }
+.detalle.salir { max-width: 22rem; }
+.detalle.salir p { margin: 0; }
 #v-lente { padding-bottom: calc(var(--muelle-alto) + env(safe-area-inset-bottom) + 24px); }
 .lente-guia .globo { min-width: 0; flex: 1; }
+/* El globo es claro aunque la vista sea oscura: las notas grises de la vista (#9fb1aa) daban 1,9:1 */
+.globo .sub, .globo .plan-b summary { color: #4a5a54; }
 .lente-planb, .lente-planb * { box-sizing: border-box; max-width: 100%; }
 .lente-planb .codigo { flex-wrap: wrap; }
 .lente-planb .codigo-fila { flex-wrap: wrap; }

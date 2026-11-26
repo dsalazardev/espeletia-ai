@@ -191,11 +191,15 @@ export async function ponerFoto(id, blob) {
   emitir('cambio', { id });
 }
 
+// Devuelve true solo la primera vez. La fecha se renueva en cada visita (como mucho cada 30 min, para no escribir con cada
+// posición del GPS): antes quedaba la de la primera visita y otro día «estar en el parque» (pausa, foto de grupo,
+// aclimatación, avisos de regreso) no se activaba al volver a la estación.
 export async function visitar(estId) {
-  if (E.visitadas[estId]) return false;
+  const antes = E.visitadas[estId];
+  if (antes && Date.now() - antes < 30 * 60e3) return false;
   E.visitadas[estId] = Date.now();
   await guardar();
-  return true;
+  return !antes;
 }
 
 export async function fijarEstacion(id, pos) {

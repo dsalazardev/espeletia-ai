@@ -159,16 +159,24 @@ async function encender() {
     await v.play().catch(() => {});
     $('#lente-apagada').hidden = true;
     clearTimeout(apagado);
-    apagado = setTimeout(() => { apagarStream(); $('#lente-apagada').hidden = false; aviso(t('lente.apagada')); }, maxMs());
+    apagado = setTimeout(() => { apagarStream(); cartelApagada('lente.apagada', 'lente.encender'); aviso(t('lente.apagada')); }, maxMs());
     arrancar();
     return true;
   } catch (e) {
     console.warn(e);
     decir(t(e?.name === 'NotAllowedError' ? 'lente.permisoNegado' : 'lente.sinCamara'));
-    $('#lente-apagada').hidden = false;
+    // Antes decía «se apagó para ahorrar batería», que no era lo que pasaba
+    cartelApagada(e?.name === 'NotAllowedError' ? 'lente.cartelSinPermiso' : 'lente.cartelSinCamara', 'lente.reintentar');
     planB();
     return false;
   }
+}
+
+// Cartel sobre el visor cuando no hay imagen: por ahorro de batería o porque la cámara no abrió
+function cartelApagada(texto, boton) {
+  $('#lente-apagada-txt').textContent = t(texto);
+  $('#lente-encender').textContent = t(boton);
+  $('#lente-apagada').hidden = false;
 }
 
 // Sin cámara (permiso negado o sin cámara): el guía confirma lo que el visitante ve, con su código de 4 dígitos.
