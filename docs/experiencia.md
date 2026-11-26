@@ -3,13 +3,25 @@
 Revisión del 24-nov-2026 contra la norma del parque ([investigacion/recorrido-pnn.md](investigacion/recorrido-pnn.md)) y las
 reglas del juego. Lo nuevo está en decisiones «propuesta»; se calibra con los expertos el jueves.
 
-## Lo que hay hoy (v3.8)
+## Lo que hay hoy (v4, 25-nov)
 | Capítulo | Cromos | Cómo se ganan |
 |---|---|---|
-| I. El sendero | 6 | GPS en 4 estaciones, pausa de contemplación (2 min) y foto de grupo |
+| I. El sendero | 6 | GPS en 4 estaciones sobre el carreteable real (Brisas, Aguacerales, Arenales y Valle de las Tumbas), pausa de contemplación (2 min) y foto de grupo |
 | II. Flora y paisaje | 8 | Lente (cámara) |
 | III. Fauna | 6 | QR impresos |
 | IV. Historias del guía | 4 | QR o código del Modo guía |
+
+Ya construido en v4, con su prueba en `pruebas/`:
+- compañeros 2D en la cámara;
+- paradas narradas con el QR del guía;
+- soporte para la pausa de aclimatación (faltan sus cromos, R1);
+- álbum final en PDF y collage;
+- avisos sin red;
+- voz;
+- capa de tono;
+- dictado;
+- accesibilidad;
+- botón «atrás».
 
 ## Lo que está bien planteado
 - Se gana con **atención**, no con velocidad (decisión reglas-del-juego).

@@ -7,6 +7,7 @@ import { t } from './i18n.js';
 import { distancia } from './util.js';
 import * as relieve from './relieve.js';
 import * as bit from './bitacora.js';
+import * as sendero from './sendero.js';
 
 const EXAGERAR = 1.5;             // exageración vertical: el relieve se lee mejor
 const KM = 111.32;                // km por grado (en esta latitud cos(lat) ≈ 0,996)
@@ -145,10 +146,11 @@ function capa(vp, W, H, dpr) {
   const ests = estaciones();
   const P = (lat, lon, sobre = 0.012) => { const p = mundo(lat, lon); p[1] += sobre; return proyectar(vp, p, W, H); };
   // Ruta entre estaciones, siguiendo el terreno (un punto cada ~40 m)
-  const ruta = [];
-  for (let i = 0; i < ests.length - 1; i++) {
-    const a = ests[i], b = ests[i + 1], n = Math.max(2, Math.round(distancia(a, b) / 40));
-    for (let k = 0; k <= n; k++) { const f = k / n; ruta.push(P(a.lat + (b.lat - a.lat) * f, a.lon + (b.lon - a.lon) * f)); }
+  // Con el sendero real (OpenStreetMap) se sigue el camino; si no, línea recta entre estaciones
+  const ruta = [], nodos = sendero.hay() ? sendero.puntos() : ests;
+  for (let i = 0; i < nodos.length - 1; i++) {
+    const a = nodos[i], b = nodos[i + 1], n = Math.max(1, Math.round(distancia(a, b) / 40));
+    for (let k = i ? 1 : 0; k <= n; k++) { const f = k / n; ruta.push(P(a.lat + (b.lat - a.lat) * f, a.lon + (b.lon - a.lon) * f)); }
   }
   const trazo = (pts, color, ancho, guion = []) => {
     c2.beginPath(); let abierto = false;

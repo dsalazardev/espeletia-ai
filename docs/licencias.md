@@ -1,6 +1,6 @@
 # Licencias de modelos, voces y librerías
 
-Verificado el 24-nov-2026 en fuentes primarias: model cards de Hugging Face del autor, archivos LICENSE de GitHub, registro
+Verificado el 24-nov-2026 en fuentes primarias (OpenStreetMap y las fotos de Commons, el 25-nov): model cards de Hugging Face del autor, archivos LICENSE de GitHub, registro
 npm, licencia oficial de Copernicus y documentación de Piper. Lo que no se pudo verificar dice «no verificado».
 Contexto: si ganamos, la app la pilotearía **UTON, un operador comercial**. Por eso solo vale lo que permite uso comercial.
 Decisión: [licencias-de-modelos](decisiones/2026-11-24-licencias-de-modelos.md).
@@ -15,7 +15,9 @@ Decisión: [licencias-de-modelos](decisiones/2026-11-24-licencias-de-modelos.md)
 | jsQR | Apache-2.0 | Sí | LICENSE (**falta en lib/**) | github.com/cozmo/jsQR |
 | qrcode-generator | MIT (© 2009 Kazuhiko Arase) | Sí | Aviso MIT; «QR Code» es marca registrada de DENSO WAVE | github.com/kazuhikoarase/qrcode-generator |
 | Bricolage Grotesque / Atkinson Hyperlegible | OFL-1.1 | Sí | Aviso + OFL.txt junto a las fuentes (**falta en fonts/**) | github.com/google/fonts |
-| Copernicus DEM GLO-30 | Licencia propia de Copernicus (uso comercial permitido, gratuito) | Sí | Texto de atribución exacto + frase de no responsabilidad (**hoy incompleto**) | dataspace.copernicus.eu (PDF de licencias COP-DEM) |
+| Copernicus DEM GLO-30 | Licencia propia de Copernicus (uso comercial permitido, gratuito) | Sí | Texto de atribución exacto + frase de no responsabilidad (completo en `licencias/README.md`; corto bajo el mapa) | dataspace.copernicus.eu (PDF de licencias COP-DEM) |
+| OpenStreetMap (sendero y estaciones, desde el 25-nov) | ODbL 1.0 | Sí | «© colaboradores de OpenStreetMap» visible junto al mapa y enlace a openstreetmap.org/copyright. Si se publica una base de datos derivada, va con ODbL | openstreetmap.org/copyright |
+| Fotos de Wikimedia Commons (modelo base provisional de la Lente, desde el 25-nov) | CC BY 2.0–4.0, CC BY-SA 2.0–4.0, CC0, dominio público | Sí | Autor y licencia de cada foto: [licencias/lente-provisional-commons.md](../licencias/lente-provisional-commons.md). La app guarda solo la huella (1280 números), no la foto | commons.wikimedia.org |
 
 ## 2. SLM generativo (para reformular la ficha recuperada; decisión slm-generativo-opcional)
 | Modelo | Licencia | ¿Comercial? | Tamaño listo para navegador | Español | Nota |
@@ -68,9 +70,9 @@ antes de prometer nada. iOS Safari tiene WebGPU solo desde iOS 26 (dato de fuent
 1. **Atribución de Copernicus.**
    - Hecho: el texto exacto (art. 6 b y c) está en `herramientas/relieve.py` (constantes `ATRIBUCION` y `DESCARGO`) y en
      [licencias/README.md](../licencias/README.md).
-   - **Pendiente:** aplicarlo a `models/relieve.json` con `python herramientas/relieve.py --solo-atribucion` (cambia solo esos
-     campos, no necesita los datos del DEM) y subir la versión del SW. El mapa muestra ese texto bajo el pliego; si es muy largo
-     para la pantalla, R2 puede mostrar «Copernicus WorldDEM-30 © DLR, Airbus — ver créditos» con enlace a la pantalla de créditos.
+   - Hecho (R2): bajo el mapa va la versión corta («Relieve: Copernicus WorldDEM-30 © DLR, Airbus · Camino: © colaboradores
+     de OpenStreetMap — ver créditos») con enlace a Créditos.
+   - Hecho: `models/relieve.json` ya trae `atribucion` y `descargo` completos, y Créditos los muestra.
 2. **MobileNetV2: resuelto, no hay que cambiar nada.** El ONNX de la app es el `mobilenetv2-12` del ONNX Model Zoo
    (Apache-2.0) cortado en el tensor `472`, justo antes del clasificador, y optimizado. Comprobación del 24-nov: los 103 tensores
    de pesos grandes son idénticos uno a uno y las salidas coinciden con diferencia 0,0 sobre entradas aleatorias. Los dos dicen
@@ -78,5 +80,5 @@ antes de prometer nada. iOS Safari tiene WebGPU solo desde iOS 26 (dato de fuent
 3. **Archivos de licencia.**
    - Hecho: carpeta [licencias/](../licencias/README.md) con los textos oficiales (Apache-2.0, MIT de ORT, e5-small y
      qrcode-generator, OFL de las dos fuentes) y el índice de componentes.
-   - **Pendiente (R2):** pantalla «Créditos y licencias» en Ajustes que enlace a `licencias/README.md`.
+   - Hecho (R2): pantalla «Créditos y licencias» en Ajustes, con OpenStreetMap y las fotos de Commons.
 4. Si se usan voces CC BY o un LLM: añadir sus créditos a esa pantalla y a `licencias/` (lista en §3 y §2).

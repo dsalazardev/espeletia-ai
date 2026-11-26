@@ -6,6 +6,7 @@ import { ilustracion } from './art.js';
 import { cromoEl, activarBrillo, num } from './cromo.js';
 import { cromoPNG, descargar } from './exportar.js';
 import { formCodigo } from './guia.js';
+import * as sendero from './sendero.js';
 
 let pagina = 0;            // índice del capítulo visible
 let nav = () => {};         // función para cambiar de vista (la pone app.js)
@@ -55,7 +56,7 @@ function pintarPista() {
   const libres = estaciones().filter((e) => { const c = E.paquete.cromos.find((k) => k.tipo === 'gps' && k.estacion === e.id); return c && !tiene(c.id); });
   if (libres.length) {
     if (E.posicion) {
-      const cerca = libres.map((e) => ({ e, d: distancia(E.posicion, e) })).sort((a, b) => a.d - b.d)[0];
+      const cerca = libres.map((e) => ({ e, d: sendero.distanciaA(E.posicion, e).m })).sort((a, b) => a.d - b.d)[0];
       if (cerca.d < 8000) { el.textContent = t('pista.estacion', { est: cerca.e.nombre, d: fmtDist(cerca.d, E.lang) }); irAlMapa(el); return; }
     }
   }

@@ -13,7 +13,7 @@ que la sostienen están en [decisiones/](decisiones/README.md).
   señal (~95 MB)   │  index.html + js/app.js ──────────────────────────────────────────────────────────┐    │
                    │   │                                                                            │    │
                    │   ├─ Experiencia: álbum · sobres · cromos · mapa 2D/3D · bitácora · Modo guía     │    │
-                   │   │              (futuro: compañeros 2D en cámara · paradas narradas · PDF)         │    │
+                   │   │              compañeros 2D en cámara · paradas narradas · PDF · avisos sin red  │    │
                    │   │                                                                            │    │
                    │   ├─ Fray (js/chat.js) ──► carril crítico determinista ◄── resultado de búsqueda   │    │
                    │   │        │                 (emergencia · comer · volcán: siempre prevalece)      │    │
@@ -32,12 +32,12 @@ que la sostienen están en [decisiones/](decisiones/README.md).
 ## Capas
 | Capa | Qué contiene | Dónde | Dueño |
 |---|---|---|---|
-| Paquete Páramo | Fichas oficiales con fuente (es/en), cromos, estaciones, clases de la Lente, calibración; a futuro paradas, frases del guía y audios | `chat.json`, `paquete.json`, `models/parque.json` | R1 (contenido), R3 (contratos) |
+| Paquete Páramo | Fichas oficiales con fuente (es/en), cromos, estaciones, **sendero real** (OpenStreetMap), paradas, horario, clases de la Lente y calibración; el modelo base de la Lente (provisional, Commons); a futuro frases del guía y audios | `chat.json`, `paquete.json`, `models/parque.json` | R1 (contenido), R3 (contratos) |
 | Plataforma offline | Precarga, verificación SHA-256, actualización por versión | `sw.js`, `models/partes.json`, `_headers`, `netlify.toml` | R3 |
 | Motor | ONNX Runtime en un worker; e5-small (recuperación) y MobileNetV2 + k-NN (Lente) | `js/motor*.js`, `js/ml.js`, `models/partes/` | R2 (código), R3 (modelos congelados) |
 | Carril crítico | Reglas deterministas de emergencia, comer y volcán | `js/chat.js` + copia en `herramientas/tema_chat.py` | R1 (bancos), R2 (código) |
-| Experiencia | Álbum, sobres, Lente, mapa, Modo guía, chat; a futuro compañeros 2D, paradas narradas y PDF | `js/*`, `index.html`, `styles.css` | R2 |
-| Presentación | Textos de interfaz es/en; a futuro tono, voz y escalera de degradación | `js/i18n.js` | R2 (+R1 traducciones) |
+| Experiencia | Álbum, sobres, Lente, mapa (plano, 3D y distancias por el sendero), Modo guía, chat, compañeros 2D, paradas narradas, PDF y collage, avisos sin red, botón «atrás» | `js/*`, `index.html`, `styles.css` | R2 |
+| Presentación | Textos de interfaz es/en, capa de tono, voz (local o grabación revisada), escalera de degradación y accesibilidad (texto, contraste, ahorro) | `js/i18n.js` | R2 (+R1 traducciones) |
 | Pro (opcional) | LLM nativo que reformula y verifica contra la ficha | spike P2, fuera de la PWA | R2/R3 |
 
 ## Flujo de una pregunta a Fray
@@ -51,8 +51,20 @@ que la sostienen están en [decisiones/](decisiones/README.md).
 - Si el modelo no carga (RAM), sigue en **solo léxico** con las mismas reglas.
 
 ## Flujo de un cromo
-GPS (geocerca de estación) · pausa de contemplación · foto de grupo · Lente (k-NN sobre `parque.json`) · QR de fauna ·
-código/QR del guía → `estado.js` guarda en IndexedDB → sobre → álbum → PNG del álbum (a futuro PDF + collage).
+GPS (geocerca de estación sobre el sendero real) · pausa de contemplación o de aclimatación · foto de grupo · Lente (k-NN
+sobre `parque.json`, promedio de 3 cuadros) · QR de fauna · código o QR del guía (historias, paradas narradas) →
+`estado.js` guarda en IndexedDB → sobre → álbum → PDF del álbum + collage (`js/exportar.js`).
+
+## El mapa
+- **Relieve:** `models/relieve.*` (Copernicus DEM GLO-30, celdas de ~60 m) en `js/relieve.js`. Lo usan el pliego, el 3D
+  (`js/mapa3d.js`) y la altura estimada sin GPS.
+- **Sendero:** `paquete.json → sendero`, de OpenStreetMap. `js/sendero.js` proyecta una posición sobre el camino y mide
+  distancias por él. Si el paquete no trae sendero, todo vuelve a la línea recta entre estaciones.
+- **Geocercas:** `js/mapa.js` entrega el cromo de una estación al entrar en su radio (80–100 m más el margen del GPS, hasta
+  30 m) con precisión de 120 m o mejor. `validar_contratos.py` exige que cada estación quede dentro de su radio respecto al
+  sendero.
+- **Bitácora:** `js/bitacora.js` registra solo dentro del parque (a menos de 3 km de una estación). Resumen, perfil y rastro
+  usan la jornada actual (desde la última pausa de más de 3 horas).
 
 ## Archivos generados (no editar a mano)
 | Archivo | Se genera con |
@@ -60,12 +72,14 @@ código/QR del guía → `estado.js` guarda en IndexedDB → sobre → álbum �
 | `models/chat_indice.json` | `python -X utf8 herramientas/indice_chat.py --fijos` (o sin `--fijos` para recalibrar) |
 | `models/partes/*`, `models/partes.json` | `python herramientas/partir.py …` |
 | `models/relieve.*` | `python herramientas/relieve.py …` |
+| `models/parque.json` (Lente) | Modo equipo → «Descargar parque.json», o `python3 herramientas/lente_base.py fotos/` |
 | `docs/decisiones/README.md`, `CHANGELOG.md` | `python herramientas/generar_indices.py` |
 
 ## Modelos y licencias (detalle y fuentes en [licencias.md](licencias.md))
 | Modelo | Uso | Tamaño | Licencia | Verificado 24-nov |
 |---|---|---|---|---|
 | multilingual-e5-small (podado a vocabulario latino, int8) | Fray | 66 MB | MIT | sí |
+| Lente base provisional (`models/parque.json`) | 120 huellas de fotos de Wikimedia Commons (CC BY, CC BY-SA, CC0, dominio público) | 207 KB | ver [licencias/lente-provisional-commons.md](../licencias/lente-provisional-commons.md) | sí (25-nov) |
 | MobileNetV2 (embeddings) | Lente | 8,8 MB | Apache-2.0 (ONNX Model Zoo `mobilenetv2-12`, sin clasificador; pesos idénticos) | sí |
 | ONNX Runtime Web 1.31 | motor | 14,8 MB (WASM) | MIT | sí |
 | Qwen2.5-0.5B-Instruct (propuesto, opcional) | reformular la ficha recuperada | ~480-510 MB | Apache-2.0 | sí (licencia); velocidad en teléfono sin medir |

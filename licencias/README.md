@@ -1,7 +1,7 @@
 # Componentes de terceros y sus licencias
 
 Textos completos en esta carpeta. Detalle, fuentes y lo descartado en [docs/licencias.md](../docs/licencias.md).
-La app debe mostrar estos créditos en Ajustes → «Créditos y licencias» (pendiente, R2).
+La app muestra estos créditos en Ajustes → «Créditos y licencias».
 
 | Componente | Dónde está | Licencia | Texto |
 |---|---|---|---|
@@ -14,6 +14,8 @@ La app debe mostrar estos créditos en Ajustes → «Créditos y licencias» (pe
 | Bricolage Grotesque © 2022 The Bricolage Grotesque Project Authors | `fonts/bricolage-*.woff2` | SIL OFL 1.1 | [OFL-bricolage-grotesque.txt](OFL-bricolage-grotesque.txt) |
 | Atkinson Hyperlegible © 2020 Braille Institute of America, Inc. | `fonts/atkinson-*.woff2` | SIL OFL 1.1 | [OFL-atkinson-hyperlegible.txt](OFL-atkinson-hyperlegible.txt) |
 | Copernicus DEM GLO-30 | `models/relieve.*` | Licencia Copernicus COP-DEM-GLO-30-F (uso comercial permitido) | Atribución obligatoria abajo |
+| OpenStreetMap: carreteable Brisas – Valle de las Tumbas y ubicación de las estaciones | `paquete.json → sendero` y `estaciones` | ODbL 1.0 (© colaboradores de OpenStreetMap) | Atribución bajo el mapa y en Créditos; openstreetmap.org/copyright |
+| 120 fotos de Wikimedia Commons (solo su huella, no la foto) | `models/parque.json → lente` | CC BY, CC BY-SA, CC0 y dominio público, según cada foto | [lente-provisional-commons.md](lente-provisional-commons.md) |
 
 ## Atribución obligatoria del relieve (licencia Copernicus, art. 6)
 > produced using Copernicus WorldDEM-30 © DLR e.V. 2010-2014 and © Airbus Defence and Space GmbH 2014-2018 provided under

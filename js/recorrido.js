@@ -5,6 +5,7 @@ import { E, estaciones, cromos, tiene } from './estado.js';
 import { t } from './i18n.js';
 import { distancia, fmtDist } from './util.js';
 import * as bit from './bitacora.js';
+import * as sendero from './sendero.js';
 
 const loc = (lang) => (lang === 'en' ? 'en-US' : 'es-CO');
 const alt = (m, lang) => `${Math.round(m).toLocaleString(loc(lang))} m`;
@@ -45,14 +46,16 @@ export function responder(tipo, lang = E.lang) {
   if (d > EN_PARQUE) return { texto: T('rec.fuera', { d: fmtDist(distancia(p, ests[0]), lang), est: ests[0].nombre }), mapa: ests[0].id };
   if (tipo === 'donde') {
     if (d <= e.radio + Math.min(p.precision || 0, 30)) return { texto: T('rec.enEstacion', { n: i + 1, est: coma(e) }), mapa: e.id };
-    return { texto: T('rec.cerca', { n: i + 1, est: coma(e), d: fmtDist(d, lang) }), mapa: e.id };
+    const dc = sendero.distanciaA(p, e);
+    return { texto: T(dc.porSendero ? 'rec.cercaSendero' : 'rec.cerca', { n: i + 1, est: coma(e), d: fmtDist(dc.m, lang) }), mapa: e.id };
   }
   if (tipo === 'falta') {
     const v = ests.filter(visitada).length;
     const sig = ests.find((x) => !visitada(x));
     if (!sig) return { texto: T('rec.todas', { t: ests.length }), mapa: ests[ests.length - 1].id };
     const k = ests.indexOf(sig);
-    return { texto: T('rec.falta', { n: k + 1, est: coma(sig), d: fmtDist(distancia(p, sig), lang), v, t: ests.length }) + (sig.finAutorizado ? ` ${T('rec.esElFin')}` : ''), mapa: sig.id };
+    const ds = sendero.distanciaA(p, sig);
+    return { texto: T(ds.porSendero ? 'rec.faltaSendero' : 'rec.falta', { n: k + 1, est: coma(sig), d: fmtDist(ds.m, lang), v, t: ests.length }) + (sig.finAutorizado ? ` ${T('rec.esElFin')}` : ''), mapa: sig.id };
   }
   return { texto: T('chat.nose') };
 }

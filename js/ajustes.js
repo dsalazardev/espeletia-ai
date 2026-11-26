@@ -148,6 +148,7 @@ export async function abrirCreditos() {
       <p class="sub">${esc(t('cred.intro'))}</p>
       <ul class="creditos">${COMPONENTES.map(([n, l, u]) => `<li><b>${esc(n)}</b><span>${esc(l)} · ${esc(t(`cred.uso.${u}`))}</span></li>`).join('')}
         ${rel ? `<li><b>Copernicus DEM GLO-30</b><span>${esc(rel.meta.atribucion)}</span><span class="sub">${esc(rel.meta.descargo || '')} ${esc(t('cred.modificado'))}</span></li>` : ''}
+        ${E.paquete.sendero?.fuente === 'osm' ? `<li><b>${esc(t('cred.osm'))}</b><span>${esc(t('cred.osmTxt'))}</span></li>` : ''}
         ${/Commons/.test(E.parque?.nota || '') ? `<li><b>${esc(t('cred.lente'))}</b><span>${esc(t('cred.lenteTxt'))}</span></li>` : ''}
         <li><b>${esc(t('cred.ilustraciones'))}</b><span>${esc(t('cred.ilustracionesTxt'))}</span></li>
         <li><b>${esc(t('cred.datos'))}</b><span>${esc(Object.values(E.paquete.fuentes || {}).map((f) => f.titulo).join(' · '))}</span></li>

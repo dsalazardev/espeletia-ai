@@ -6,6 +6,7 @@ import * as bit from './bitacora.js';
 import { formCodigo } from './guia.js';
 import * as relieve from './relieve.js';
 import * as m3d from './mapa3d.js';
+import * as sendero from './sendero.js';
 let modo = 'plano';
 let resaltaVolcan = 0;
 
@@ -171,14 +172,17 @@ function alBorde(x, y) {
 export function pintar() {
   const ests = estaciones();
   const v = E.paquete.volcan;
-  const pts = ests.map((e) => [e.lat, e.lon]);
+  const pts = ests.map((e) => [e.lat, e.lon]).concat(sendero.puntos().map((q) => [q.lat, q.lon]));
   const cerca = E.posicion && Math.min(...ests.map((e) => distancia(E.posicion, e))) < 1500;
   if (cerca) pts.push([E.posicion.lat, E.posicion.lon]);
   // Con relieve real, el volcán entra en el pliego (es lo que da el contexto). Sin relieve, solo se deja
   // sitio más allá del fin del recorrido para el tramo vedado y la flecha del volcán.
   const rel = relieve.listo();
   const fin = ests.find((e) => e.finAutorizado) || ests[ests.length - 1];
-  if (rel) pts.push([v.lat - 0.004, v.lon]);
+  // Con el sendero real el pliego se ajusta al camino (4 km de norte a sur): si además entrara el volcán, el recorrido
+  // quedaría diminuto en una esquina. El volcán aparece entonces como flecha en el borde, con su distancia.
+  if (sendero.hay()) pts.push([fin.lat + (v.lat - fin.lat) * 0.12, fin.lon + (v.lon - fin.lon) * 0.12]);
+  else if (rel) pts.push([v.lat - 0.004, v.lon]);
   else pts.push([fin.lat + (v.lat - fin.lat) * 0.35, fin.lon + (v.lon - fin.lon) * 0.35]);
   const la = pts.map((p) => p[0]), lo = pts.map((p) => p[1]);
   const [minLa, maxLa, minLo, maxLo] = [Math.min(...la), Math.max(...la), Math.min(...lo), Math.max(...lo)];
@@ -196,8 +200,11 @@ export function pintar() {
   } else s += `<g class="curvas" aria-hidden="true">${curvas(cx, cy, 1)}</g>`;
   s += `<g class="pliegues"><path d="M120 0 V${H} M240 0 V${H} M0 ${H / 2} H${W}"/></g>`;
   const camino = ests.map((e) => xy(e.lat, e.lon));
-  s += `<path class="ruta-sombra" d="M${camino.map((p) => p.join(' ')).join(' L')}"/>`;
-  s += `<path class="ruta" d="M${camino.map((p) => p.join(' ')).join(' L')}"/>`;
+  // El camino real si el paquete lo trae (carreteable de OpenStreetMap); si no, estaciones unidas en línea recta
+  const trazo = sendero.hay() ? sendero.puntos().map((q) => xy(q.lat, q.lon)) : camino;
+  const dTrazo = `M${trazo.map((p) => `${p[0].toFixed(1)} ${p[1].toFixed(1)}`).join(' L')}`;
+  s += `<path class="ruta-sombra" d="${dTrazo}"/>`;
+  s += `<path class="ruta" d="${dTrazo}"/>`;
 
   // Fin del recorrido autorizado: un tramo vedado hacia el volcán y una barrera
   const iFin = ests.findIndex((e) => e.finAutorizado);
@@ -207,7 +214,9 @@ export function pintar() {
     const bx = fx + Math.cos(ang) * L, by = fy + Math.sin(ang) * L;
     // Etiqueta en dos líneas, junto al tramo vedado y del lado donde quepa (unos 105 px de ancho)
     const mx = fx + Math.cos(ang) * L * 0.5, my = fy + Math.sin(ang) * L * 0.5;
-    const derechaCabe = mx + 14 + 105 < W - 6;
+    // Si el volcán queda fuera del pliego, su flecha va en el borde hacia ese lado: la etiqueta se pone del otro
+    const volcanFueraDerecha = !(vx > M && vx < W - M && vy > M && vy < H - M) && vx > fx;
+    const derechaCabe = mx + 14 + 105 < W - 6 && !volcanFueraDerecha;
     const tx = derechaCabe ? mx + 14 : mx - 14, anchor = derechaCabe ? 'start' : 'end';
     const [l1, l2] = t('mapa.finAutorizado2').split('|');
     s += `<g class="vedado"><path class="vedado-linea" d="M${fx} ${fy} L${bx} ${by}"/>
@@ -288,10 +297,13 @@ function pintarGpsAyuda() {
 function pintarLista(ests) {
   const ol = $('#estaciones');
   ol.innerHTML = '';
+  let porCamino = false;
   ests.forEach((e, i) => {
     const c = cromos().find((k) => k.tipo === 'gps' && k.estacion === e.id);
     const hecha = E.visitadas[e.id] || (c && tiene(c.id));
-    const d = E.posicion ? fmtDist(distancia(E.posicion, e), E.lang) : '—';
+    const dd = E.posicion ? sendero.distanciaA(E.posicion, e) : null;
+    if (dd?.porSendero) porCamino = true;
+    const d = dd ? fmtDist(dd.m, E.lang) : '—';
     const li = h(`<li class="${hecha ? 'hecha' : ''}"><button type="button" class="est-btn" data-est="${e.id}">
         <span class="est-num">${i + 1}</span>
         <span class="est-txt"><b>${esc(e.nombre)}</b>${e.porConfirmar ? `<small>${esc(t('mapa.porConfirmar'))}</small>` : ''}<small>${e.altura ? fmtAlt(e.altura) : ''}${e.finAutorizado ? ` · ${esc(t('mapa.finCorto'))}` : ''}</small></span>
@@ -300,7 +312,7 @@ function pintarLista(ests) {
     ol.appendChild(li);
   });
   const nota = $('#estaciones-nota');
-  nota.textContent = E.posicion ? t('mapa.lineaRecta') : '';
+  nota.textContent = E.posicion ? t(porCamino ? 'mapa.porSendero' : 'mapa.lineaRecta') : '';
 }
 
 // ---------- Bitácora ----------

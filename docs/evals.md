@@ -43,7 +43,10 @@ Coincide con el LEEME salvo «no sé» del banco 1: aquí 14/17 y allá 13/17. A
 abstención de la app (`tema_chat.responder`); el LEEME usó la evaluación de calibración de `indice_chat.py`.
 
 ## Lo que no mide esta página
-- **Paridad JS ↔ Python** (`herramientas/paridad_chat.py`, necesita Playwright y un servidor local): no corrida en esta máquina.
+- **Paridad JS ↔ Python** (`herramientas/paridad_chat.py`, necesita Playwright y un servidor local). Corrida el 25-nov-2026
+  (rama r2/instalar, sw v27): la diferencia máxima de embeddings es 0,002 y el navegador da lo mismo que Python en tema 52/52,
+  tema2 25/25, tema3 20/20 y mapa 24/24. Los bancos 1 y 2 coinciden con la tabla. Los cambios de R2 al chat (modo menú,
+  tono, empatía, sendero) no movieron ningún número.
 - **Pruebas de punta a punta** (`pruebas/*.py`): necesitan Playwright, Chrome y videos de cámara simulada.
 - **Teléfonos reales:** tabla pendiente (spec pruebas-en-telefonos).
 
