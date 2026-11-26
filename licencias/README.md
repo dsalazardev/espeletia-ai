@@ -16,6 +16,7 @@ La app muestra estos créditos en Ajustes → «Créditos y licencias».
 | Copernicus DEM GLO-30 | `models/relieve.*` | Licencia Copernicus COP-DEM-GLO-30-F (uso comercial permitido) | Atribución obligatoria abajo |
 | OpenStreetMap: carreteable Brisas – Valle de las Tumbas y ubicación de las estaciones | `paquete.json → sendero` y `estaciones` | ODbL 1.0 (© colaboradores de OpenStreetMap) | Atribución bajo el mapa y en Créditos; openstreetmap.org/copyright |
 | 120 fotos de Wikimedia Commons (solo su huella, no la foto) | `models/parque.json → lente` | CC BY, CC BY-SA, CC0 y dominio público, según cada foto | [lente-provisional-commons.md](lente-provisional-commons.md) |
+| 583 fotos de iNaturalist y Wikimedia Commons (solo su huella), desde el 26-nov | `models/parque.json → lente` | CC BY, CC BY-SA, CC0, dominio público y **CC BY-NC** (uso no comercial), según cada foto | [lente-ampliacion-2026-11.md](lente-ampliacion-2026-11.md) |
 
 ## Atribución obligatoria del relieve (licencia Copernicus, art. 6)
 > produced using Copernicus WorldDEM-30 © DLR e.V. 2010-2014 and © Airbus Defence and Space GmbH 2014-2018 provided under

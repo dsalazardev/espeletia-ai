@@ -10,11 +10,15 @@ carros, piso, cielo, letreros: lo que NO es ninguna clase.
 
 Uso, desde la raíz de la app:
     pip install onnxruntime pillow numpy
-    python3 herramientas/lente_base.py ruta/a/fotos
+    python3 herramientas/lente_base.py ruta/a/fotos            # reemplaza la base
+    python3 herramientas/lente_base.py ruta/a/fotos --sumar    # conserva las huellas que ya hay y suma estas
 
-Además de escribir models/parque.json, mide qué tan bien distingue las clases dejando fuera cada
-foto (validación «deja uno fuera») e imprime la matriz de confusión. Las estaciones que ya estén en
-models/parque.json se conservan.
+Además de escribir models/parque.json, calibra la «cabeza» de la Lente (lente.cabeza):
+  - centro: la huella promedio de la base. La app se la resta a cada huella antes de comparar (SimpleShot):
+    las huellas de MobileNetV2 no tienen negativos y, sin centrar, todas se parecen (0,56 contra 0,50).
+  - umbral: el menor valor de certeza con el que, dejando fuera cada foto, la Lente acierta al menos el 90 %
+    de las veces que responde. La app lo usa en vez de camara.umbral de paquete.json.
+Imprime la matriz de confusión y cuánto responde con ese umbral. Las estaciones de models/parque.json se conservan.
 """
 import base64, hashlib, json, os, sys, datetime
 import numpy as np
@@ -54,12 +58,69 @@ def codificar(vs, clases):
             'vectores': base64.b64encode(q.tobytes()).decode(), 'escalas': base64.b64encode(esc.astype(np.float32).tobytes()).decode()}
 
 
-def main(carpeta):
+def decodificar(L):
+    q = np.frombuffer(base64.b64decode(L['vectores']), dtype=np.int8).reshape(-1, L['dim']).astype(np.float32)
+    es = np.frombuffer(base64.b64decode(L['escalas']), dtype=np.float32)
+    v = q * es[:, None]
+    return list(v / np.linalg.norm(v, axis=1, keepdims=True)), list(L['clases'])
+
+
+K, TEMP, OBJETIVO = 7, 10, 0.90
+
+
+def votar(M, cl, i):
+    """k-NN de la app (js/ml.js → classify) sobre huellas ya centradas: clase ganadora y parte de los votos."""
+    top = np.argsort(-M[i])[:K]
+    votos = {}
+    for j in top:
+        votos[cl[j]] = votos.get(cl[j], 0) + np.exp(TEMP * M[i, j])
+    c = max(votos, key=votos.get)
+    return c, votos[c] / sum(votos.values())
+
+
+def calibrar(V, cl):
+    """Centro y umbral de la cabeza, con validación «deja uno fuera» (lo mismo que hace la app en el teléfono)."""
+    V = np.stack(V); cl = np.array(cl)
+    centro = V.mean(0)
+    Vc = V - centro; Vc /= np.linalg.norm(Vc, axis=1, keepdims=True)
+    M = Vc @ Vc.T; np.fill_diagonal(M, -9)
+    pr = [votar(M, cl, i) for i in range(len(cl))]
+    p = np.array([a for a, _ in pr]); s = np.array([b for _, b in pr])
+    umbral, medido = 0.99, None
+    for t in np.arange(0.30, 1.0, 0.01):
+        resp = (p != 'otro') & (s >= t)
+        if resp.sum() >= 5 and (p[resp] == cl[resp]).mean() >= OBJETIVO:
+            pos = cl != 'otro'
+            umbral = round(float(t), 2)
+            medido = {'acierta_al_responder': round(float((p[resp] == cl[resp]).mean()), 3),
+                      'responde': round(float((resp & pos).sum() / pos.sum()), 3),
+                      'otro_da_cromo': round(float((resp & (cl == 'otro')).sum() / max(1, (cl == 'otro').sum())), 3),
+                      'acierto': round(float((p == cl).mean()), 3), 'fotos': int(len(cl))}
+            break
+    # Curva de certeza: qué tanto acierta de verdad según la parte de los votos (para mostrar «Certeza N %» honesta)
+    curva = []
+    for lo, hi in [(0.30, 0.45), (0.45, umbral), (umbral, 0.70), (0.70, 0.85), (0.85, 0.99), (0.99, 1.01)]:
+        m = (s >= lo) & (s < hi) & (p != 'otro')
+        if m.sum() >= 5:
+            curva.append([round(float(s[m].mean()), 3), round(float((p[m] == cl[m]).mean()), 3)])
+    for i in range(1, len(curva)):  # que nunca baje al subir los votos
+        curva[i][1] = max(curva[i][1], curva[i - 1][1])
+    if medido:
+        medido['curva'] = curva
+    return centro.astype(np.float32), umbral, medido, p, cl
+
+
+def main(carpeta, sumar=False):
     paq = json.load(open(os.path.join(RAIZ, 'paquete.json')))
     validas = [k['id'] for k in paq['clases']]
     ses = modelo()
     nombre_in = ses.get_inputs()[0].name
     vs, cl = [], []
+    ruta = os.path.join(RAIZ, 'models', 'parque.json')
+    previo = json.load(open(ruta)) if os.path.exists(ruta) else {}
+    if sumar and previo.get('lente'):
+        vs, cl = decodificar(previo['lente'])
+        print(f'Se conservan {len(cl)} huellas de models/parque.json')
     for c in sorted(os.listdir(carpeta)):
         d = os.path.join(carpeta, c)
         if not os.path.isdir(d):
@@ -79,31 +140,37 @@ def main(carpeta):
     if not vs:
         sys.exit('No encontré fotos. Revisa la estructura de carpetas (ver la ayuda arriba).')
 
-    # Validación «deja uno fuera» con el mismo k-NN de la app (k=7, votos exp(10·similitud))
-    V = np.stack(vs); S = V @ V.T; np.fill_diagonal(S, -9)
+    # Validación «deja uno fuera» con la misma cabeza de la app (huellas centradas, k=7, votos exp(10·similitud))
+    centro, umbral, medido, p, cla = calibrar(vs, cl)
     nombres = sorted(set(cl)); idx = {c: i for i, c in enumerate(nombres)}
     conf = np.zeros((len(nombres), len(nombres)), int)
-    for i in range(len(cl)):
-        top = np.argsort(-S[i])[:7]
-        votos = {}
-        for j in top: votos[cl[j]] = votos.get(cl[j], 0) + np.exp(10 * S[i, j])
-        conf[idx[cl[i]], idx[max(votos, key=votos.get)]] += 1
+    for real, dijo in zip(cla, p):
+        conf[idx[real], idx[dijo]] += 1
     print('\nValidación deja-uno-fuera (filas: real, columnas: lo que dijo la Lente)')
     print(' ' * 12 + ''.join(f'{n[:6]:>7s}' for n in nombres))
     for n in nombres:
         print(f'{n:12s}' + ''.join(f'{x:7d}' for x in conf[idx[n]]) + f'   acierto {conf[idx[n], idx[n]] / max(1, conf[idx[n]].sum()):.0%}')
     print(f'Total: {np.trace(conf) / conf.sum():.0%}')
+    if medido:
+        print(f'Umbral calibrado {umbral}: responde en {medido["responde"]:.0%} de las fotos y acierta {medido["acierta_al_responder"]:.0%} '
+              f'de las veces que responde; «otra cosa» da cromo en {medido["otro_da_cromo"]:.0%}.')
+    else:
+        print('Aviso: con estas fotos ningún umbral llega al 90 % de acierto; se deja 0,99 (casi nunca responde). Faltan fotos.')
 
-    ruta = os.path.join(RAIZ, 'models', 'parque.json')
-    previo = json.load(open(ruta)) if os.path.exists(ruta) else {}
+    lente = codificar(vs, cl)
+    lente['cabeza'] = {'tipo': 'knn-centrado', 'k': K, 'temperatura': TEMP, 'umbral': umbral, 'objetivo': OBJETIVO,
+                       'centro': base64.b64encode(centro.tobytes()).decode(), 'curva': (medido or {}).pop('curva', []), 'medido': medido}
     salida = {'tipo': 'paramo-parque', 'version': 1, 'fecha': datetime.date.today().isoformat(),
-              'lente': codificar(vs, cl), 'estaciones': previo.get('estaciones', {})}
+              'lente': lente, 'estaciones': previo.get('estaciones', {})}
+    if previo.get('nota') and sumar:
+        salida['nota'] = previo['nota']
     json.dump(salida, open(ruta, 'w'), ensure_ascii=False)
     print(f'\nEscrito models/parque.json ({os.path.getsize(ruta) / 1e3:.0f} KB). Publica el sitio para que llegue a todos los teléfonos.')
 
 
 if __name__ == '__main__':
-    if len(sys.argv) < 2:
+    args = [a for a in sys.argv[1:] if not a.startswith('--')]
+    if not args:
         print(__doc__)
     else:
-        main(sys.argv[1])
+        main(args[0], sumar='--sumar' in sys.argv)

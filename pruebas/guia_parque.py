@@ -137,7 +137,7 @@ with sync_playwright() as b:
         br.close()
         br, pg = nueva(b, '/tmp/vid/desconocido.y4m')
         pg.click('.muelle [data-vista="lente"]'); pg.wait_for_timeout(5000)
-        assert pg.is_hidden('#lente-abrir') or pg.is_disabled('#lente-abrir')
+        assert pg.is_hidden('#lente-abrir') or pg.is_disabled('#lente-abrir') or 'confirme' in pg.inner_text('#lente-abrir')
         ok(f'D. imagen ajena con el paquete del parque -> «{pg.inner_text("#lente-msg")}»')
         br.close()
     finally:

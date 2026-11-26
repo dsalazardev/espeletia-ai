@@ -79,7 +79,7 @@ sobre `parque.json`, promedio de 3 cuadros) · QR de fauna · código o QR del g
 | Modelo | Uso | Tamaño | Licencia | Verificado 24-nov |
 |---|---|---|---|---|
 | multilingual-e5-small (podado a vocabulario latino, int8) | Fray | 66 MB | MIT | sí |
-| Lente base provisional (`models/parque.json`) | 120 huellas de fotos de Wikimedia Commons (CC BY, CC BY-SA, CC0, dominio público) | 207 KB | ver [licencias/lente-provisional-commons.md](../licencias/lente-provisional-commons.md) | sí (25-nov) |
+| Lente base provisional (`models/parque.json`) | 703 huellas de fotos de Wikimedia Commons e iNaturalist (CC BY, CC BY-SA, CC BY-NC, CC0, dominio público) y la cabeza calibrada | 1,2 MB | ver [licencias/lente-provisional-commons.md](../licencias/lente-provisional-commons.md) y [lente-ampliacion-2026-11.md](../licencias/lente-ampliacion-2026-11.md) | sí (26-nov) |
 | MobileNetV2 (embeddings) | Lente | 8,8 MB | Apache-2.0 (ONNX Model Zoo `mobilenetv2-12`, sin clasificador; pesos idénticos) | sí |
 | ONNX Runtime Web 1.31 | motor | 14,8 MB (WASM) | MIT | sí |
 | Qwen2.5-0.5B-Instruct (propuesto, opcional) | reformular la ficha recuperada | ~480-510 MB | Apache-2.0 | sí (licencia); velocidad en teléfono sin medir |

@@ -358,7 +358,9 @@ export function abrirEstacion(id) {
   const hecha = E.visitadas[e.id] || (c && tiene(c.id));
   const capa = $('#capa-estacion');
   const tx = c ? texto(c) : null;
-  const d = E.posicion ? fmtDist(distancia(E.posicion, e), E.lang) : null;
+  // Igual que la lista: por el sendero si el visitante está en él; si no, en línea recta
+  const dd = E.posicion ? sendero.distanciaA(E.posicion, e) : null;
+  const d = dd ? fmtDist(dd.m, E.lang) : null;
   const hora = E.visitadas[e.id] ? new Date(E.visitadas[e.id]).toLocaleTimeString(E.lang === 'es' ? 'es-CO' : 'en-US', { hour: 'numeric', minute: '2-digit' }) : null;
   capa.innerHTML = '';
   const hoja = h(`<div class="hoja hoja-estacion">
@@ -366,7 +368,7 @@ export function abrirEstacion(id) {
       <p class="est-hoja-num">${esc(t('mapa.estacionN', { n: i + 1 }))}${e.altura ? ` · ${fmtAlt(e.altura)}` : ''}</p>
       <h2 id="est-titulo">${esc(e.nombre)}</h2>
       ${e.porConfirmar ? `<p class="sub">${esc(t('mapa.porConfirmar'))}</p>` : ''}
-      <p class="est-hoja-estado">${hecha ? esc(hora ? t('mapa.visitadaA', { h: hora }) : t('mapa.visitada')) : esc(d ? t('mapa.aDist', { d }) : t('mapa.sinPosicion'))}</p>
+      <p class="est-hoja-estado">${hecha ? esc(hora ? t('mapa.visitadaA', { h: hora }) : t('mapa.visitada')) : esc(d ? t(dd.porSendero ? 'mapa.aDistSendero' : 'mapa.aDist', { d }) : t('mapa.sinPosicion'))}</p>
       ${tx ? `<div class="est-hoja-cromo"><p class="est-hoja-et">${esc(hecha ? t('mapa.tuCromo') : t('mapa.cromoAqui'))}</p><p><b>${esc(tx.nombre)}</b>${hecha ? `<br>${esc(tx.dato)}` : ''}</p></div>` : ''}
       ${e.finAutorizado ? `<p class="est-hoja-aviso">${esc(t('mapa.finAviso'))}</p>` : ''}
       <div class="est-hoja-acc"></div>

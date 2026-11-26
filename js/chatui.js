@@ -132,11 +132,11 @@ async function queEsEsto(archivo) {
   } catch (e) { console.error(e); motivo = 'lente.sinModelo'; }
   pensando.remove();
   const cfg = E.paquete.camara;
-  if (r && r.clase !== 'otro' && r.confianza >= cfg.umbral) {
+  if (r && r.clase !== 'otro' && r.confianza >= (ml.umbral() ?? cfg.umbral)) {
     const c = cromos().find((k) => k.tipo === 'camara' && k.clase === r.clase);
     const nuevo = c && temaDeCromo(c.id);
     if (nuevo) {
-      await abrirConTema(nuevo, { intro: t('chat.fotoEs', { cosa: nombreClase(r.clase).toLowerCase(), p: Math.round(r.confianza * 100) }) });
+      await abrirConTema(nuevo, { intro: t('chat.fotoEs', { cosa: nombreClase(r.clase).toLowerCase(), p: Math.round(r.certeza * 100) }) });
       window.__ultimoChat = { foto: true, clase: r.clase, tema: nuevo.id };
       return;
     }
