@@ -320,7 +320,8 @@ async function paginaRecorrido(n) {
   if (d) {
     const { lon0, lat1, paso, w, h } = d.meta;
     // Recorte: estaciones y rastro con margen, dentro del relieve
-    const lats = [...ests.map((e) => e.lat), ...pts.map((q) => q.lat)], lons = [...ests.map((e) => e.lon), ...pts.map((q) => q.lon)];
+    const sen = (await import('./sendero.js')).puntos();
+    const lats = [...ests.map((e) => e.lat), ...pts.map((q) => q.lat), ...sen.map((q) => q.lat)], lons = [...ests.map((e) => e.lon), ...pts.map((q) => q.lon), ...sen.map((q) => q.lon)];
     let [la0, la1, lo0, lo1] = [Math.min(...lats), Math.max(...lats), Math.min(...lons), Math.max(...lons)];
     const m = 0.012; la0 -= m; la1 += m; lo0 -= m; lo1 += m;
     // Igualar la proporción de la caja (en metros: 1° de longitud mide cos(lat) de uno de latitud)
@@ -335,6 +336,12 @@ async function paginaRecorrido(n) {
     ctx.fillStyle = C.papel2; ctx.fillRect(caja.x, caja.y, caja.w, caja.h);
     ctx.drawImage(img, sx, sy, sw, sh, caja.x, caja.y, caja.w, caja.h);
     const X = (lon) => caja.x + (lon - lo0) / (lo1 - lo0) * caja.w, Y = (lat) => caja.y + (la1 - lat) / (la1 - la0) * caja.h;
+    // El sendero real, fino y punteado, debajo de lo que caminaste
+    if (sen.length > 1) {
+      ctx.save(); ctx.lineJoin = 'round'; ctx.lineCap = 'round'; ctx.setLineDash([2, 12]);
+      ctx.strokeStyle = C.noche; ctx.lineWidth = 6; ctx.beginPath();
+      sen.forEach((q, i) => (i ? ctx.lineTo(X(q.lon), Y(q.lat)) : ctx.moveTo(X(q.lon), Y(q.lat)))); ctx.stroke(); ctx.restore();
+    }
     if (pts.length > 1) {
       ctx.lineJoin = 'round'; ctx.lineCap = 'round';
       for (const [col, ancho] of [[C.noche, 14], [C.amarillo, 8]]) {

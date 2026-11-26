@@ -319,6 +319,61 @@ async function iniciar() {
   // (o se activa solo si el visitante ya lo había dado).
   try { const pr = await navigator.permissions?.query({ name: 'geolocation' }); if (pr?.state === 'granted') mapa.iniciarGPS(); } catch (e) { /* sin API */ }
   if (est.pendientes().length) setTimeout(() => aviso(t('album.sobres', { n: est.pendientes().length })), 600);
+  iniciarAtras();
+}
+
+// ---------- Botón «atrás» del teléfono ----------
+// Antes, en Android, «atrás» cerraba la app de una. Ahora, en orden:
+// 1) cierra lo que esté abierto encima (detalle, hoja de ajustes o de estación, PIN, pausa),
+// 2) desde otra pestaña (Mapa, Lente, Preguntar, Modo guía o equipo) vuelve al Álbum,
+// 3) en el Álbum pregunta «¿Salir del álbum?». Si se vuelve a tocar «atrás» con la pregunta abierta, sale.
+// Se logra con una entrada extra en el historial («trampa») que se repone cada vez que no se sale.
+const CERRAR = '.cerrar-x, [data-x], #aj-cerrar, #final-cerrar, #pausa-salir';
+let preguntandoSalir = false;
+function iniciarAtras() {
+  if (history.state?.paramo === 'trampa') return;
+  history.replaceState({ paramo: 'base' }, '');
+  history.pushState({ paramo: 'trampa' }, '');
+  addEventListener('popstate', (e) => {
+    if (e.state?.paramo !== 'base') return; // movimientos de la dirección del QR del guía (#PARAMO-G…)
+    const reponer = () => history.pushState({ paramo: 'trampa' }, '');
+    if (preguntandoSalir) { preguntandoSalir = false; history.back(); return; } // segundo «atrás»: salir
+    // 1) Lo de encima. El sobre y la portada no se cierran con «atrás» (son pasos que el visitante termina).
+    const capas = $$('.capa:not([hidden])').filter((c) => !['capa-sobre', 'capa-portada'].includes(c.id));
+    if (capas.length) {
+      const capa = capas[capas.length - 1];
+      const b = capa.querySelector(CERRAR);
+      if (b) b.click(); else { capa.hidden = true; capa.innerHTML = ''; }
+      reponer(); return;
+    }
+    if (!$('#capa-sobre').hidden || !$('#capa-portada').hidden) { reponer(); return; }
+    // 2) Otra pestaña → Álbum
+    if (vista && vista !== 'album') { irA('album'); reponer(); return; }
+    // 3) Preguntar antes de salir
+    preguntarSalir(reponer);
+  });
+}
+
+function preguntarSalir(reponer) {
+  const capa = $('#capa-detalle');
+  capa.innerHTML = '';
+  const caja = h(`<div class="detalle salir" role="alertdialog" aria-labelledby="salir-titulo" aria-describedby="salir-texto">
+      <h2 id="salir-titulo">${esc(t('salir.titulo'))}</h2>
+      <p id="salir-texto">${esc(t('salir.texto'))}</p>
+      <div class="acciones"><button class="btn btn-flor" data-quedarme>${esc(t('salir.quedarme'))}</button><button class="btn btn-linea" data-salir>${esc(t('salir.salir'))}</button></div>
+    </div>`);
+  capa.appendChild(caja);
+  capa.hidden = false;
+  preguntandoSalir = true;
+  const cerrar = () => { capa.hidden = true; capa.innerHTML = ''; };
+  $('[data-quedarme]', caja).onclick = () => { preguntandoSalir = false; cerrar(); reponer(); };
+  $('[data-salir]', caja).onclick = () => {
+    preguntandoSalir = false; cerrar(); history.back();
+    // En una pestaña del navegador sin página anterior, «atrás» no sale: se repone la trampa para la próxima vez
+    setTimeout(() => { if (history.state?.paramo === 'base') reponer(); }, 600);
+  };
+  capa.onclick = (e) => { if (e.target === capa) $('[data-quedarme]', caja).click(); };
+  $('[data-quedarme]', caja).focus();
 }
 
 iniciar();

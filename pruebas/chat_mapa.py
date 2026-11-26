@@ -43,9 +43,9 @@ with sync_playwright() as p:
     }''')
     pg.wait_for_timeout(600)
     datos = pg.evaluate('''async () => {
-      const bit = await import('./js/bitacora.js'); const u = await import('./js/util.js');
+      const bit = await import('./js/bitacora.js'); const u = await import('./js/util.js'); const sen = await import('./js/sendero.js');
       const { E, est } = window.__paramo; const e2 = est.estaciones()[1];
-      return { r: bit.resumen(), a: bit.alturaActual(), d2: u.fmtDist(u.distancia(E.posicion, e2), 'es'), dist: u.fmtDist(bit.resumen().distancia, 'es'), vis: Object.keys(E.visitadas) };
+      return { r: bit.resumen(), a: bit.alturaActual(), d2: u.fmtDist(sen.distanciaA(E.posicion, e2).m, 'es')  /* por el sendero si estás sobre él */, dist: u.fmtDist(bit.resumen().distancia, 'es'), vis: Object.keys(E.visitadas) };
     }''')
     print('   bitácora:', datos)
     ok('e1' in datos['vis'], 'llegó a Brisas (visitada)')

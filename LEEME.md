@@ -1,4 +1,9 @@
-# Álbum del Páramo: prueba de concepto v3.8 (opción B + chat sin internet + Modo guía + Lente unida al chat + bitácora + relieve real y 3D + chat unido al mapa)
+# Álbum del Páramo: prueba de concepto v4
+
+v4 suma, sobre la v3.8 (chat sin internet, Modo guía, Lente unida al chat, bitácora, relieve real y 3D, chat unido al mapa):
+el recorrido real en el mapa, una Lente que reconoce desde el primer uso, el álbum final en PDF, compañeros 2D en la cámara,
+paradas narradas, avisos sin red, voz, capa de tono, dictado y accesibilidad. El detalle de cada cambio está en
+[CHANGELOG.md](CHANGELOG.md).
 
 App web instalable (PWA) para visitantes del PNN Los Nevados. Funciona **en modo avión** después de abrirla una vez con internet. Corre en Android (Chrome) y en iPhone (Safari) sin pasar por tiendas de apps. Está en español e inglés.
 
@@ -6,7 +11,7 @@ App web instalable (PWA) para visitantes del PNN Los Nevados. Funciona **en modo
 
 Es un álbum de cromos impreso de verdad, en risografía a dos tintas: verde frailejón y amarillo flor de frailejón.
 
-1. **Portada.** El visitante escribe su nombre en la etiqueta («Este álbum es de…») y elige idioma. La portada indica si la app ya está lista para usarse sin señal. Al tocar «Abrir el álbum», la tapa se abre como un libro.
+1. **Portada e instalación.** El visitante escribe su nombre en la etiqueta («Este álbum es de…») y elige idioma. La portada indica si la app ya está lista para usarse sin señal. Al tocar «Abrir el álbum», la tapa se abre como un libro y la app explica cómo instalarla según el teléfono: iPhone, Android o navegador dentro de Instagram o WhatsApp. «Abrir sin instalar» siempre está disponible; la app igual se guarda para usar sin señal en ese navegador.
 2. **Álbum.** Tiene 4 páginas, una por capítulo, con pestañas de índice al borde. Se pasan con un deslizamiento y la hoja gira sobre el lomo. Cada espacio vacío muestra la figura impresa del cromo, su número y cómo se consigue.
 
    | Capítulo | Cromos | Cómo se ganan |
@@ -23,13 +28,25 @@ Es un álbum de cromos impreso de verdad, en risografía a dos tintas: verde fra
    - 5 cromos son **brillantes**, con lámina holográfica que reacciona al dedo o a la inclinación del celular.
 4. **Caminando no se interrumpe.** Al llegar a una estación, el celular solo vibra y guarda el sobre. Los sobres esperan en el álbum hasta que el grupo se detenga.
 5. **Detalle.** Al tocar un cromo pegado se ve en grande. Al tocarlo otra vez se voltea, y el dorso trae el dato oficial con su fuente, la estación, la fecha y el dueño. Desde ahí se puede guardar la imagen, pasarla al grupo, escucharla o cambiar la ilustración por una foto propia.
-6. **Lente.** La mira se cierra sobre lo que reconoce, y Fray, el Cóndor o Magma cuentan el dato. Si la Lente duda, dice «No estoy seguro, pregúntale a tu guía». Tiene modo QR y modo foto, con cambio a cámara frontal para la selfie de grupo.
-7. **Mapa.** Un pliego con el **relieve real** del sector (tinte por altura, sombreado y curvas de nivel cada 100 m, del modelo de elevación Copernicus), las estaciones, el punto «estás aquí» con su margen de error, tu rastro, el volcán, el **fin del recorrido autorizado**, escala y norte. Con el botón **3D**, el mismo terreno en relieve con la ruta, las estaciones y el volcán: se gira con un dedo, se acerca con dos y al tocar una estación se abre su hoja. Todo funciona sin internet. Cada estación se toca para ver su cromo, preguntarle a Fray o usar el código del guía. Debajo, **Tu recorrido**: altura actual, máxima, cuánto subiste, distancia, tiempo y perfil de altura.
+6. **Lente.** La mira se cierra sobre lo que reconoce, y Fray, el Cóndor o Magma aparecen sobre la cámara y cuentan el dato. Al tocarlos ofrecen una foto con el personaje, que va al collage. Si la Lente duda, dice «No estoy seguro, pregúntale a tu guía». Tiene modo QR y foto, con cambio a cámara frontal para la selfie de grupo. Sin permiso de cámara, ofrece el código del guía como plan B.
+7. **Mapa.** Un pliego con el **relieve real** del sector (tinte por altura, sombreado y curvas de nivel cada 100 m, del modelo de elevación Copernicus), el **carreteable real** Brisas – Valle de las Tumbas (de OpenStreetMap), las 4 estaciones (Brisas, Aguacerales, Arenales y Valle de las Tumbas), el punto «estás aquí» con su margen de error, tu rastro, el **fin del recorrido autorizado**, escala, norte y el volcán como flecha en el borde, con su distancia. Las distancias se miden **por el sendero**. Con el botón **3D**, el mismo terreno en relieve con la ruta, las estaciones y el volcán: se gira con un dedo, se acerca con dos y al tocar una estación se abre su hoja. Todo funciona sin internet. Cada estación se toca para ver su cromo, preguntarle a Fray o usar el código del guía. Debajo, **Tu recorrido**: altura actual, máxima, cuánto subiste, distancia, tiempo y perfil de altura de la jornada (si vuelves otro día, empieza de cero).
 8. **Pausa de contemplación.** 2 minutos sin tocar la pantalla. Si alguien la toca, el tiempo vuelve a empezar. Igual que la foto de grupo, solo se puede hacer **en el parque** (ver abajo).
-9. **Final.** Al completar una página caen hojas de frailejón. Al llegar a 24/24 aparece un sello, y el álbum completo se descarga como una sola imagen.
+9. **Final.** Al completar una página caen hojas de frailejón. Al llegar a 24/24 aparece un sello, y el álbum se descarga como **PDF**: portada ilustrada, una página por capítulo, tus fotos, «Tu recorrido» sobre el relieve, certificado y fuentes. También hay un **collage** de fotos para compartir.
 10. **Pregúntale a Fray (nuevo en la v3).** Es un chat que funciona sin internet y responde solo con fichas oficiales del parque, siempre con su fuente. Se ve más abajo.
 
-**Ajustes** (botón del menú inferior): nombre, idioma, apariencia (Papel, Noche para ahorrar batería, o Automática), lectura en voz alta, vibración, descargar el álbum y estado «lista para usar sin señal».
+11. **Más en el recorrido (v4).**
+    - **Paradas narradas:** el guía muestra el QR de la parada; cada visitante la lee o la escucha en su idioma y recibe el cromo cuando el guía termina.
+    - **Pausa de aclimatación:** listo para cromos de pausa por estación (falta el contenido de R1).
+    - **Avisos sin red:** hora de regreso, sobres esperando y batería baja, con una línea y una vibración.
+    - **Voz:** «Escuchar» usa la voz del teléfono, o una grabación revisada en las paradas.
+    - **Botón «atrás»:** cierra lo de encima, vuelve al álbum y pregunta antes de salir.
+
+**Ajustes** (botón del menú inferior):
+- nombre e idioma;
+- apariencia (Papel, Noche o Automática), tamaño del texto, alto contraste y ahorro de energía;
+- cómo responde Fray (normal, corto, con detalle o para niños);
+- lectura en voz alta y vibración;
+- descargar el álbum, estado «lista para usar sin señal» y «Créditos y licencias».
 
 ## Pregúntale a Fray: chat sin internet
 
@@ -98,9 +115,9 @@ Fray responde preguntas sobre **tu propio recorrido** con lo que mide este telé
 
 | Pregunta (ejemplos) | Responde con |
 |---|---|
-| «¿cuánto falta?», «¿ya casi llegamos?» | la siguiente estación sin visitar y su distancia **en línea recta** (avisa que el sendero es más largo) y cuántas llevas |
+| «¿cuánto falta?», «¿ya casi llegamos?» | la siguiente estación sin visitar, su distancia **por el sendero** (en línea recta si estás a más de 150 m del camino) y cuántas llevas |
 | «¿a qué altura estamos?» | la altura actual y de dónde sale (GPS ± m o «estimada con el relieve»), lo más alto de hoy y un botón al mal de altura |
-| «¿dónde estamos?» | la estación más cercana y su distancia, o «estás en la estación N» |
+| «¿dónde estamos?» | la estación más cercana y su distancia por el sendero, o «estás en la estación N» |
 | «¿cuánto llevo caminado?» | distancia, tiempo, subida y altura máxima de la bitácora |
 
 - Sin posición, lo dice y ofrece abrir el mapa. Lejos del parque (más de 3 km), da la distancia hasta Brisas. No da indicaciones para llegar: eso lo hace el guía.
@@ -133,7 +150,13 @@ Fray responde preguntas sobre **tu propio recorrido** con lo que mide este telé
 - **Datos:** Copernicus DEM GLO-30 (ESA), recortado a lon −75,42 a −75,27 y lat 4,97 a 4,85 (Brisas, el Valle de las Tumbas y el cráter Arenas) y promediado a celdas de unos 60 m. `herramientas/relieve.py` genera `models/relieve.bin` (alturas, 117 KB), `models/relieve.json` (georreferencia) y `models/relieve.webp` (el pliego dibujado, 92 KB). Atribución obligatoria, visible bajo el mapa: «Copernicus DEM GLO-30 © DLR, Airbus DS, ESA». Es un modelo de superficie con error de unos metros: sirve para ver el terreno, no para medir.
 - **3D:** WebGL sin librerías, unos 58.000 vértices, exageración vertical 1,5× y bruma con la distancia. Solo dibuja al girar, acercar o recibir una posición nueva: quieto no gasta batería. La ruta, las estaciones y las etiquetas se dibujan encima, en 2D, y no se montan unas sobre otras. Si el teléfono no tiene WebGL, el botón 3D no aparece. Con la CPU frenada 4× y WebGL por software, preparar el 3D tarda 0,4 s; en un teléfono con GPU, cada cuadro debería ser mucho más rápido que en la prueba, pero falta medirlo en uno real.
 - **Altura sin GPS:** si el teléfono no da altura, la bitácora usa la altura del terreno en tu posición según el relieve («≈»), que es mejor que la de la estación más cercana.
-- **Lo que reveló el relieve:** las coordenadas de las estaciones 2, 3 y 4 no cuadran con sus alturas. En esos puntos el terreno está a 4.366, 4.496 y 4.650 m, frente a 4.200, 4.300 y 4.450 m anotados; Brisas sí cuadra (4.088 frente a 4.100). Hay que fijarlas en campo (Modo equipo → Fijar aquí) y publicar el Paquete del parque.
+- **Lo que reveló el relieve (resuelto en v4):** las coordenadas de las estaciones 2, 3 y 4 no cuadraban con sus alturas, y dos de ellas quedaban a más de 1 km del camino. Ahora salen del carreteable de OpenStreetMap y sus alturas del relieve (ver «Recorrido real» abajo).
+
+**Recorrido real (v4).**
+- **Datos:** `paquete.json → sendero` trae unos 50 puntos del carreteable (vía 824243975 de OpenStreetMap, © colaboradores de OpenStreetMap, ODbL), de Brisas al fin autorizado: 4,2 km.
+- **Estaciones sobre el camino:** Brisas (centro de inducción, 4.107 m), Aguacerales (**por confirmar**, 4.151 m), Arenales (4.263 m) y Valle de las Tumbas (4.423 m). `validar_contratos.py` falla si una estación queda fuera de su radio respecto al camino.
+- **Distancias por el sendero:** `js/sendero.js` proyecta tu posición sobre el camino. Lo usan la lista del mapa, la pista del álbum y el chat. Fuera del camino (más de 150 m) vuelve a la línea recta y lo dice.
+- **Cómo se eligieron los puntos y qué falta confirmar:** [docs/investigacion/recorrido-pnn.md](docs/investigacion/recorrido-pnn.md).
 
 **Mapa y bitácora (v3.6).**
 - **GPS:** solo funciona con la app abierta: con la pantalla apagada o la app en segundo plano el navegador no entrega posiciones. Por eso, al volver a la app se pide la posición de inmediato (y se revisa si llegaron a una estación), el GPS se pausa en segundo plano (ahorra batería) y, si falla por señal o tiempo, se reintenta solo cada 8 s (Chrome no lo hace por su cuenta). Si el permiso está bloqueado, el mapa explica cómo activarlo.
@@ -168,9 +191,9 @@ Qué cambió:
 
 Para probar en un computador: dentro de la carpeta, corre `python3 -m http.server 8000` y abre `http://localhost:8000/?demo`. El modo demo permite simular la llegada a cada estación.
 
-## Modo guía (PIN 4100): el guía como parte del juego
+## Modo guía: el guía como parte del juego
 
-El guía es obligatorio en todos los sectores del parque y acompaña al grupo todo el recorrido. Se entra por Ajustes → «Soy guía». Su teléfono muestra un **QR grande y un código de 4 dígitos que cambian cada 5 minutos**. El grupo escanea el QR con la Lente (Leer QR) o escribe el código. Todo funciona **sin señal**: el código es una firma HMAC-SHA256 de «qué se entrega + franja de tiempo», y el teléfono del visitante la verifica con su reloj.
+El guía es obligatorio en todos los sectores del parque y acompaña al grupo todo el recorrido. Se entra por Ajustes → «Soy guía», con el PIN del guía (`paquete.json → guia.pin`). Su teléfono muestra un **QR grande y un código de 4 dígitos que cambian cada 5 minutos**. El grupo escanea el QR con la Lente (Leer QR) o escribe el código. Todo funciona **sin señal**: el código es una firma HMAC-SHA256 de «qué se entrega + franja de tiempo», y el teléfono del visitante la verifica con su reloj.
 
 | El guía elige | Lo que pasa en el teléfono del visitante |
 |---|---|
@@ -178,6 +201,11 @@ El guía es obligatorio en todos los sectores del parque y acompaña al grupo to
 | **Llegamos a…** una estación | Gana el cromo de esa estación cuando el GPS no lo ubica, y queda «en el parque». |
 | **Estamos en el parque** | Habilita por 2 horas la pausa y la foto de grupo. |
 | **Confirmo lo que ve la Lente** | Gana el cromo de esa clase cuando la Lente duda o no está entrenada. Después puede ponerle su propia foto. |
+| Una **parada** (v4) | «Leer y escuchar»: el visitante ve el texto de la parada en su idioma. Al pulsar «Terminé la explicación», el QR entrega el cromo de la parada. |
+| **Hora de regreso** (v4) | Fija la hora de regreso del grupo en cada teléfono: avisa 30 minutos antes y a la hora, sin red. |
+
+- Al entrar, el Modo guía muestra «Estamos en el parque», que no entrega cromos.
+- El QR lleva la dirección de la app, así que también funciona con la cámara del teléfono. En un iPhone con la app instalada, la cámara abre Safari y no la app: entonces se muestra el código de 4 dígitos para escribirlo en el álbum, o se pide escanearlo con la Lente.
 
 Reglas: cada código sirve **una vez por teléfono**; un QR de hace más de ~10 minutos dice «vencido»; 5 códigos equivocados seguidos bloquean 1 minuto (luego 2, 4…). En el álbum, cada cromo de GPS y de cámara tiene plegado un «plan B» para escribir el código del guía.
 
@@ -188,9 +216,11 @@ Reglas: cada código sirve **una vez por teléfono**; un QR de hace más de ~10 
 - **Pausa y foto de grupo:** se habilitan si el visitante visitó una estación en las últimas 6 horas, si su GPS está a menos de 600 m de una estación o si el guía le dio el código «Estamos en el parque». Desde la casa no se pueden.
 - **Segundo frailejón («Abrigo de hojas»):** tiene que ser otra planta. Se entrega a 25 m o más del primero (con GPS) o, sin GPS, 3 minutos después. Si el guía lo confirma, se entrega de una vez.
 
-## Enseñarle a la Lente y publicar el Paquete del parque (Modo equipo, PIN 2611)
+## Enseñarle a la Lente y publicar el Paquete del parque (Modo equipo)
 
-Se entra por Ajustes → «Modo equipo».
+Se entra por Ajustes → «Modo equipo», con el PIN del equipo.
+
+**Modelo base provisional (v4).** `models/parque.json` trae 120 «huellas» de fotos de Wikimedia Commons con licencia libre, 15 por clase. Así la Lente reconoce desde el primer uso. Las fotos no van en la app, solo su huella; autores y licencias en [licencias/lente-provisional-commons.md](licencias/lente-provisional-commons.md). Medido con 128 fotos que no entraron al modelo: con el umbral de 0,5, la Lente responde en el 34 % de las fotos de clases reales y acierta el 74 % de esas veces. Se reemplaza con fotos del parque (issue #11) con `herramientas/lente_base.py`.
 
 1. En «Enseñar a la Lente», toca **+ Foto** de 15 a 30 veces por clase (manteniendo presionado toma una ráfaga), o usa **Galería** para cargar muchas fotos a la vez desde el teléfono.
 2. Llena siempre **«Otra cosa»** con personas, carros, cielo y el piso del sendero. Así la Lente dice «no estoy seguro» en vez de adivinar.
@@ -199,14 +229,15 @@ Se entra por Ajustes → «Modo equipo».
 
 **Desde el computador:** con las fotos en carpetas (`fotos/frailejon/`, `fotos/pajonal/`, … `fotos/otro/`), corre `python3 herramientas/lente_base.py fotos`. Escribe `models/parque.json` y mide qué tan bien distingue cada clase dejando fuera cada foto (matriz de confusión). Da los mismos vectores que el teléfono (coseno 0,994 o más).
 
-**Calibración.** Con fotos reales, dos escenas distintas tienen una similitud de 0,34 a 0,56 y la misma escena, de 0,76 a 0,95. Por eso la confianza exige una similitud mínima de 0,50 a 0,68, además del voto de los vecinos y del umbral de 70 %. Esto corrige el error de la v1, en la que una sola clase entrenada hacía que todo pareciera esa clase. Los valores se ajustan en `paquete.json` → `camara`.
+**Calibración.** Con fotos reales, dos escenas distintas tienen una similitud de 0,34 a 0,56 y la misma escena, de 0,76 a 0,95. Por eso la confianza exige una similitud mínima de 0,50 a 0,68, además del voto de los vecinos y del umbral, que es de 50 % desde v4 (con 70 % casi nunca respondía). Con la cámara en vivo, la Lente promedia los últimos 3 cuadros. Esto corrige el error de la v1, en la que una sola clase entrenada hacía que todo pareciera esa clase. Los valores se ajustan en `paquete.json` → `camara`.
 
 Para la demo del 26, se puede entrenar con fotos impresas o en pantalla.
 
 ## Antes de usarla con visitantes reales
 
-- **Coordenadas:** las de `paquete.json` son aproximadas. En campo, usa «Fijar aquí» en cada estación (exige una precisión de 30 m o mejor) y luego publica el Paquete del parque para que lleguen a todos los teléfonos.
-- **Estaciones 2 y 3:** los nombres están por confirmar con UTON.
+- **Coordenadas:** las de `paquete.json` salen de OpenStreetMap y no son oficiales. En campo, usa «Fijar aquí» en cada estación (exige una precisión de 30 m o mejor) y luego publica el Paquete del parque para que lleguen a todos los teléfonos.
+- **Aguacerales:** confirmar con PNN/UTON que es la primera parada y dónde para el grupo.
+- **Lente:** reemplazar el modelo provisional de Commons por fotos tomadas en el parque.
 - **Textos (es/en):** son borradores con fuente. Persona 1 debe validarlos con el PNN. La traducción al inglés también necesita revisión.
 - **QR en la señalética:** requiere permiso del PNN. Los QR de fauna para imprimir están en el Modo equipo.
 - **Clave del Modo guía:** cambia `guia.clave` y `guia.pin` en `paquete.json` antes de usarla con público.
@@ -218,13 +249,13 @@ La prueba está en `pruebas/coleccion.py`. Usa Playwright con Chrome, perfil per
 - La portada guarda el nombre.
 - El Modo equipo funciona con PIN y entrenamiento.
 - Con una sola clase entrenada, la Lente no inventa cromos.
-- **GPS:** se caminó por las 4 estaciones. Quedaron 4 sobres esperando sin interrumpir, y se abrieron y pegaron.
+- **GPS:** se caminó por las 4 estaciones (Brisas, Aguacerales, Arenales y Valle de las Tumbas). Quedaron 4 sobres esperando sin interrumpir, y se abrieron y pegaron.
 - **Códigos del guía:** 4 historias con códigos que cambian cada 5 minutos; rechaza el incorrecto y el de otra historia.
 - **Fotos:** funcionan la foto de grupo y «Ponerle mi foto».
 - **Pausa:** 2 minutos reales; tocar la pantalla la reinicia.
 - **Lente:** 7 clases reconocidas. El segundo frailejón no se entrega en el mismo sitio y sí a 45 m. Una imagen no entrenada responde «No estoy seguro».
 - **QR:** los 6 de fauna, leídos con la cámara.
-- **Final:** **24/24**, con celebración, descarga del álbum (1600×2246) y del cromo (1080×1620).
+- **Final:** **24/24**, con celebración, descarga del álbum en PDF (9 páginas) y del cromo (1080×1620).
 - **Persistencia:** al reabrir, el álbum sigue completo.
 - **Modo avión:** cargan la app, el álbum y el modelo.
 - **Ajustes:** funcionan el cambio a inglés y el tema noche.
@@ -238,6 +269,19 @@ La prueba está en `pruebas/coleccion.py`. Usa Playwright con Chrome, perfil per
 
 `pruebas/guia_parque.py` prueba el Modo guía y el Paquete del parque con varios «teléfonos» (navegadores separados): el QR del guía escaneado por otro teléfono, el código «aquí», la confirmación de un frailejón sin Lente entrenada, QR falsos y vencidos, y un teléfono nuevo que reconoce con el `parque.json` publicado desde la galería.
 
+**Pruebas nuevas en v4:**
+- `instalar.py`: instalación, iPhone y navegadores internos.
+- `album_pdf.py`: el PDF y el collage.
+- `degradacion.py`: qué hace la app cuando falla la IA, la cámara o el GPS.
+- `accesibilidad.py`: revisión WCAG con axe en todas las pantallas.
+- `paradas.py`, `audio.py`, `tono.py`, `aclimatacion.py`, `avisos.py`, `companeros.py` y `dictado.py`.
+- `lente.py`: el modelo base.
+- `guia_visitante.py`: QR por la dirección.
+- `atras.py`: botón «atrás».
+- `mapa_album.py`: reglas de cromos, bitácora por jornada y caminar por el carreteable real gana las 4 estaciones.
+
+Cómo correrlas: [pruebas/LEEME.md](pruebas/LEEME.md).
+
 **Falta probar en celulares reales:** velocidad en gama baja (4 GB), la Lente con luz de páramo y la voz del sistema en cada marca.
 
 ## Estructura
@@ -245,7 +289,7 @@ La prueba está en `pruebas/coleccion.py`. Usa Playwright con Chrome, perfil per
 ```
 index.html, styles.css, manifest.json, sw.js   interfaz y modo sin señal (avisa el progreso de descarga y se actualiza sola)
 _headers, netlify.toml   configuración de Netlify (caché del service worker y de los modelos)
-paquete.json      Paquete Páramo: estaciones, clases, capítulos, 24 cromos es/en, fuentes, calibración de la Lente
+paquete.json      Paquete Páramo: estaciones, sendero, clases, capítulos, 24 cromos es/en, paradas, horario, fuentes y calibración de la Lente
 js/app.js         arranque, navegación y pausa de contemplación
 js/estado.js      colección, reglas, persistencia y miniaturas de fotos
 js/album.js       páginas, giro de hoja, espacios, detalle y códigos
@@ -255,6 +299,7 @@ js/lente.js       cámara: reconocer, QR y foto
 js/motor.js       puente con el motor de IA (pedidos al worker), errores y tiempos de carga
 js/motor-worker.js  ONNX Runtime, modelos y tokenizador en segundo plano
 js/ml.js          MobileNetV2 (ONNX) + k-NN con piso de similitud
+js/sendero.js     el carreteable real: proyectar una posición y medir distancias por el camino
 js/recorrido.js   respuestas del chat sobre el recorrido (falta, altura, dónde, cuánto llevas) y ubicación para emergencias
 js/mapa.js        GPS (con reintento y pausa en segundo plano), geocercas, pliego, hoja de cada estación y panel «Tu recorrido»
 js/relieve.js     relieve real: carga y altura del terreno en un punto
@@ -263,7 +308,7 @@ js/bitacora.js    registro del recorrido: altura suavizada, distancia, subida, t
 js/portada.js     portada y estado sin señal
 js/ajustes.js     ajustes, PIN, Modo equipo y Paquete del parque
 js/guia.js        Modo guía: QR y códigos firmados que cambian cada 5 min, y su verificación sin internet
-js/exportar.js    PNG de cromo y de álbum completo
+js/exportar.js    PNG de cromo, PDF del álbum completo y collage de fotos
 js/chat.js        motor del chat: embedding de la pregunta, búsqueda híbrida (significado + palabras), umbrales y reglas de seguridad
 js/chatui.js      pantalla «Pregúntale a Fray», tema activo, sugerencias del tema y «¿Qué es esto?» con foto
 chat.json         71 fichas oficiales es/en con fuentes, formas de preguntar y ejemplos fuera de tema
@@ -274,7 +319,9 @@ lib/              ONNX Runtime Web 1.31 (sus .mjs renombrados a .js), jsQR, qrco
 models/           parque.json (Lente y estaciones publicadas por el equipo) · partes/ (motor WASM, modelo de la Lente y del chat, en trozos de 8 MB) · partes.json · e5_tokenizer.json · chat_indice.json
 herramientas/     relieve.py (pliego y malla 3D desde Copernicus DEM), optimizar.py (pre-optimiza un modelo), tema_chat.py (mide el chat con tema), lente_base.py (Lente desde carpetas de fotos), partir/unir modelos, poda del modelo, índice y calibración del chat, comparación JS vs Python
 fonts/            Bricolage Grotesque (variable) y Atkinson Hyperlegible, ambas con licencia OFL
-pruebas/          prueba de punta a punta con Playwright
+licencias/        textos de licencias y autores de las fotos del modelo base de la Lente
+docs/             arquitectura, decisiones, especificaciones, contratos, evaluación, investigación y un archivo por cambio
+pruebas/          pruebas de punta a punta con Playwright (ver pruebas/LEEME.md) y bancos de preguntas del chat
 ```
 
 Para cambiar textos o cromos, edita `paquete.json`. Si cambias archivos de la app, sube `VERSION` en `sw.js`.

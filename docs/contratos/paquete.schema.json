@@ -56,6 +56,18 @@
         "additionalProperties": false
       }
     },
+    "sendero": {
+      "description": "Trazado real del recorrido, de la primera estación al fin autorizado: dibuja el mapa y mide «cuánto falta» por el camino. Opcional: sin él, la app une las estaciones en línea recta.",
+      "type": "object",
+      "required": ["fuente", "puntos"],
+      "properties": {
+        "nombre": { "type": "string" },
+        "fuente": { "type": "string" },
+        "nota": { "type": "string" },
+        "puntos": { "type": "array", "minItems": 2, "items": { "type": "array", "prefixItems": [{ "$ref": "#/$defs/lat" }, { "$ref": "#/$defs/lon" }], "minItems": 2, "maxItems": 2 } }
+      },
+      "additionalProperties": false
+    },
     "volcan": {
       "type": "object",
       "required": ["nombre", "lat", "lon"],

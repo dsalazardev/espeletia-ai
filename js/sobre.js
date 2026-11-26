@@ -1,7 +1,7 @@
 // Abrir sobres: el sobre se rasga, el cromo sale, se voltea y vuela a su espacio en el álbum.
 import { E, cromo as getCromo, texto, pendientes, abrir } from './estado.js';
 import { t } from './i18n.js';
-import { $, h, esc, animar, esperar, vibrar, hablar, reducido, atraparFoco, escuchar } from './util.js';
+import { $, h, esc, animar, esperar, vibrar, hablar, reducido, atraparFoco, escuchar, quitarAviso } from './util.js';
 import { cromoEl, activarBrillo } from './cromo.js';
 import { irPagina, paginaDe, ranuraDe, esperarPintado } from './album.js';
 import { chispas } from './celebrar.js';
@@ -14,6 +14,7 @@ export function iniciarSobres({ irA, preguntar: pr }) { nav = irA; if (pr) pregu
 export async function abrirSobres() {
   if (abriendo) return;
   abriendo = true;
+  quitarAviso();
   try {
     while (pendientes().length) {
       const id = pendientes()[0];

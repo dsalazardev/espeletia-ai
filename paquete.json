@@ -14,14 +14,22 @@
     "wcsfrailejon": { "titulo": "Los frailejones (WCS Colombia)", "url": "https://colombia.wcs.org/en-us/WCS-VISUAL/Photo-Gallery/The-frailejones.aspx" },
     "utp": { "titulo": "Nevado del Ruiz y Termales (UTP)", "url": "https://media2.utp.edu.co/oficinas/60/Nevado%20del%20Ru%C3%ADz%20y%20Termales%20del%20Ru%C3%ADz_Ase%20Utp.pdf" },
     "procolombia": { "titulo": "Camino al Nevado del Ruiz (Colombia Travel)", "url": "https://colombia.travel/es/blog/camino-al-nevado-del-ruiz-la-montana-aguarda-en-silencio" },
+    "osm": { "titulo": "OpenStreetMap: carreteable Brisas – Valle de las Tumbas (© colaboradores de OpenStreetMap, ODbL)", "url": "https://www.openstreetmap.org/way/824243975" },
+    "pnn2023": { "titulo": "Anexo · Reglamentación transitoria ecoturismo PNN Los Nevados (Parques Nacionales, dic. 2023)", "url": "https://parquesnacionales.gov.co/wp-content/uploads/2023/12/ANEXO-PNN-NEVADOS.pdf" },
     "cenicafe": { "titulo": "Los grandes mamíferos del Parque Los Nevados (Cenicafé, 2004)", "url": "https://publicaciones.cenicafe.org/index.php/bio/article/download/2701/2602/2176" }
   },
   "estaciones": [
-    { "id": "e1", "nombre": "Brisas", "lat": 4.9325, "lon": -75.3540, "radio": 80, "altura": 4100 },
-    { "id": "e2", "nombre": "Estación 2", "lat": 4.9245, "lon": -75.3480, "radio": 80, "altura": 4200, "porConfirmar": true },
-    { "id": "e3", "nombre": "Estación 3", "lat": 4.9160, "lon": -75.3420, "radio": 80, "altura": 4300, "porConfirmar": true },
-    { "id": "e4", "nombre": "Valle de las Tumbas", "lat": 4.9075, "lon": -75.3365, "radio": 100, "altura": 4450, "finAutorizado": true }
+    { "id": "e1", "nombre": "Brisas", "lat": 4.9336, "lon": -75.3501, "radio": 80, "altura": 4107 },
+    { "id": "e2", "nombre": "Aguacerales", "lat": 4.92787, "lon": -75.35059, "radio": 80, "altura": 4151, "porConfirmar": true },
+    { "id": "e3", "nombre": "Arenales", "lat": 4.91953, "lon": -75.35502, "radio": 80, "altura": 4263 },
+    { "id": "e4", "nombre": "Valle de las Tumbas", "lat": 4.9113, "lon": -75.3552, "radio": 100, "altura": 4423, "finAutorizado": true }
   ],
+  "sendero": {
+    "nombre": "Carreteable Brisas – Valle de las Tumbas",
+    "fuente": "osm",
+    "nota": "Trazado de OpenStreetMap (vía 824243975), simplificado a 8 m y cortado en el fin del recorrido autorizado. Brisas: centro de inducción (Anexo PNN 2023, p9). Aguacerales es la «Primera estación» de OSM: por confirmar con PNN/UTON. Alturas: relieve Copernicus de la app.",
+    "puntos": [[4.93365, -75.35004],[4.9334, -75.35024],[4.93303, -75.35144],[4.93304, -75.35205],[4.93259, -75.35223],[4.93224, -75.35217],[4.93176, -75.35167],[4.93119, -75.35165],[4.92991, -75.35076],[4.92814, -75.35066],[4.92686, -75.35032],[4.92589, -75.3505],[4.92529, -75.35133],[4.92569, -75.35177],[4.92566, -75.3519],[4.92524, -75.35229],[4.92489, -75.35233],[4.92458, -75.35263],[4.92371, -75.3528],[4.92386, -75.35408],[4.92347, -75.35484],[4.92159, -75.35519],[4.92041, -75.35498],[4.91948, -75.35508],[4.91962, -75.35534],[4.92047, -75.35545],[4.92061, -75.35567],[4.92059, -75.35584],[4.92016, -75.35623],[4.9203, -75.35664],[4.9202, -75.35726],[4.92035, -75.35849],[4.92025, -75.35901],[4.92009, -75.35912],[4.91965, -75.35903],[4.9176, -75.35725],[4.91667, -75.3569],[4.91624, -75.35643],[4.91576, -75.35633],[4.91523, -75.35568],[4.91513, -75.35455],[4.91492, -75.35398],[4.91464, -75.354],[4.91451, -75.35415],[4.91417, -75.35517],[4.91359, -75.35539],[4.91244, -75.35551],[4.912, -75.35538],[4.9117, -75.35509],[4.9113, -75.3552]]
+  },
   "volcan": { "nombre": "Nevado del Ruiz", "lat": 4.892, "lon": -75.324 },
   "clases": [
     { "id": "frailejon", "es": "Frailejón", "en": "Frailejón" },

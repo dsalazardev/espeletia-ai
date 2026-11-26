@@ -62,9 +62,22 @@ export async function registrar(p) {
 }
 
 export const alturaActual = () => actual;
-export const lista = () => puntos;
+
+// La jornada actual: los puntos desde la última pausa de más de 3 horas (otro día u otra visita).
+// Antes se sumaba todo el historial: al volver otro día, el salto entre el último punto de ayer y el primero de hoy
+// contaba como distancia caminada (2 km en 24 h pasan el filtro de velocidad) y «máximo de hoy» mezclaba días.
+const PAUSA_JORNADA = 3 * 3600e3;
+function jornada() {
+  let i = puntos.length - 1;
+  while (i > 0 && puntos[i].t - puntos[i - 1].t <= PAUSA_JORNADA) i--;
+  return puntos.slice(Math.max(0, i));
+}
+
+// Lo que se dibuja (mapa, 3D y PDF): la jornada actual, para no unir con una línea el final de ayer y el inicio de hoy
+export const lista = () => jornada();
 
 export function resumen() {
+  const puntos = jornada();
   if (!puntos.length) return null;
   let dist = 0, subida = 0, altMax = null, altMin = null, refAlt = null, gps = false;
   for (let i = 0; i < puntos.length; i++) {
@@ -93,6 +106,7 @@ export function resumen() {
 
 // Perfil de altura para dibujar: [{ x: metros recorridos, y: altura }]
 export function perfil() {
+  const puntos = jornada();
   const out = []; let acum = 0;
   for (let i = 0; i < puntos.length; i++) {
     if (i) { const d = distancia(puntos[i - 1], puntos[i]); if (d >= 15) acum += d; }

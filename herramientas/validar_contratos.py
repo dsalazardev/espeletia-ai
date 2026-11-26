@@ -103,6 +103,13 @@ def revisar_chat(raiz, inf):
     return ids
 
 
+def distancia_m(a, b):
+    import math
+    (la1, lo1), (la2, lo2) = a, b
+    x = math.radians(lo2 - lo1) * math.cos(math.radians((la1 + la2) / 2)); y = math.radians(la2 - la1)
+    return 6371000 * math.hypot(x, y)
+
+
 def revisar_paquete(raiz, ids_fichas, inf):
     p = leer_json(os.path.join(raiz, 'paquete.json'), inf)
     if p is None:
@@ -147,6 +154,17 @@ def revisar_paquete(raiz, ids_fichas, inf):
             inf.error(donde, f"fuente {pa.get('fuente')!r} no está en paquete.json -> fuentes")
         if 'cromo' in pa and pa['cromo'] not in ids_cromos:
             inf.error(donde, f"cromo {pa['cromo']!r} no existe")
+    # Sendero real (opcional): con fuente y pasando cerca de cada estación (si no, la geocerca nunca se activaría caminando)
+    sen = p.get('sendero')
+    if sen:
+        if sen.get('fuente') not in fuentes:
+            inf.error('paquete.json sendero', f"fuente {sen.get('fuente')!r} no está en paquete.json -> fuentes")
+        pts = sen.get('puntos') or []
+        for e in p.get('estaciones', []):
+            if pts and 'lat' in e and 'lon' in e:
+                d = min(distancia_m((e['lat'], e['lon']), tuple(q)) for q in pts)
+                if d > e.get('radio', 80):
+                    inf.error('paquete.json sendero', f"la estación {e.get('id')} queda a {d:.0f} m del sendero (más que su radio de {e.get('radio')} m)")
     for e in p.get('estaciones', []):
         if e.get('porConfirmar'):
             inf.aviso('paquete.json', f"estación {e.get('id')} ({e.get('nombre')}) sigue por confirmar")

@@ -11,6 +11,7 @@ URL = 'http://localhost:8765/'
 S = '/tmp/capturas-mapa'; shutil.rmtree(S, ignore_errors=True); os.makedirs(S)
 paq = json.load(open(os.path.join(APP, 'paquete.json')))
 EST = paq['estaciones']
+SENDERO = (paq.get('sendero') or {}).get('puntos')
 logs = []
 def ok(m): print('OK', m, flush=True)
 def codigo_guia(accion):
@@ -32,14 +33,20 @@ def nueva(b, permiso=True):
 def caminata(conAltura=True):
     """Puntos cada ~25 m por la ruta, 1 cada 30 s, altura subiendo con ruido de GPS."""
     rnd = random.Random(3); pts = []; t0 = int(time.time() * 1000) - 3 * 3600 * 1000
-    for a, b in zip(EST, EST[1:]):
+    # Por el camino real si el paquete trae sendero (OpenStreetMap); si no, en recta entre estaciones
+    nodos = [{'lat': la, 'lon': lo} for la, lo in SENDERO] if SENDERO else EST
+    total = sum(math.hypot((b['lat'] - a['lat']) * 111320, (b['lon'] - a['lon']) * 111320) for a, b in zip(nodos, nodos[1:]))
+    acum, h0, h1 = 0, EST[0]['altura'], EST[-1]['altura']
+    for a, b in zip(nodos, nodos[1:]):
         d = math.hypot((b['lat'] - a['lat']) * 111320, (b['lon'] - a['lon']) * 111320)
-        n = max(2, int(d / 25))
+        n = max(1, int(d / 25))
         for i in range(n):
             f = i / n
+            h = h0 + (h1 - h0) * (acum + d * f) / total
             pts.append({'lat': a['lat'] + (b['lat'] - a['lat']) * f, 'lon': a['lon'] + (b['lon'] - a['lon']) * f, 'precision': 9,
-                        'altitud': (a['altura'] + (b['altura'] - a['altura']) * f + rnd.uniform(-8, 8)) if conAltura else None,
+                        'altitud': (h + rnd.uniform(-8, 8)) if conAltura else None,
                         'altPrec': 15 if conAltura else None})
+        acum += d
     e = EST[-1]; pts.append({'lat': e['lat'], 'lon': e['lon'], 'precision': 9, 'altitud': e['altura'] + 2 if conAltura else None, 'altPrec': 15 if conAltura else None})
     for i, p in enumerate(pts): p['t'] = t0 + i * 30000
     return pts
@@ -64,7 +71,7 @@ with sync_playwright() as pw:
     pg.wait_for_timeout(1500)
     r = pg.evaluate("(async () => (await import('/js/bitacora.js')).resumen())()")
     assert pg.evaluate('window.__paramo.est.pendientes().length') == 4
-    assert 4420 <= r['altMax'] <= 4470 and 280 <= r['subida'] <= 520 and 2800 <= r['distancia'] <= 3800, r
+    assert EST[-1]['altura'] - 10 <= r['altMax'] <= EST[-1]['altura'] + 25 and 250 <= r['subida'] <= 520 and 3500 <= r['distancia'] <= 4800, r
     pg.click('.muelle [data-vista="album"]'); pg.wait_for_timeout(300); pg.click('.muelle [data-vista="mapa"]'); pg.wait_for_timeout(1200)
     bit_txt = pg.inner_text('#bitacora')
     assert 'Altura ahora' in bit_txt and '4.4' in bit_txt and pg.locator('#bitacora .perfil').count() == 1 and pg.locator('#mapa .rastro').count() == 1, bit_txt

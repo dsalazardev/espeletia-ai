@@ -74,12 +74,32 @@ La «Publicación PNN Los Nevados 2026 V2» que aparece en buscadores responde 4
   Fauna emblemática citada: cóndor andino, danta de montaña, oso de anteojos (resúmenes de búsqueda de fichas PNN; hay que verificarlos en F).
 - `chat.json` ya tiene fichas con fuente para varias de estas especies.
 
+## Puntos reales del recorrido (OpenStreetMap, 25-nov-2026)
+Se consultó OpenStreetMap con la API Overpass. El carreteable es la **vía 824243975** (pista compactada) y va de Brisas
+hacia el sur. Los puntos son de la comunidad de OSM, no oficiales. Coinciden con el Anexo de 2023 (Brisas a 31 m) y con
+el relieve Copernicus de la app.
+
+| Parada | Nodo OSM | Punto sobre la vía (app) | Altura (relieve) | Km desde Brisas |
+|---|---|---|---|---|
+| Brisas, centro de inducción | «Peaje Brisas» 4.93360, −75.35010 | 4.9336, −75.3501 | 4.117 m (Anexo: 4.107 m) | 0 |
+| Aguacerales (**por confirmar**) | «Primera estación» 4.92776, −75.35060 | 4.92787, −75.35059 | 4.151 m | 0,9 |
+| Arenales | «Segunda estación» / «Refugio Arenales» 4.91930, −75.35480 (y «Arenales» 4.92240, −75.35391) | 4.91953, −75.35502 | 4.263 m | 2,3 |
+| Valle de las Tumbas | «Valle de las Tumbas» 4.91111, −75.35616 | 4.9113, −75.3552 | 4.423 m | 4,2 |
+
+- Las estaciones 3 y 4 de la versión anterior estaban a 1,3 km y 2,0 km del camino. Con geocercas de 80 a 100 m, nadie las
+  habría activado caminando.
+- Aguacerales no aparece con ese nombre en OSM. Que sea la «Primera estación» se deduce del Anexo (orden Brisas – Aguacerales –
+  Arenales – Valle de las Tumbas) y de relatos de viaje que la describen como la primera parada, con agua que gotea, musgos y líquenes.
+- La vía sigue al sur del Valle de las Tumbas hacia El Refugio, que hoy no está autorizado. `paquete.json → sendero` se corta
+  en el Valle.
+- Licencia: ODbL. Atribución «© colaboradores de OpenStreetMap» en el mapa y en Créditos.
+
 ## Contraste con la app actual
 | Tema | En la app (v3.8) | Según las fuentes | Acción |
 |---|---|---|---|
-| Estación 1 | Brisas 4.9325, −75.354, 4.100 m | Centro de inducción 4.93333, −75.34972, 4.107 m (A) | R1 confirma el punto y lo fija en campo |
-| Estaciones 2-3 | «Estación 2/3», por confirmar | Aguacerales y Arenales (A, p12) | R1 confirma nombres y coordenadas |
-| Alturas 2-4 | 4.200 / 4.300 / 4.450 | El relieve Copernicus da 4.366 / 4.496 / 4.650 en esas coordenadas | Fijar en campo |
+| Estación 1 | Brisas 4.9336, −75.3501, 4.107 m (desde el 25-nov) | Centro de inducción 4.93333, −75.34972, 4.107 m (A) | Fijar en campo |
+| Estaciones 2-3 | Aguacerales (por confirmar) y Arenales, sobre la vía de OSM (desde el 25-nov) | Aguacerales y Arenales (A, p12) | Confirmar Aguacerales con PNN/UTON |
+| Alturas 2-4 | 4.151 / 4.263 / 4.423, del relieve Copernicus sobre la vía (desde el 25-nov) | Valle de las Tumbas «a unos 4.450 m» (prensa y guías) | Fijar en campo |
 | Edad, seguro, inducción, drones, ruido | Sin ficha | Reglas oficiales (A) | R1: fichas nuevas con fuente A |
 | Audio | Lectura en voz alta del sistema | Prohibido ruido que perturbe | R2: audífonos o volumen bajo |
 

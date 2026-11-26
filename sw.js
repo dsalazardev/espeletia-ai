@@ -9,13 +9,13 @@
 // - Al publicar una versión nueva NO se vuelven a descargar: si un archivo grande tiene la misma huella
 //   que en la versión anterior, se copia de la caché vieja. Los archivos pequeños se revalidan
 //   (si no cambiaron, el servidor responde 304 y no se descargan de nuevo).
-const VERSION = 'v23-2026-11-25';
+const VERSION = 'v27-2026-11-25';
 const CACHE = `album-paramo-${VERSION}`;
 const APP = [
   './', 'index.html', 'styles.css', 'manifest.json', 'paquete.json',
   'js/app.js', 'js/db.js', 'js/ml.js', 'js/util.js', 'js/estado.js', 'js/i18n.js', 'js/art.js', 'js/cromo.js',
   'js/album.js', 'js/sobre.js', 'js/chat.js', 'js/chatui.js', 'chat.json', 'js/celebrar.js', 'js/lente.js', 'js/mapa.js', 'js/portada.js', 'js/ajustes.js', 'js/exportar.js',
-  'js/motor.js', 'js/motor-worker.js', 'js/guia.js', 'js/bitacora.js', 'js/recorrido.js', 'js/relieve.js', 'js/mapa3d.js', 'lib/ort.wasm.min.js', 'lib/ort-wasm-simd-threaded.js', 'lib/jsQR.js', 'lib/qrcode.js', 'lib/tokenizers.min.js',
+  'js/motor.js', 'js/motor-worker.js', 'js/guia.js', 'js/bitacora.js', 'js/sendero.js', 'js/recorrido.js', 'js/relieve.js', 'js/mapa3d.js', 'lib/ort.wasm.min.js', 'lib/ort-wasm-simd-threaded.js', 'lib/jsQR.js', 'lib/qrcode.js', 'lib/tokenizers.min.js',
   'fonts/bricolage-grotesque-latin-wdth-normal.woff2', 'fonts/atkinson-hyperlegible-latin-400-normal.woff2', 'fonts/atkinson-hyperlegible-latin-700-normal.woff2',
   'icons/icon-192.png', 'icons/icon-512.png', 'icons/maskable-512.png',
   'models/chat_indice.json', 'models/e5_tokenizer.json', 'models/e5_tokenizer_config.json', 'models/partes.json', 'models/parque.json', 'models/relieve.json', 'models/relieve.bin', 'models/relieve.webp',
