@@ -25,7 +25,7 @@ export async function irA(v, opciones = {}) {
   vista = v;
   for (const id of ['album', 'lente', 'mapa', 'chat', 'equipo', 'guia']) $(`#v-${id}`).hidden = id !== v;
   document.body.dataset.vista = v;
-  $$('.muelle button').forEach((b) => (b.dataset.vista === v || (v === 'equipo' && b.dataset.vista === 'mapa') ? b.setAttribute('aria-current', 'page') : b.removeAttribute('aria-current')));
+  $$('.muelle button').forEach((b) => (b.dataset.vista === v || ((v === 'equipo' || v === 'guia') && b.dataset.accion === 'ajustes') ? b.setAttribute('aria-current', 'page') : b.removeAttribute('aria-current')));
   const el = $(`#v-${v}`);
   if (antes && !reducido()) animar(el, [{ opacity: 0, transform: 'translateY(8px)' }, { opacity: 1, transform: 'none' }], { duration: 220, easing: 'ease-out' });
   if (v === 'lente') await lente.entrar(opciones.modo);

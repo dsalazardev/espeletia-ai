@@ -164,10 +164,11 @@ with sync_playwright() as p:
     pg.wait_for_selector('#capa-detalle:not([hidden]) .final', timeout=8000)
     pg.screenshot(path=f'{S}/06_final.png'); ok('24/24 y celebración final')
     with pg.expect_download() as d: pg.click('#final-desc')
-    d.value.save_as('/tmp/album.png'); ok('descarga del álbum completo')
+    d.value.save_as('/tmp/album.pdf'); ok('descarga del álbum completo')
     pg.click('#final-cerrar'); ctx.close()
 
-from PIL import Image
-print('álbum PNG', Image.open('/tmp/album.png').size)
+# Desde #15 el álbum completo se descarga en PDF (una página por capítulo y la portada)
+from pypdf import PdfReader
+print('álbum PDF', len(PdfReader('/tmp/album.pdf').pages), 'páginas')
 print(f'\n{len(pasos)} pasos OK')
 print('\n'.join(sorted(set(logs))) or 'sin errores en consola')

@@ -246,7 +246,13 @@ export function pintar() {
     const [x, y] = xy(E.posicion.lat, E.posicion.lon);
     const halo = Math.min(60, Math.max(8, (E.posicion.precision / M_POR_GRADO) * esc2));
     s += `<g class="yo" transform="translate(${x} ${y})"><circle class="yo-halo" r="${halo.toFixed(1)}"/><circle class="yo-onda" r="9"/><circle class="yo-punto" r="6"/><title>${esc(t('mapa.aqui'))}</title></g>`;
-  } else if (E.posicion) s += `<text class="nota-mapa" x="${(W - 44) / 2}" y="28" text-anchor="middle">${esc(t('mapa.lejos'))}</text>`;
+  } else if (E.posicion) {
+    // En dos líneas si no cabe (en inglés se salía por la izquierda del pliego)
+    const nota = t('mapa.lejos'), x = (W - 44) / 2, corte = nota.indexOf(': ');
+    s += nota.length > 48 && corte > 0
+      ? `<text class="nota-mapa" x="${x}" y="22" text-anchor="middle"><tspan x="${x}">${esc(nota.slice(0, corte + 1))}</tspan><tspan x="${x}" dy="14">${esc(nota.slice(corte + 2))}</tspan></text>`
+      : `<text class="nota-mapa" x="${x}" y="28" text-anchor="middle">${esc(nota)}</text>`;
+  }
   s += escalaBarra(esc2) + norte();
   $('#mapa').innerHTML = s;
 

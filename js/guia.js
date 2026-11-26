@@ -236,7 +236,9 @@ export async function entrarGuia() {
   reloj = setInterval(pintar, 1000);
   // Que la pantalla no se apague mientras el grupo escanea
   despierto = await mantenerDespierta();
-  if (!despierto.ok) aviso(t('despierta.guia'), 6000); // plan B: el guía ajusta el bloqueo automático
+  // Plan B: el guía ajusta el bloqueo automático. Va como nota fija bajo el título y no como aviso flotante,
+  // porque el aviso tapaba el código de 4 dígitos justo cuando el grupo lo está leyendo.
+  if (!despierto.ok && !$('.guia-despierta', v)) $('.guia > .sub', v)?.after(h(`<p class="guia-despierta" role="note">${esc(t('despierta.guia'))}</p>`));
 }
 
 export function salirGuia() { clearInterval(reloj); reloj = null; despierto?.soltar(); despierto = null; }

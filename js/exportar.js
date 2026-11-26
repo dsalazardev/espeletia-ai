@@ -407,7 +407,7 @@ async function certificado(n) {
   ctx.font = '400 20px "Atkinson Hyperlegible"'; ctx.fillText(t('pdf.noOficial'), PW / 2, PH - 120);
   ctx.textAlign = 'left';
   p.textos.push(t('pdf.certificado'), t('pdf.guardian'), t('pdf.otorga'), E.nombre || '', motivo, fechaLarga(), t('pdf.firmaGuia'), t('pdf.noOficial'));
-  pie(p, n);
+  // Sin pie: el marco del certificado lo tapaba y adentro chocaba con la nota final. El número de página se salta.
   return p;
 }
 
@@ -491,9 +491,11 @@ export async function albumPDF({ alAvanzar = () => {} } = {}) {
     ...caps.map((k, i) => () => paginaCapitulo(k, i + 2)),
     ...(fotos.length ? [() => paginaCollage(fotos, caps.length + 2)] : []),
   ];
-  pasos.push(() => paginaRecorrido(pasos.length + 1));
-  pasos.push(() => certificado(pasos.length + 1));
-  pasos.push(() => creditos(pasos.length + 1));
+  // El número de página se fija al agregar cada paso (antes se leía al dibujar y las tres últimas salían con el mismo número)
+  const nRec = pasos.length + 1, nCert = nRec + 1, nCred = nRec + 2;
+  pasos.push(() => paginaRecorrido(nRec));
+  pasos.push(() => certificado(nCert));
+  pasos.push(() => creditos(nCred));
   const listas = [];
   for (let i = 0; i < pasos.length; i++) {
     const p = await pasos[i]();

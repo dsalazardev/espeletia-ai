@@ -9,7 +9,7 @@
 // - Al publicar una versión nueva NO se vuelven a descargar: si un archivo grande tiene la misma huella
 //   que en la versión anterior, se copia de la caché vieja. Los archivos pequeños se revalidan
 //   (si no cambiaron, el servidor responde 304 y no se descargan de nuevo).
-const VERSION = 'v22-2026-11-25';
+const VERSION = 'v23-2026-11-25';
 const CACHE = `album-paramo-${VERSION}`;
 const APP = [
   './', 'index.html', 'styles.css', 'manifest.json', 'paquete.json',

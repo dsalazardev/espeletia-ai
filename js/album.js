@@ -66,7 +66,12 @@ function pintarPista() {
   if (pag === 'historias' && E.paquete.cromos.some((c) => c.tipo === 'guia' && !tiene(c.id))) { el.textContent = t('pista.guia'); return; }
   if (libres.length && !E.posicion) { el.textContent = t('pista.estacionSinGps', { est: libres[0].nombre }); irAlMapa(el); return; }
   if (cam) { el.textContent = t('pista.lente', { cosa: nombreClase(cam.clase).toLowerCase() }); return; }
-  el.textContent = t('pista.qr');
+  // Lo que quede: solo se sugiere lo que de verdad falta (antes decía «busca QR» aunque ya estuvieran todos)
+  const falta = (tipo) => E.paquete.cromos.some((c) => c.tipo === tipo && !tiene(c.id));
+  if (falta('qr')) el.textContent = t('pista.qr');
+  else if (falta('guia')) el.textContent = t('pista.guia');
+  else if (libres.length) { el.textContent = t('pista.estacionSinGps', { est: libres[0].nombre }); irAlMapa(el); }
+  else el.textContent = t('pista.resto');
 }
 
 function irAlMapa(el) { el.classList.add('accion'); el.onclick = () => nav('mapa'); }

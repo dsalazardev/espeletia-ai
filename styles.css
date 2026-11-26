@@ -542,6 +542,7 @@ button { font: inherit; color: inherit; cursor: pointer; }
 .guia-ops button { min-height: 44px; padding: 8px 14px; border-radius: 999px; border: 1.5px solid var(--campo-3); background: transparent; color: var(--niebla); font: 600 .95rem var(--texto); }
 .guia-ops button[aria-pressed="true"] { background: var(--amarillo); border-color: var(--amarillo); color: #1d2b38; }
 .guia-nota { margin-top: 18px; }
+.guia-despierta { margin: 0 0 10px; padding: 8px 12px; border-left: 4px solid var(--amarillo); background: var(--campo-2); color: var(--niebla); font-size: .9rem; }
 
 /* Plan B con el guía dentro del detalle de un cromo */
 .plan-b { width: 100%; margin-top: 6px; }
